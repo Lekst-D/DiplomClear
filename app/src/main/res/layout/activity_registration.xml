@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/MainColorCream"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+
+        android:background="@color/PanelColor"
+        android:gravity="center"
+        >
+
+        <ImageButton
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:id="@+id/IBABack"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:onClick="BackActivity"
+            android:scaleType="fitXY"
+            android:background="@color/PanelColor"
+/>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Регистрация"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:onClick="BackActivity"
+            android:scaleType="fitXY"
+            android:background="@color/PanelColor"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/EName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight ="1"
+                android:hint="Ведите имя"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint"
+                />
+            <EditText
+                android:layout_weight ="1"
+                android:id="@+id/ESurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ведите фамилию"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/EDataBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight ="1"
+                    android:hint="Ведите дату рождения"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:textColor="@color/ColorText"
+                    android:textColorHint="@color/ColorTextHint"
+                    />
+
+                <Button
+                    android:id="@+id/BBirthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="setDate"
+                    android:text="Указать" />/>
+
+            </LinearLayout> </LinearLayout>
+
+        <EditText
+            android:id="@+id/EMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ведите почту"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+        <EditText
+            android:id="@+id/EPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ведите телефон"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+        <EditText
+            android:id="@+id/EPassword"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ведите пароль"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+        <EditText
+            android:id="@+id/EPasswordPovtor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Повторите пароль"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+
+        <RadioButton
+            android:id="@+id/AgreePersonalData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Согласие на обработку персональных данных"
+            android:textColor="@color/ColorText"
+            ></RadioButton>
+
+        <Button
+            android:id="@+id/BADD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RegistrationClick"
+            android:text="Зарегистрироваться" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/MainColorCream"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textSize="35sp"
+        android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/ELogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ведите логин"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+        <EditText
+            android:id="@+id/Epassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ведите пароль"
+            android:textColor="@color/ColorText"
+            android:textColorHint="@color/ColorTextHint"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/BSelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Войти"
+                android:onClick="sendMessage" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical" >
+
+
+
+            <TextView
+                android:textSize="20dp"
+                android:layout_weight ="1"
+                android:id="@+id/UserSwapPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Смена пароля"
+                android:onClick="ChangePassword"
+                android:textColor="@color/ColorTextLink"
+
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/ColorText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вы у нас в первые?"
+            android:layout_marginBottom="20dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/TVReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="RegistrationActivite"
+            android:text="Регистрация"
+            android:textColor="@color/ColorText"
+            android:backgroundTint="#D9DCD9"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
