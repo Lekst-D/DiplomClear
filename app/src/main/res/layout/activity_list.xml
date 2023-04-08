@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,79 +11,242 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:background="@color/PanelColor"
         android:gravity="center"
-        >
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageButton
-            android:src="@drawable/info"
             android:id="@+id/IBABack"
             android:layout_width="45dp"
             android:layout_height="30dp"
-            android:onClick="BackActivity"
-            android:scaleType="fitXY"
             android:background="@color/PanelColor"
+            android:onClick="BackActivity"
+            android:paddingBottom="5dp"
+            android:scaleType="fitXY"
 
-            android:paddingBottom="5dp"/>
+            android:src="@drawable/info" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Настройки"
+                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <ImageButton
             android:layout_width="45dp"
             android:layout_height="30dp"
+            android:background="@color/PanelColor"
             android:onClick="BackActivity"
             android:scaleType="fitXY"
-            android:background="@color/PanelColor"
-            android:src="@drawable/message"
-            />
+            android:src="@drawable/message" />
 
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        android:gravity=""
+        android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:gravity=""
-        android:orientation="vertical">
+        android:background="#E4D99D"
+        >
 
-        <ListView
-            android:id="@+id/list_of_messages"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="false"
-            android:divider="@android:color/transparent"
-            android:layout_weight="11"
-            android:background="#CCCBCB"
-            >
+            android:layout_height="wrap_content">
 
-        </ListView>
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_person_24" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Учетная запись" />
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/go_to" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/lock" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Безопасность" />
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/go_to" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/master" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Подписки" />
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/go_to" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/customers" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Подписчики" />
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/go_to" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/calender" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Календарь" />
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/go_to" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/DopAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/IDMain"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="PagesActive"
+            android:text="На главную"
+            android:textColor="@color/ColorText"
+            android:textSize="18dp"
+
+            />
 
 
-</LinearLayout >
+        <TextView
+            android:id="@+id/IDLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="LogOut"
+            android:text="Выйти"
+            android:textColor="@color/ColorText"
+            android:textSize="18dp"
+
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

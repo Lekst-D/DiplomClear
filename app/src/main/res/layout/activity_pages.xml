@@ -20,10 +20,9 @@
 
         <ImageButton
             android:src="@drawable/info"
-            android:id="@+id/IBABack"
+            android:id="@+id/IDList"
             android:layout_width="45dp"
             android:layout_height="30dp"
-            android:onClick="BackActivity"
             android:scaleType="fitXY"
             android:background="@color/PanelColor"
             android:paddingTop="5dp"
@@ -48,9 +47,9 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/IDMessage"
             android:layout_width="45dp"
             android:layout_height="30dp"
-            android:onClick="BackActivity"
             android:scaleType="fitXY"
             android:background="@color/PanelColor"
             android:src="@drawable/message"
