@@ -2,9 +2,12 @@ package com.example.diplomclear;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.diplomclear.LogRegSwap.Login;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +19,15 @@ public class ListAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDUser=findViewById(R.id.IDUser);
+        IDUser.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShowUser();
+                    }
+                });
     }
 
     public void LogOut(View view){
@@ -33,6 +45,12 @@ public class ListAct extends AppCompatActivity {
             startActivity(intent);
 
         }
+    }
+
+    void ShowUser(){
+        Log.e("1","asdf");
+//        Intent intent = new Intent(this, User.class);
+//        startActivity(intent);
     }
 
     void PagesActive(View view){

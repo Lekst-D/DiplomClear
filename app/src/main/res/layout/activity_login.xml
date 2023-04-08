@@ -43,16 +43,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
         <EditText
             android:inputType="textPassword"
             android:id="@+id/Epassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ведите пароль"
+            android:layout_weight="1"
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             />
+
+            <ImageView
+                android:id="@+id/IDImage"
+                android:src="@drawable/eye_close"
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:onClick="ShowPassword"
+                />
+
         </LinearLayout>
 
         <LinearLayout
