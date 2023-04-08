@@ -1,13 +1,12 @@
 package com.example.diplomclear;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.diplomclear.Classes.UserInfo;
+import com.example.diplomclear.LogRegSwap.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

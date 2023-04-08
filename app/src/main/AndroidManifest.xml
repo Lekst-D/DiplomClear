@@ -27,21 +27,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ChangePassword"
+            android:name=".LogRegSwap.ChangePassword"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Registration"
+            android:name=".LogRegSwap.Registration"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".LogRegSwap.Login"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

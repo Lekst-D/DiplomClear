@@ -1,4 +1,4 @@
-package com.example.diplomclear;
+package com.example.diplomclear.LogRegSwap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.diplomclear.Classes.CustomDialogFragment;
+import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
