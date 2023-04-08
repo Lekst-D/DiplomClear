@@ -2,7 +2,9 @@ package com.example.diplomclear;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class Registration extends AppCompatActivity {
 
@@ -10,5 +12,8 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+    }
+    public void BackActivity(View view) {
+        this.finish();
     }
 }
