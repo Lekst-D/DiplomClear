@@ -48,13 +48,17 @@ public class ListAct extends AppCompatActivity {
     }
 
     void ShowUser(){
-        Log.e("1","asdf");
-//        Intent intent = new Intent(this, User.class);
-//        startActivity(intent);
+//        Log.e("1","asdf");
+        Intent intent = new Intent(this, User.class);
+        startActivity(intent);
     }
 
     void PagesActive(View view){
         Intent intent = new Intent(this, Pages.class);
         startActivity(intent);
+    }
+
+    void BackActivity(View view){
+        finish();
     }
 }
