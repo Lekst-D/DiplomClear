@@ -56,20 +56,70 @@
 
 
     </LinearLayout>
+
     <ScrollView
         android:id="@+id/IDScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-<Button
-    android:id="@+id/IDPost"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Добавить пост"
-    />
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:gravity=""
+                android:background="@color/SelectionColorCream"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="225dp"
+                    android:src="@drawable/ic_baseline_person_24" />
+
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Name"
+                    android:id="@+id/UserName"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Surname"
+                    android:gravity="center"
+                    android:id="@+id/UserSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/IDPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Добавить пост" />
+            <Button
+                android:id="@+id/IDImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Добавить изображение" />
+        </LinearLayout>
     </ScrollView>
 
 

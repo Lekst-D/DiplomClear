@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="PanelColor">#451278</color>
-    <color name="MainColorCream">#fffacd</color>
+    <color name="MainColorCream">#A9FFFDD0</color>
     <color name="SelectionColorCream">#E4D99D</color>
 
     <color name="UnderWear">#310062</color>

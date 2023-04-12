@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:background="@color/PanelColor"
+        android:background="#E3E0A4"
         android:gravity="center">
 
         <ImageButton
@@ -24,7 +24,7 @@
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:scaleType="fitXY"
-            android:background="@color/PanelColor"
+            android:background="#E3E0A4"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
@@ -51,7 +51,7 @@
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:scaleType="fitXY"
-            android:background="@color/PanelColor"
+            android:background="#E3E0A4"
             android:src="@drawable/message"
             />
 
