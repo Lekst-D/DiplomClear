@@ -4,11 +4,13 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.diplomclear.Classes.ImageUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +43,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,14 +63,15 @@ public class NewPost extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListenner;
-//    private FirebaseListAdapter<String> adapter ;
+    //    private FirebaseListAdapter<String> adapter ;
     private FirebaseUser user;
     private DatabaseReference myRef;
 
     private static final int SELECT_PICTURE = 1;
 
     private String selectedImagePath;
-    
+    private Uri UriAdressPhoto;
+    private String IdUser;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,10 +80,10 @@ public class NewPost extends AppCompatActivity {
         setContentView(R.layout.activity_new_post);
 
         //elements form form
-        ImagePost=findViewById(R.id.IDImageView);
-        ShowImage=findViewById(R.id.IDNewImagePost);
-        NewPost=findViewById(R.id.IDaddPost);
-        TextPost=findViewById(R.id.IdTextPost);
+        ImagePost = findViewById(R.id.IDImageView);
+        ShowImage = findViewById(R.id.IDNewImagePost);
+        NewPost = findViewById(R.id.IDaddPost);
+        TextPost = findViewById(R.id.IdTextPost);
 
         ShowImage.setOnClickListener(new View.OnClickListener() {
 
@@ -86,26 +96,93 @@ public class NewPost extends AppCompatActivity {
         });
 
         //firebase
-        myRef= FirebaseDatabase.getInstance().getReference();
-        mAuth=FirebaseAuth.getInstance();
-        user=mAuth.getCurrentUser();
+        myRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        IdUser=user.getUid().toString();
 
 
         NewPost.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("LongLogTag")
             @Override
             public void onClick(View view) {
+
+                ArrayList<String> PhotoForSend = new ArrayList<>();
+                String namePhotos="";
+
+                File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
+                if (!dir.exists()) {
+                    new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
+                }
+
+                String path = Environment.getExternalStorageDirectory() + "/Download/1.jpeg";
+//                File fi=new File(path);
+                Uri u = UriAdressPhoto;
+
+//                ImageView ImageID = null;
+//                ImageID.setImageURI(u);
+                Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(selectedImagePath);
+                try {
+                    String NewName="";
+                    long time = System.currentTimeMillis();
+                    NewName=IdUser+ time + ".jpg";
+
+                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +NewName;
+                    File f = new File(path);
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(path);
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                    fos.flush();
+                    fos.close();
+
+                    PhotoForSend.add(NewName);
+
+
+                    namePhotos=String.join(", ", PhotoForSend);
+//                    ArrayList<String> Names = new ArrayList<>(Arrays.asList(name.split(",")));
+
+//                    Log.e("name new photo",PhotoForSend.toString());
+//                    Log.e("name new photo",name.toString());
+//                    Log.e("name new photo",Names.toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
                 String textpost=TextPost.getText().toString();
-                String nameImage="123123";
 
                 Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
+                String datePost=sdf.format( currentTime );
 
-                String dataTime=currentTime+"";
+//                System.out.println( "The date is: "+  sdf.format( date )  );
+//                LocalDateTime dateTime = LocalDateTime.parse(currentTime.toString());
+
+//                String dataTime=currentTime.getDay() "."+currentTime.getMonth()+"."+currentTime.getYear()
+//                        +" "+currentTime.getHours()+":"+currentTime.getMinutes();
+
+                Log.e("date time not mistake day",sdf.format( currentTime )+"");
+                Log.e("date time not mistake mouth",currentTime.getMonth()+"");
+                Log.e("date time not mistake year",currentTime.getYear()+"");
+
+                Log.e("date time not mistake hours",currentTime.getMonth()+"");
+                Log.e("date time not mistake minutes",currentTime.getYear()+"");
+                Log.e("date time not mistake all date",currentTime.toString());
+
+
+//                String string = "January 2, 2010";
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+//                LocalDate date = LocalDate.parse(string, formatter);
+//                System.out.println(date); // 2010-01-02
 
                 Map<String, Object> user = new HashMap<>();
-                user.put("first", "Ada");
-                user.put("last", "Lovelace");
-                user.put("born", 1815);
+                user.put("dataTime", datePost);
+                user.put("TextPost", textpost);
+                user.put("Images", namePhotos);
+                user.put("UserID", IdUser);
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("users")
@@ -123,46 +200,84 @@ public class NewPost extends AppCompatActivity {
                             }
                         });
 
-//        NewPost newPost=new NewPost(textpost, nameImage, dataTime);
-
+//                NewPost newPost=new NewPost(textpost, nameImage, dataTime);
+//
 //                myRef.child("Post").child(user.getUid()).
 //                        push().setValue(new Post(textpost, nameImage, dataTime));
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
+                for (String Photo:PhotoForSend) {
 
-                StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("images");
-                StorageReference spaceRef = storageRef.child("images/space.jpg");
 
-                spaceRef.getName().equals(spaceRef.getName());    // true
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
 
-                String path=Environment.getExternalStorageDirectory() + "/Download/15.jpg";
+                    StorageReference storageRef = storage.getReference();
+                    StorageReference imagesRef = storageRef.child(Photo);
+                    StorageReference spaceRef = storageRef.child("images/space.jpg");
 
-                InputStream stream = null;
-                try {
-                    stream = new FileInputStream(new File(path));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    spaceRef.getName().equals(spaceRef.getName());    // true
+
+//                    path = Environment.getExternalStorageDirectory() + "/Download/23.jpg";
+                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+Photo;
+
+                    InputStream stream = null;
+                    try {
+                        stream = new FileInputStream(new File(path));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    UploadTask uploadTask = imagesRef.putStream(stream);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                        }
+                    });
                 }
-
-
-                UploadTask uploadTask = imagesRef.putStream(stream);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
-                    }
-                });
-
 
             }
         });
+
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//
+//        StorageReference storageRef = storage.getReference();
+//        StorageReference imagesRef = storageRef.child("15");
+////        StorageReference spaceRef = storageRef.child("images/space.jpg");
+////
+////        spaceRef.getName().equals(spaceRef.getName());    // true
+//
+//        String path = Environment.getExternalStorageDirectory() + "/Download/15.jpg";
+////                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+photo;
+//
+//        InputStream stream = null;
+//        try {
+//            stream = new FileInputStream(new File(path));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        UploadTask uploadTask = imagesRef.putStream(stream);
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle unsuccessful uploads
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+//                // ...
+//            }
+//        });
+
 
     }
 
@@ -218,33 +333,33 @@ public class NewPost extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("Result_ok",resultCode+"");
+        Log.e("Result_ok", resultCode + "");
         if (resultCode == RESULT_OK) {
-            Log.e("Result_ok",resultCode+"");
+            Log.e("Result_ok", resultCode + "");
             if (requestCode == SELECT_PICTURE) {
-                Log.e("requestCode",requestCode+"");
+                Log.e("requestCode", requestCode + "");
 
                 Uri selectedImageUri = data.getData();
+                UriAdressPhoto = selectedImageUri;
                 selectedImagePath = getPath(selectedImageUri);
 
                 ImagePost.setImageURI(selectedImageUri);
 
-                Log.e("asdfasdf",selectedImageUri.getPath());
             }
         }
     }
 
     public String getPath(Uri uri) {
         // just some safety built in
-        if( uri == null ) {
+        if (uri == null) {
             // TODO perform some logging or show user feedback
             return null;
         }
         // try to retrieve the image from the media store first
         // this will only work for images selected from gallery
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
+        if (cursor != null) {
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
