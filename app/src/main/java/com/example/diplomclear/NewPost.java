@@ -185,7 +185,7 @@ public class NewPost extends AppCompatActivity {
                 user.put("UserID", IdUser);
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("users")
+                db.collection("usersPosts")
                         .add(user)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

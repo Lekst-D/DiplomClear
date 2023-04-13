@@ -28,13 +28,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
+
                 <TextView
                     android:id="@+id/IDUserFIO"
-                    android:textColor="@color/ColorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:text="FIO"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/ColorText" />
+
                 <TextView
                     android:id="@+id/IDPostTime"
                     android:textColor="@color/ColorText"

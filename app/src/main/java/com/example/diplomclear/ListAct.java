@@ -28,6 +28,17 @@ public class ListAct extends AppCompatActivity {
                         ShowUser();
                     }
                 });
+
+
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDSearch=findViewById(R.id.IDSearch);
+        IDSearch.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShowSearch();
+                    }
+                });
     }
 
     public void LogOut(View view){
@@ -48,8 +59,12 @@ public class ListAct extends AppCompatActivity {
     }
 
     void ShowUser(){
-//        Log.e("1","asdf");
         Intent intent = new Intent(this, User.class);
+        startActivity(intent);
+    }
+
+    void ShowSearch(){
+        Intent intent = new Intent(this, Search.class);
         startActivity(intent);
     }
 

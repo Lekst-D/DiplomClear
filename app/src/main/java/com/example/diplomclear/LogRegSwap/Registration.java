@@ -1,5 +1,7 @@
 package com.example.diplomclear.LogRegSwap;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,13 +20,19 @@ import com.example.diplomclear.Classes.CustomDialogFragment;
 import com.example.diplomclear.Classes.UserInfo;
 import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Registration extends AppCompatActivity {
 
@@ -256,6 +264,29 @@ public class Registration extends AppCompatActivity {
                             .child(user.getUid()).setValue
                                     (new UserInfo(Name,Surname,Phone,BirthDay,user.getUid().toString(),"none")
                                     );
+
+                    Map<String, Object> userdb = new HashMap<>();
+                    userdb.put("Name", Name);
+                    userdb.put("Surname", Surname);
+                    userdb.put("Categories", "");
+                    userdb.put("UserPhoto", "");
+                    userdb.put("UserID", user.getUid().toString());
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("userInfo")
+                            .add(userdb)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
 
                 }
                 else{
