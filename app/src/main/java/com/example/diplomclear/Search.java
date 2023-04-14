@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.diplomclear.Classes.Post;
 import com.example.diplomclear.Classes.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,6 +47,7 @@ public class Search extends AppCompatActivity {
 
 
     ArrayList<String> Users = new ArrayList<>();
+    ArrayList<SearchList> AllUserSearchs = new ArrayList<>();
 
 
     @SuppressLint("MissingInflatedId")
@@ -96,6 +98,9 @@ public class Search extends AppCompatActivity {
                                     continue;
                             }
                             Users.add(name + " " + surname);
+                            String FIO=name + " " + surname;
+                            String Image=postSnapshot.child("userPhoto").getValue().toString();
+                            AllUserSearchs.add(new SearchList(Image,FIO));
 
                         }
 
@@ -179,11 +184,18 @@ public class Search extends AppCompatActivity {
     }
 
     void ShowSearchList() {
-//        usersList.clearChoices();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, Users);
-
+        MyAddapterSearch adapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs);
+        adapter.notifyDataSetChanged();
         usersList.setAdapter(adapter);
+
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+//                android.R.layout.simple_list_item_1, Users);
+//
+//        usersList.setAdapter(adapter);
+
+        MyAddapterSearch stateAdapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs);
+        usersList.setAdapter(stateAdapter);
     }
 }

@@ -49,8 +49,11 @@ public class MyAddapterPost extends ArrayAdapter<Post> {
         TextView PostText = view.findViewById(R.id.IDPostText);
 
         int CountPositions=posts.size();
-//CountPositions - 1 - position
-        Post post=posts.get(position);
+
+        //CountPositions - 1 - position
+        //position
+        
+        Post post=posts.get(CountPositions - 1 - position);
 
         File file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+post.getImagePost());
         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());

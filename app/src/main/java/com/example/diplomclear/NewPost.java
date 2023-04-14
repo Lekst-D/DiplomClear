@@ -211,7 +211,7 @@ public class NewPost extends AppCompatActivity {
                     FirebaseStorage storage = FirebaseStorage.getInstance();
 
                     StorageReference storageRef = storage.getReference();
-                    StorageReference imagesRef = storageRef.child(Photo);
+                    StorageReference imagesRef = storageRef.child(IdUser+"/"+Photo);
                     StorageReference spaceRef = storageRef.child("images/space.jpg");
 
                     spaceRef.getName().equals(spaceRef.getName());    // true
