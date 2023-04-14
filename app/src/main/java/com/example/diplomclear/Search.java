@@ -100,7 +100,8 @@ public class Search extends AppCompatActivity {
                             Users.add(name + " " + surname);
                             String FIO=name + " " + surname;
                             String Image=postSnapshot.child("userPhoto").getValue().toString();
-                            AllUserSearchs.add(new SearchList(Image,FIO));
+                            String UserID=postSnapshot.child("iduser").getValue().toString();
+                            AllUserSearchs.add(new SearchList(Image,FIO,UserID));
 
                         }
 

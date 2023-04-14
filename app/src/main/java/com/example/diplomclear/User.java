@@ -99,6 +99,10 @@ public class User extends AppCompatActivity {
                                         document.get("UserID").toString(),
                                         document.get("TextPost").toString(),
                                         document.get("dataTime").toString());
+
+
+
+
 //                                Map<String, Object> dataPost = new HashMap<>();
 //                                dataPost.put("dataTime", document.get("dataTime"));
 //                                dataPost.put("TextPost", document.get("TextPost"));
@@ -119,6 +123,11 @@ public class User extends AppCompatActivity {
 //        ArrayAdapter<String> adapter = new ArrayAdapter(this,
 //                android.R.layout.simple_list_item_1, Posts);
         // устанавливаем адаптер
+
+    }
+
+    void DownloadImage(String ImageName)
+    {
 
     }
 

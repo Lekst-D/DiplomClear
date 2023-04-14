@@ -102,6 +102,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/ImageTest"
             android:layout_width="match_parent"
             android:layout_height="225dp"
             android:src="@drawable/ic_baseline_person_24" />
