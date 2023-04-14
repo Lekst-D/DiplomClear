@@ -63,12 +63,14 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/IDTextSearch"
             android:layout_weight="1"
             android:hint="Ведите имя мастера"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/IDButtonSearch"
             android:text="Искать"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

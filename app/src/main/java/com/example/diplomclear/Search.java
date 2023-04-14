@@ -5,9 +5,13 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.diplomclear.Classes.UserInfo;
@@ -26,9 +30,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Search extends AppCompatActivity {
     private ListView usersList;
+    private EditText SearchText;
+    private Button SearchButton;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListenner;
@@ -38,10 +45,10 @@ public class Search extends AppCompatActivity {
     private FirebaseFirestore db;
 
 
-
     ArrayList<String> Users = new ArrayList<>();
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,37 +61,61 @@ public class Search extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         usersList = findViewById(R.id.IDListView);
+        SearchText = findViewById(R.id.IDTextSearch);
+        SearchButton = findViewById(R.id.IDButtonSearch);
 
 //        myRef.child("UserInfo").child(IdUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //        myRef.child("UserInfo").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 
+        SearchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String searchText = (SearchText.getText().toString()).trim();
+                String[] searchTextPart = searchText.split(" ");
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    //TODO get the data here
-                    String UserName = postSnapshot.child("userName").getValue().toString();
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    Log.d("Name", UserName);
+//                            if( searchTextPart[0] in postSnapshot.child("userSurname").getValue().toString())
 
-                    String name = postSnapshot.child("userName").getValue().toString();
-                    String surname = postSnapshot.child("userSurname").getValue().toString();
-                    Users.add(name + " " + surname);
+                            //TODO get the data here
+                            String UserName = postSnapshot.child("userName").getValue().toString();
 
-                }
-                ShowSearchList();
+                            Log.d("Name", UserName);
+
+                            String name = postSnapshot.child("userName").getValue().toString();
+                            String surname = postSnapshot.child("userSurname").getValue().toString();
+
+                            if(searchTextPart.length>1) {
+                                boolean hasString = (surname.toLowerCase())
+                                        .contains(searchTextPart[1].toLowerCase());
+//                                Log.d("1", searchTextPart[1]);
+//                                Log.d("2", surname);
+                                if(!hasString)
+                                    continue;
+                            }
+                            Users.add(name + " " + surname);
+
+                        }
+
+                        ShowSearchList();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+
+                Query query = myRef.child("UserInfo").orderByChild("userName")
+                        .startAt(searchTextPart[0].toUpperCase() )
+                        .endAt(searchTextPart[0].toLowerCase() + "\uf8ff");
+                query.addValueEventListener(valueEventListener);
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
             }
-        };
-        String searchText="р";
-        Query query = myRef.child("UserInfo").orderByChild("userName")
-                .startAt(searchText).endAt(searchText + "\uf8ff");
-        query.addValueEventListener(valueEventListener);
+        );
+
 
 //        db.collection("userInfo")
 //                .whereGreaterThanOrEqualTo("Name", "12")
@@ -105,8 +136,6 @@ public class Search extends AppCompatActivity {
 //                        }
 //                    }
 //                });
-
-
 
 
 //        myRef.child("UserInfo").orderByChild("userName").startAt("1")
@@ -150,6 +179,8 @@ public class Search extends AppCompatActivity {
     }
 
     void ShowSearchList() {
+//        usersList.clearChoices();
+
         ArrayAdapter<String> adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, Users);
 
