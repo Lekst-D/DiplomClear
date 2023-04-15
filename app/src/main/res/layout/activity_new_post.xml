@@ -18,10 +18,10 @@
         android:gravity="center">
 
         <ImageButton
-            android:src="@drawable/info"
-            android:id="@+id/IDList"
+            android:src="@drawable/arrowback_white"
+            android:id="@+id/IDBack"
             android:layout_width="45dp"
-            android:layout_height="25dp"
+            android:layout_height="35dp"
             android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
@@ -51,7 +51,6 @@
             android:layout_height="30dp"
             android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
             />
 
 
