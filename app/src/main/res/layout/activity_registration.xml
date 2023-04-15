@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:mask="http://schemas.android.com/apk/res-auto"
-    android:background="@color/MainColorCream"
+    android:background="@color/MainColor"
     android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
-
-        android:background="@color/PanelColor"
-        android:gravity="center"
-        >
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/HatColor"
+        android:gravity="center">
 
         <ImageButton
             android:src="@drawable/ic_baseline_arrow_back_24"
@@ -23,8 +24,8 @@
             android:layout_height="30dp"
             android:onClick="BackActivity"
             android:scaleType="fitXY"
-            android:background="@color/PanelColor"
-/>
+            android:background="@color/HatColor"
+            />
 
         <LinearLayout
             android:gravity="center"
@@ -45,13 +46,14 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/IDMessage"
             android:layout_width="55dp"
             android:layout_height="30dp"
-            android:onClick="BackActivity"
             android:scaleType="fitXY"
-            android:background="@color/PanelColor"
-
+            android:background="@color/HatColor"
             />
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -115,6 +117,7 @@
 
                 <Button
                     android:id="@+id/BBirthDay"
+                    android:backgroundTint="@color/ButtonColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="setDate"
@@ -176,6 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="RegistrationClick"
+            android:backgroundTint="@color/ButtonColor"
             android:text="Зарегистрироваться" />
 
     </LinearLayout>

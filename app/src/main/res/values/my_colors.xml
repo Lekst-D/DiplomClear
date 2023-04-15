@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="MainColor">#EEECECE7</color>
+    <color name="HatColor">#DDDAA4</color>
+    <color name="ButtonColor">#CD922B</color>
+    <color name="SelectionColorCream">#F6ECB5</color>
+
+
+
+<!--    <color name="HatColor">#DDDAA4</color>-->
+
+
     <color name="PanelColor">#451278</color>
     <color name="MainColorCream">#A9FFFDD0</color>
-    <color name="SelectionColorCream">#E4D99D</color>
-
+    <color name="CreamBorderInput">#fdf4e3</color>
     <color name="UnderWear">#310062</color>
-
     <color name="ColorText">#082567</color>
     <color name="ColorTextHint">#BF40265E</color>
     <color name="ColorTextLink">#E66105BD</color>
+
 </resources>

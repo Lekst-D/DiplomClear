@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import com.squareup.picasso.Picasso;
+
 
 public class Pages extends AppCompatActivity {
     ImageButton ListSetting,Message;
@@ -60,33 +62,9 @@ public class Pages extends AppCompatActivity {
             }
         });
 
-        TestImageShow();
+//        TestImageShow();
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 
     void TestImageShow() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -94,64 +72,42 @@ public class Pages extends AppCompatActivity {
 
         ImageView imageView=findViewById(R.id.ImageTest);
 
-//        storageRef.child("TMdmQbEc2vQxiSjLGUO0TNWMa3g2").child("TMdmQbEc2vQxiSjLGUO0TNWMa3g21681450955291.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Log.e("Successfull","UriImage");
-//                Log.e("Successfull",uri.getPath());
-//
-////                new DownloadImageTask((ImageView) findViewById(R.id.ImageTest))
-////                        .execute(uri.getPath());
-//
-//
-////                imageView.setImageBitmap(mIcon_val);
-//                // Got the download URL for 'users/me/profile.png'
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Log.e("Failure","UriImage");
-//                // Handle any errors
-//            }
-//        });
-
-        final long ONE_MEGABYTE = 1024 * 1024*1000;
-        storageRef.child("TMdmQbEc2vQxiSjLGUO0TNWMa3g2").child("TMdmQbEc2vQxiSjLGUO0TNWMa3g21681450955291.jpg")
+        final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+        storageRef.child("TMdmQbEc2vQxiSjLGUO0TNWMa3g2").child("TMdmQbEc2vQxiSjLGUO0TNWMa3g21681545477795.jpg")
                 .getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap=BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
 //__________________________________________________
-//                File f = new File(Environment.getExternalStorageDirectory() + "/Download/", "TMdmQbEc2vQxiSjLGUO0TNWMa3g21681450955291.jpg");
-//                try {
-//                    f.createNewFile();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-////Convert bitmap to byte array
-//                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos);
-//                byte[] bitmapdata = bos.toByteArray();
-//
-////write the bytes in file
-//                FileOutputStream fos = null;
-//                try {
-//                    fos = new FileOutputStream(f);
-//                    fos.write(bitmapdata);
-//                    fos.flush();
-//                    fos.close();
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                File f = new File(Environment.getExternalStorageDirectory() + "/Download/", "35.jpg");
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+//Convert bitmap to byte array
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 //__________________________________________________
 
-//                BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
                 imageView.setImageBitmap(bitmap);
-                // Data for "images/island.jpg" is returns, use this as needed
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

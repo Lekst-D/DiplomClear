@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,14 +63,15 @@ public class MyAddapterSearch extends ArrayAdapter<SearchList> {
         //position
 
 
-
-//        if (search.getImageUser() != "none") {
-//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + search.getImageUser());
-//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//            FIO.setText(search.getImageUser());
-////        Image.setImageBitmap(myBitmap);
-//            return view;
-//        }
+//        Log.e("Myadappter","non if");
+        if (!search.getImageUser().contains("none")) {
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + search.getImageUser());
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            FIO.setText(search.getImageUser());
+//            Log.e("Myadappter","if");
+//        Image.setImageBitmap(myBitmap);
+            return view;
+        }
 
         FIO.setText(search.getFIO());
 

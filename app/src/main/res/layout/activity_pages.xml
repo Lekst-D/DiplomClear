@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/MainColorCream"
+    android:background="@color/MainColor"
     android:orientation="vertical"
     tools:context=".Pages">
 
@@ -15,16 +15,16 @@
         android:orientation="horizontal"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:background="#E3E0A4"
+        android:background="@color/HatColor"
         android:gravity="center">
 
         <ImageButton
             android:src="@drawable/info"
             android:id="@+id/IDList"
             android:layout_width="45dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:scaleType="fitXY"
-            android:background="#E3E0A4"
+            android:background="@color/HatColor"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
@@ -48,10 +48,10 @@
 
         <ImageButton
             android:id="@+id/IDMessage"
-            android:layout_width="45dp"
+            android:layout_width="35dp"
             android:layout_height="30dp"
             android:scaleType="fitXY"
-            android:background="#E3E0A4"
+            android:background="@color/HatColor"
             android:src="@drawable/message"
             />
 
@@ -60,13 +60,18 @@
 
 
     <LinearLayout
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+
         android:gravity=""
-        android:background="@color/SelectionColorCream"
+        android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
 
         <LinearLayout
@@ -167,8 +172,13 @@ android:gravity=""            >
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+
         android:gravity=""
-        android:background="@color/SelectionColorCream"
+        android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
 
         <LinearLayout

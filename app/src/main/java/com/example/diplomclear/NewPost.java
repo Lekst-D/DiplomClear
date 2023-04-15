@@ -80,7 +80,7 @@ public class NewPost extends AppCompatActivity {
         setContentView(R.layout.activity_new_post);
 
         //elements form form
-        ImagePost = findViewById(R.id.IDImageView);
+//        ImagePost = findViewById(R.id.IDImageView);
         ShowImage = findViewById(R.id.IDNewImagePost);
         NewPost = findViewById(R.id.IDaddPost);
         TextPost = findViewById(R.id.IdTextPost);
@@ -343,7 +343,7 @@ public class NewPost extends AppCompatActivity {
                 UriAdressPhoto = selectedImageUri;
                 selectedImagePath = getPath(selectedImageUri);
 
-                ImagePost.setImageURI(selectedImageUri);
+//                ImagePost.setImageURI(selectedImageUri);
 
             }
         }

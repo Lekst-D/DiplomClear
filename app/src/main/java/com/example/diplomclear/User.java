@@ -86,43 +86,28 @@ public class User extends AppCompatActivity {
 //        });
 
         db.collection("usersPosts")
-                .whereEqualTo("UserID", IdUser)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+            .whereEqualTo("UserID", IdUser)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
 //                                String ImagePost, String FIO_text,String PostText_text,String PostTime_text
-                                Post post=new Post(document.get("Images").toString(),
-                                        document.get("UserID").toString(),
-                                        document.get("TextPost").toString(),
-                                        document.get("dataTime").toString());
+                            Post post=new Post(document.get("Images").toString(),
+                                    document.get("UserID").toString(),
+                                    document.get("TextPost").toString(),
+                                    document.get("dataTime").toString());
 
-
-
-
-//                                Map<String, Object> dataPost = new HashMap<>();
-//                                dataPost.put("dataTime", document.get("dataTime"));
-//                                dataPost.put("TextPost", document.get("TextPost"));
-//                                dataPost.put("Images", document.get("Images"));
-
-//                                ImageFormPost.add(document.get("Images").toString());
-
-                                AllUserPost.add(post);
-                            }
-                            ShowPost();
-//                            Log.d("Data Post",AllUserPost.get(0).get("TextPost").toString());
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            AllUserPost.add(post);
                         }
+                        ShowPost();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-                });
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter(this,
-//                android.R.layout.simple_list_item_1, Posts);
-        // устанавливаем адаптер
+                }
+            });
 
     }
 

@@ -10,49 +10,49 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/PanelColor"
-        android:gravity="center"
+        android:layout_height="45dp"
         android:orientation="horizontal"
+        android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:background="@color/HatColor"
+        android:gravity="center">
 
         <ImageButton
-            android:id="@+id/IBABack"
+            android:src="@drawable/info"
+            android:id="@+id/IDList"
             android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@color/PanelColor"
-            android:onClick="BackActivity"
-            android:paddingBottom="5dp"
+            android:layout_height="25dp"
             android:scaleType="fitXY"
-
-            android:src="@drawable/info" />
+            android:background="@color/HatColor"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text=""
-                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
         <ImageButton
-            android:layout_width="45dp"
+            android:id="@+id/IDMessage"
+            android:layout_width="35dp"
             android:layout_height="30dp"
-            android:background="@color/PanelColor"
-            android:onClick="BackActivity"
             android:scaleType="fitXY"
-            android:src="@drawable/message" />
+            android:background="@color/HatColor"
+            android:src="@drawable/message"
+            />
 
 
     </LinearLayout>
@@ -75,7 +75,6 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:gravity=""
-                android:background="@color/SelectionColorCream"
                 android:orientation="vertical">
 
                 <ImageView
@@ -91,6 +90,7 @@
 
                 <TextView
                     android:text="Name"
+                    android:textSize="22sp"
                     android:id="@+id/UserName"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -101,6 +101,7 @@
                 <TextView
                     android:layout_weight="1"
                     android:text="Surname"
+                    android:textSize="22sp"
                     android:gravity="center"
                     android:id="@+id/UserSurname"
                     android:layout_width="wrap_content"

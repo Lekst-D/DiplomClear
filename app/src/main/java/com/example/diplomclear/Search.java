@@ -89,6 +89,14 @@ public class Search extends AppCompatActivity {
                             String name = postSnapshot.child("userName").getValue().toString();
                             String surname = postSnapshot.child("userSurname").getValue().toString();
 
+                            String NameRequest=(name.trim()).toLowerCase(Locale.ROOT);
+                            String RequestName=(searchTextPart[0].trim()).toLowerCase(Locale.ROOT);
+                            if(!NameRequest.contains(RequestName))
+                            {
+                                Log.e("Not mistake","This is work");
+                                continue;
+                            }
+
                             if(searchTextPart.length>1) {
                                 boolean hasString = (surname.toLowerCase())
                                         .contains(searchTextPart[1].toLowerCase());
