@@ -1,5 +1,6 @@
 package com.example.diplomclear;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -11,19 +12,53 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.diplomclear.LogRegSwap.Login;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ListAct extends AppCompatActivity {
 
+    String Name;
+    String Surname;
+    String UserPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Name=null;
+        Surname=null;
+        UserPhoto=null;
+
+        mDatabase.child("UserInfo").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+//                    userName
+//                            userSurname
+
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Name=task.getResult().child("userName").getValue().toString();
+                    Surname=task.getResult().child("userSurname").getValue().toString();
+                    UserPhoto=task.getResult().child("userPhoto").getValue().toString();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDUser=findViewById(R.id.IDUser);
         IDUser.setOnClickListener(
@@ -80,6 +115,9 @@ public class ListAct extends AppCompatActivity {
 
     void ShowUser(){
         Intent intent = new Intent(this, User.class);
+        intent.putExtra("Name",      Name);
+        intent.putExtra("Surname",   Surname);
+        intent.putExtra("ImageUser", UserPhoto);
         startActivity(intent);
     }
 
