@@ -5,15 +5,22 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.diplomclear.Classes.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +47,6 @@ public class User extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference myRef;
     private String IdUser;
-    private ListView usersList;
 
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
@@ -62,8 +69,6 @@ public class User extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         IdUser=user.getUid().toString();
 
-
-        usersList=findViewById(R.id.IDListView);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -102,7 +107,11 @@ public class User extends AppCompatActivity {
 
                             AllUserPost.add(post);
                         }
-                        ShowPost();
+
+                        for (Post post : AllUserPost) {
+                            ShowPost(post);
+                        }
+
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
@@ -121,9 +130,31 @@ public class User extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void ShowPost(){
-        MyAddapterPost stateAdapter = new MyAddapterPost(this, R.layout.user_post, AllUserPost);
-        usersList.setAdapter(stateAdapter);
+
+    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+    void ShowPost(Post post){
+
+        LinearLayout listView=findViewById(R.id.IDListView);
+        LayoutInflater inflater = getLayoutInflater();
+        View myLayout = inflater.inflate(R.layout.user_post, null, false);
+
+        ImageView Image = myLayout.findViewById(R.id.IDPostIMagePost);
+        TextView FIO = myLayout.findViewById(R.id.IDUserFIO);
+        TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
+        TextView PostText = myLayout.findViewById(R.id.IDPostText);
+
+        File file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+post.getImagePost());
+        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Image.setImageBitmap(myBitmap);
+
+//        FIO.setText(post.getFIO_text());
+        PostTime.setText(post.getPostTime_text());
+        PostText.setText(post.getPostText_text());
+
+        listView.addView(myLayout);
+
+//        MyAddapterPost stateAdapter = new MyAddapterPost(this, R.layout.user_post, AllUserPost);
+//        usersList.setAdapter(stateAdapter);
     }
 
 }

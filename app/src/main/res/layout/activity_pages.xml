@@ -69,7 +69,6 @@
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-
         android:gravity=""
         android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
