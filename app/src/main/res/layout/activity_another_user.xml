@@ -4,28 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/MainColor"
     android:orientation="vertical"
     tools:context=".AnotherUser">
 
+
     <TextView
-        android:text="FIO"
-        android:textSize="22sp"
         android:id="@+id/FIO"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="FIO"
+        android:textSize="22sp" />
 
     <TextView
-        android:text="UserID"
-        android:textSize="22sp"
         android:id="@+id/UserID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="UserID"
+        android:textSize="22sp" />
 
     <TextView
-        android:text="ImageUser"
-        android:textSize="22sp"
         android:id="@+id/ImageUser"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="ImageUser"
+        android:textSize="22sp" />
 
+
+    <ScrollView
+        android:id="@+id/IDScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/IDListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
