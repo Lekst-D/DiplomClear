@@ -27,8 +27,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Lists;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,6 +61,10 @@ public class User extends AppCompatActivity {
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
 
+    String Name=null;
+    String Surname=null;
+    String UserPhoto=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +84,36 @@ public class User extends AppCompatActivity {
         IdUser=user.getUid().toString();
 
         Bundle arguments = getIntent().getExtras();
+
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("UserInfo").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+//                    userName
+//                            userSurname
+
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Name=task.getResult().child("userName").getValue().toString();
+                    Surname=task.getResult().child("userSurname").getValue().toString();
+                    UserPhoto=task.getResult().child("userPhoto").getValue().toString();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                    ((TextView)findViewById(R.id.UserName)).setText(Name);
+                    ((TextView)findViewById(R.id.UserSurname)).setText(Surname);
+                }
+            }
+        });
+
+
 //        String Name=arguments.get("Name").toString();
 //        String SurName=arguments.get("Surname").toString();
 //        String UserPhoto=arguments.get("ImageUser").toString();
 
-//        ((TextView)findViewById(R.id.UserName)).setText(Name);
-//        ((TextView)findViewById(R.id.UserSurname)).setText(SurName);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -123,9 +153,20 @@ public class User extends AppCompatActivity {
                             AllUserPost.add(post);
                         }
 
-                        for (Post post : AllUserPost) {
+//                        for (int i = AllUserPost.size(); i >0; i--)
+//                        {
+//                            Post post=AllUserPost.get(i);
+//                            ShowPost(post);
+//                        }
+
+                        for (Post post : Lists.reverse(AllUserPost)) {
                             ShowPost(post);
                         }
+
+//                        for (Post post : Lists.reverse(AllUserPost)) {
+//                            ShowPost(post);
+//                        }
+
                         ImageView ImageView1=findViewById(R.id.ImageView1);
                         ImageView ImageView2=findViewById(R.id.ImageView2);
                         ImageView ImageView3=findViewById(R.id.ImageView3);
@@ -153,9 +194,21 @@ public class User extends AppCompatActivity {
                 }
             });
 
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDAllImages=findViewById(R.id.IDAllImages);
+
+        IDAllImages.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShowAllImage();
+                    }
+                });
     }
-
-
+    void ShowAllImage(){
+        Intent intent = new Intent(this, AllImageUser.class);
+        startActivity(intent);
+    }
 
     void NewPostView(){
         Intent intent = new Intent(this, NewPost.class);

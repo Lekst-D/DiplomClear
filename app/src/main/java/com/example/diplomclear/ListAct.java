@@ -97,9 +97,7 @@ public class ListAct extends AppCompatActivity {
         user=mAuth.getCurrentUser();
         if(user!=null){
             FirebaseAuth.getInstance().signOut();
-
             Intent intent = new Intent(this, Login.class);
-
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
@@ -108,7 +106,6 @@ public class ListAct extends AppCompatActivity {
 
     public void PagesActive(View view){
         Intent intent = new Intent(this, Pages.class);
-
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
