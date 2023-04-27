@@ -49,6 +49,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class User extends AppCompatActivity {
 
@@ -61,16 +63,16 @@ public class User extends AppCompatActivity {
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
 
-    String Name=null;
-    String Surname=null;
-    String UserPhoto=null;
+    String Name = null;
+    String Surname = null;
+    String UserPhoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        Button NewPost=findViewById(R.id.IDPost);
+        Button NewPost = findViewById(R.id.IDPost);
         NewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +83,7 @@ public class User extends AppCompatActivity {
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        IdUser=user.getUid().toString();
+        IdUser = user.getUid().toString();
 
         Bundle arguments = getIntent().getExtras();
 
@@ -95,15 +97,14 @@ public class User extends AppCompatActivity {
 //                            userSurname
 
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Name=task.getResult().child("userName").getValue().toString();
-                    Surname=task.getResult().child("userSurname").getValue().toString();
-                    UserPhoto=task.getResult().child("userPhoto").getValue().toString();
+                } else {
+                    Name = task.getResult().child("userName").getValue().toString();
+                    Surname = task.getResult().child("userSurname").getValue().toString();
+                    UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                    ((TextView)findViewById(R.id.UserName)).setText(Name);
-                    ((TextView)findViewById(R.id.UserSurname)).setText(Surname);
+                    ((TextView) findViewById(R.id.UserName)).setText(Name);
+                    ((TextView) findViewById(R.id.UserSurname)).setText(Surname);
                 }
             }
         });
@@ -112,7 +113,6 @@ public class User extends AppCompatActivity {
 //        String Name=arguments.get("Name").toString();
 //        String SurName=arguments.get("Surname").toString();
 //        String UserPhoto=arguments.get("ImageUser").toString();
-
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -135,23 +135,17 @@ public class User extends AppCompatActivity {
 //            }
 //        });
 
-        db.collection("usersPosts")
-            .whereEqualTo("UserID", IdUser)
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+        db.collection("usersPosts").whereEqualTo("UserID", IdUser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
 //                                String ImagePost, String FIO_text,String PostText_text,String PostTime_text
-                            Post post=new Post(document.get("Images").toString(),
-                                    document.get("UserID").toString(),
-                                    document.get("TextPost").toString(),
-                                    document.get("dataTime").toString());
+                        Post post = new Post(document.get("Images").toString(), document.get("UserID").toString(), document.get("TextPost").toString(), document.get("dataTime").toString());
 
-                            AllUserPost.add(post);
-                        }
+                        AllUserPost.add(post);
+                    }
 
 //                        for (int i = AllUserPost.size(); i >0; i--)
 //                        {
@@ -159,64 +153,80 @@ public class User extends AppCompatActivity {
 //                            ShowPost(post);
 //                        }
 
-                        for (Post post : Lists.reverse(AllUserPost)) {
-                            ShowPost(post);
-                        }
+                    for (Post post : (AllUserPost)) {
+                        ShowPost(post);
+                    }
 
 //                        for (Post post : Lists.reverse(AllUserPost)) {
 //                            ShowPost(post);
 //                        }
 
-                        ImageView ImageView1=findViewById(R.id.ImageView1);
-                        ImageView ImageView2=findViewById(R.id.ImageView2);
-                        ImageView ImageView3=findViewById(R.id.ImageView3);
+//                    try {
+//                        ShowThreeImage();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
 
-//                        File file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+AllUserPost.get(0).getImagePost());
-//                        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                        ImageView1.setImageBitmap(myBitmap);
-//
-//                        file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+AllUserPost.get(1).getImagePost());
-//                        myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                        ImageView2.setImageBitmap(myBitmap);
-//
-//                        file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+AllUserPost.get(2).getImagePost());
-//                        myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                        ImageView3.setImageBitmap(myBitmap);
-
-                        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
-                        if (!dir.exists()) {
-                            new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
-                        }
-
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
+                    if (!dir.exists()) {
+                        new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
                     }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            });
+            }
+        });
 
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDAllImages=findViewById(R.id.IDAllImages);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDAllImages = findViewById(R.id.IDAllImages);
 
-        IDAllImages.setOnClickListener(
-                new View.OnClickListener() {
+        IDAllImages.setOnClickListener(new View.OnClickListener() {
 
-                    public void onClick(View v) {
-                        ShowAllImage();
-                    }
-                });
+            public void onClick(View v) {
+                ShowAllImage();
+            }
+        });
     }
-    void ShowAllImage(){
+
+    void ShowThreeImage() throws InterruptedException {
+        int lenPost = AllUserPost.size();
+
+        ImageView ImageView1 = findViewById(R.id.ImageView1);
+        ImageView ImageView2 = findViewById(R.id.ImageView2);
+        ImageView ImageView3 = findViewById(R.id.ImageView3);
+
+        Log.e("ThreePost","22222222222");
+        if (lenPost >= 1) {
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + AllUserPost.get(0).getImagePost());
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            ImageView1.setImageBitmap(myBitmap);
+        }
+        if (lenPost >= 2) {
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + AllUserPost.get(1).getImagePost());
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            ImageView2.setImageBitmap(myBitmap);
+        }
+        if (lenPost >= 3) {
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + AllUserPost.get(2).getImagePost());
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            ImageView3.setImageBitmap(myBitmap);
+        }
+
+    }
+
+    void ShowAllImage() {
         Intent intent = new Intent(this, AllImageUser.class);
+        intent.putExtra("IDUser", IdUser);
         startActivity(intent);
     }
 
-    void NewPostView(){
+    void NewPostView() {
         Intent intent = new Intent(this, NewPost.class);
         startActivity(intent);
     }
 
-    public String DownloadImage(String ImageName,ImageView Image)
-    {
+    public String DownloadImage(String ImageName, ImageView Image) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
@@ -224,56 +234,62 @@ public class User extends AppCompatActivity {
 //        "TMdmQbEc2vQxiSjLGUO0TNWMa3g2"
 
         final long ONE_MEGABYTE = 1024 * 1024 * 1024;
-        storageRef.child(IdUser).child(ImageName)
-                .getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap=BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
 //__________________________________________________
-                        File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
-                        try {
-                            f.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                try {
+                    f.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 //Convert bitmap to byte array
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
-                        byte[] bitmapdata = bos.toByteArray();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file
-                        FileOutputStream fos = null;
-                        try {
-                            fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                            fos.flush();
-                            fos.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 //__________________________________________________
 
-                        Image.setImageBitmap(bitmap);
+                Image.setImageBitmap(bitmap);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
+                try {
+                    Log.e("ThreePost","111111111111111");
+                    ShowThreeImage();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         return ImageName;
     }
 
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-    void ShowPost(Post post){
+    void ShowPost(Post post) {
 
-        LinearLayout listView=findViewById(R.id.IDListView);
+        LinearLayout listView = findViewById(R.id.IDListView);
         LayoutInflater inflater = getLayoutInflater();
         View myLayout = inflater.inflate(R.layout.user_post, null, false);
 
@@ -283,16 +299,22 @@ public class User extends AppCompatActivity {
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
 
 
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+post.getImagePost());
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
         if (dir.exists()) {
 
-            File file=new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+post.getImagePost());
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             Image.setImageBitmap(myBitmap);
 
-        }else
-        {
-            DownloadImage(post.getImagePost(),Image);
+            try {
+                Log.e("ThreePost","111111111111111");
+                ShowThreeImage();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            DownloadImage(post.getImagePost(), Image);
         }
 
 //        FIO.setText(post.getFIO_text());
