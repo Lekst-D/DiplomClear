@@ -4,32 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/MainColor"
+    android:background="@color/MainColorCream"
     android:orientation="vertical"
-    tools:context=".AnotherUser">
+    tools:context=".Pages">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/HatColor"
+        android:gravity="center">
+
+        <ImageButton
+            android:src="@drawable/info"
+            android:id="@+id/IDList"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:background="@color/HatColor"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/IDMessageList"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:background="@color/HatColor"
+            android:src="@drawable/message"
+            />
 
 
-    <TextView
-        android:id="@+id/FIO"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FIO"
-        android:textSize="22sp" />
-
-    <TextView
-        android:id="@+id/UserID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UserID"
-        android:textSize="22sp" />
-
-    <TextView
-        android:id="@+id/ImageUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ImageUser"
-        android:textSize="22sp" />
-
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/IDScroll"
@@ -43,6 +69,196 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:gravity=""
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="195dp"
+                    android:src="@drawable/ic_baseline_person_24" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Name"
+                    android:textSize="22sp"
+                    android:id="@+id/UserName"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Surname"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:id="@+id/UserSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_vertical"
+                >
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/IDMessager"
+                    android:backgroundTint="@color/ButtonColor"
+                    android:text="Сообщение"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/IDSubscribe"
+                    android:backgroundTint="@color/ButtonColor"
+                    android:text="Подписаться"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:background="@drawable/linear_layout_shape"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ImageView1"
+                        android:layout_weight="1"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"
+                        android:layout_marginRight="5dp"/>
+
+                    <ImageView
+                        android:id="@+id/ImageView2"
+                        android:layout_weight="1"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"
+                        android:layout_marginRight="5dp"/>
+
+                    <ImageView
+                        android:id="@+id/ImageView3"
+                        android:layout_weight="1"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="left"
+                        >
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="5dp"
+                            />
+
+                        <TextView
+                            android:visibility="invisible"
+                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Добавить изображение"
+                            />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/wertical_line"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/IDAllImages"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        >
+
+                        <TextView
+                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Все изображения"
+                            android:gravity="center"
+                            />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/chevron_right_round_black"
+                            />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
+
 </LinearLayout>
