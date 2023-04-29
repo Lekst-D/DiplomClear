@@ -59,9 +59,9 @@ public class MyAddapterPost extends ArrayAdapter<Post> {
         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         Image.setImageBitmap(myBitmap);
 
-        FIO.setText(post.getFIO_text());
-        PostText.setText(post.getPostText_text());
-        PostTime.setText(post.getPostTime_text());
+        FIO.setText(post.getUserID());
+        PostTime.setText(post.getPostTime());
+        PostText.setText(post.getPostText());
 
         return view;
     }

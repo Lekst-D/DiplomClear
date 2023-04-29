@@ -16,9 +16,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.diplomclear.Message.MessegeList;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -63,6 +65,13 @@ public class Pages extends AppCompatActivity {
         });
 
 //        TestImageShow();
+
+        ImageButton Bmessage=findViewById(R.id.IDMessage);
+        Bmessage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ShowMessage();
+            }
+        });
     }
 
 
@@ -115,6 +124,13 @@ public class Pages extends AppCompatActivity {
                 // Handle any errors
             }
         });
+
+
+    }
+
+    void ShowMessage(){
+        Intent intent = new Intent(this, MessegeList.class);
+        startActivity(intent);
     }
 
     void ListOpen(){

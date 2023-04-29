@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/IDLinearLayoutMess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+
+        android:layout_gravity="left"
+
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+
+        android:paddingRight="20dp">
+
+        <!--        android:layout_gravity="center"-->
+
+        <TextView
+            android:id="@+id/IDMessFIO"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginBottom="20dp"
+            android:text="FIO"
+            android:textSize="10dp" />
+
+
+        <LinearLayout
+            android:id="@+id/IDLinearLayoutMessImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/IDMessText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Text message for example"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/IDMessDataTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:text="Text"
+            android:textSize="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -329,12 +329,6 @@ public class NewPost extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
                 String datePost=sdf.format( currentTime );
 
-//                System.out.println( "The date is: "+  sdf.format( date )  );
-//                LocalDateTime dateTime = LocalDateTime.parse(currentTime.toString());
-
-//                String dataTime=currentTime.getDay() "."+currentTime.getMonth()+"."+currentTime.getYear()
-//                        +" "+currentTime.getHours()+":"+currentTime.getMinutes();
-
                 Log.e("date time not mistake day",sdf.format( currentTime )+"");
                 Log.e("date time not mistake mouth",currentTime.getMonth()+"");
                 Log.e("date time not mistake year",currentTime.getYear()+"");
@@ -344,13 +338,12 @@ public class NewPost extends AppCompatActivity {
                 Log.e("date time not mistake all date",currentTime.toString());
 
 
-//                String string = "January 2, 2010";
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
-//                LocalDate date = LocalDate.parse(string, formatter);
-//                System.out.println(date); // 2010-01-02
+                String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+                String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
 
                 Map<String, Object> user = new HashMap<>();
-                user.put("dataTime", datePost);
+                user.put("DatePost", Date);
+                user.put("TimePost", Time);
                 user.put("TextPost", textpost);
                 user.put("Images", namePhotos);
                 user.put("UserID", IdUser);

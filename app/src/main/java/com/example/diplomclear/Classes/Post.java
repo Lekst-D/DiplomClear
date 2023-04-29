@@ -3,19 +3,20 @@ package com.example.diplomclear.Classes;
 public class Post {
 
     private String ImagePost;
-    private String FIO_text;
-    private String PostTime_text;
-    private String PostText_text;
+    private String UserID;
+    private String PostDate;
+    private String PostTime;
+    private String PostText;
 
     Post() {
     }
 
-    public Post(String ImagePost, String FIO_text,String PostText_text,String PostTime_text) {
-        this.FIO_text = FIO_text;
+    public Post(String ImagePost, String UserID,String PostText,String PostDate,String PostTime) {
+        this.UserID = UserID;
         this.ImagePost = ImagePost;
-        this.PostTime_text = PostTime_text;
-        this.PostText_text = PostText_text;
-
+        this.PostTime = PostTime;
+        this.PostText = PostText;
+        this.PostDate=PostDate;
     }
 
     public String getImagePost() {
@@ -26,28 +27,35 @@ public class Post {
         ImagePost = imagePost;
     }
 
-    public String getFIO_text() {
-        return FIO_text;
+    public String getUserID() {
+        return UserID;
     }
 
-    public void setFIO_text(String FIO_text) {
-        this.FIO_text = FIO_text;
+    public void setUserID(String userID) {
+        UserID = userID;
     }
 
-    public String getPostTime_text() {
-        return PostTime_text;
+    public String getPostDate() {
+        return PostDate;
     }
 
-    public void setPostTime_text(String postTime_text) {
-        PostTime_text = postTime_text;
+    public void setPostDate(String postDate) {
+        PostDate = postDate;
     }
 
-    public String getPostText_text() {
-        return PostText_text;
+    public String getPostTime() {
+        return PostTime;
     }
 
-    public void setPostText_text(String postText_text) {
-        PostText_text = postText_text;
+    public void setPostTime(String postTime) {
+        PostTime = postTime;
     }
 
+    public String getPostText() {
+        return PostText;
+    }
+
+    public void setPostText(String postText) {
+        PostText = postText;
+    }
 }

@@ -141,8 +141,14 @@ public class User extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-//                                String ImagePost, String FIO_text,String PostText_text,String PostTime_text
-                        Post post = new Post(document.get("Images").toString(), document.get("UserID").toString(), document.get("TextPost").toString(), document.get("dataTime").toString());
+
+                        String ImagePost=document.get("Images").toString();
+                        String UserID=document.get("UserID").toString();
+                        String PostDate=document.get("DatePost").toString();
+                        String PostTime=document.get("TimePost").toString();
+                        String PostText=document.get("TextPost").toString();
+
+                        Post post = new Post(ImagePost,UserID,PostText,PostDate,PostTime);
 
                         AllUserPost.add(post);
                     }
@@ -318,8 +324,8 @@ public class User extends AppCompatActivity {
         }
 
 //        FIO.setText(post.getFIO_text());
-        PostTime.setText(post.getPostTime_text());
-        PostText.setText(post.getPostText_text());
+        PostTime.setText(post.getPostTime());
+        PostText.setText(post.getPostText());
 
         listView.addView(myLayout);
 

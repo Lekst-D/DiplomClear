@@ -19,8 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.diplomclear.Classes.Post;
+import com.example.diplomclear.Message.Messager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,8 +64,9 @@ public class AnotherUser extends AppCompatActivity {
     String UserPhoto = null;
     String Subscribes = null;
     String IDU = null;
+    String IDListMessager="";
 
-    List<String> subs = new ArrayList<>();
+    ArrayList<String> subs = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -117,8 +120,13 @@ public class AnotherUser extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-//                                String ImagePost, String FIO_text,String PostText_text,String PostTime_text
-                        Post post = new Post(document.get("Images").toString(), document.get("UserID").toString(), document.get("TextPost").toString(), document.get("dataTime").toString());
+                        String ImagePost=document.get("Images").toString();
+                        String UserID=document.get("UserID").toString();
+                        String PostDate=document.get("DatePost").toString();
+                        String PostTime=document.get("TimePost").toString();
+                        String PostText=document.get("TextPost").toString();
+
+                        Post post = new Post(ImagePost,UserID,PostText,PostDate,PostTime);
 
                         AllUserPost.add(post);
                     }
@@ -171,11 +179,6 @@ public class AnotherUser extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     Subscribes = task.getResult().getValue().toString();
-                    subs = Arrays.asList(Subscribes.split(","));
-                    Log.e("Subscribes", Subscribes);
-                    for (String st : subs) {
-                        Log.e("Subs", st);
-                    }
 
                     if (Subscribes.contains(IdUser)) {
                         Subscribe.setText("Отписаться");
@@ -200,10 +203,12 @@ public class AnotherUser extends AppCompatActivity {
                                                  Subscribe.setText("Отписаться");
                                              }
                                              if (textSub.contains("Отписаться")) {
+                                                 subs = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
+
                                                  int i = subs.indexOf(IdUser);
                                                  Log.e("number i", "" + i);
                                                  Log.e("number i", "" + subs.get(i));
-//                                                 subs.remove(subs.get(i));
+                                                 subs.remove(subs.get(i));
                                                  Log.e("subs", subs.toString());
                                                  Log.e("Subscribes", Subscribes);
                                                  Subscribes = "";
@@ -211,22 +216,19 @@ public class AnotherUser extends AppCompatActivity {
 //                                                     Subscribes+=st+",";
 //                                                 }
 //
-//                                                 for (int j = 0; j < subs.size(); j++) {
-//                                                     if (subs.indexOf(IdUser) != j) {
-//                                                         Subscribes += subs.get(j);
-//                                                         if(){}
-//
-//                                                         if (j != subs.size() - 1) {
-//                                                             Subscribes += subs.get(j) + ",";
-//                                                         } else {
-//                                                             Subscribes += subs.get(j);
-//                                                         }
-//                                                     }
-//                                                 }
+                                                 for (int j = 0; j < subs.size(); j++) {
+
+                                                     Subscribes += subs.get(j);
+
+                                                     if (j != subs.size() - 1) {
+                                                         Subscribes += ",";
+                                                     }
+
+                                                 }
 
                                                  Log.e("Subscribes", Subscribes);
-//                                                 mDatabase.child("Subscribe").child(IDU).setValue(Subscribes);
-//                                                 Subscribe.setText("Подписаться");
+                                                 mDatabase.child("Subscribe").child(IDU).setValue(Subscribes);
+                                                 Subscribe.setText("Подписаться");
                                              }
                                          }
                                      }
@@ -234,6 +236,54 @@ public class AnotherUser extends AppCompatActivity {
 
         Button Messager = findViewById(R.id.IDMessager);
 
+        mDatabase.child("MessageList").child(IDU).child(IdUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if(task.getResult().hasChild("Name")){
+                        IDListMessager="Children";
+                        IDListMessager=task.getResult().child("Name").getValue().toString();
+                    }
+                    else{IDListMessager="";}
+                } else {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+            }
+        });
+
+        Messager.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                Log.e("Message",Message);
+//                mDatabase.child("MessageList").child(IDU+"-"+IdUser).setValue("true");
+
+
+                if(IDListMessager=="") {
+                    mDatabase.child("MessageList").child(IDU).child(IdUser).child("Name").setValue(IDU + "-" + IdUser);
+                    mDatabase.child("MessageList").child(IdUser).child(IDU).child("Name").setValue(IDU + "-" + IdUser);
+
+                    ShowMessager(IDU + "-" + IdUser);
+                }
+                else{
+                    ShowMessager(IDListMessager);
+                }
+//                String IDListMessager=IDU+"-"+IdUser;
+
+            }
+        });
+
+
+    }
+
+    void ShowMessager(String IDListMessager)
+    {
+//        Toast toast = Toast.makeText(this, IDListMessager,Toast.LENGTH_LONG);
+//        toast.show();
+
+        Intent intent = new Intent(this, Messager.class);
+        intent.putExtra("IDAnotherUser", IdUser);
+        intent.putExtra("IDUser", IDU);
+        intent.putExtra("IDListMessager", IDListMessager);
+        startActivity(intent);
     }
 
     void ShowThreeImage() throws InterruptedException {
@@ -362,8 +412,8 @@ public class AnotherUser extends AppCompatActivity {
         }
 
 //        FIO.setText(post.getFIO_text());
-        PostTime.setText(post.getPostTime_text());
-        PostText.setText(post.getPostText_text());
+        PostTime.setText(post.getPostTime());
+        PostText.setText(post.getPostText());
 
         listView.addView(myLayout);
 
