@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="200dp"
-        android:background="@drawable/mess_color"
-        android:layout_gravity="left"
+        android:background="@drawable/mess_user_color"
+        android:layout_gravity="right"
 
         android:layout_marginTop="10dp"
         android:orientation="vertical"

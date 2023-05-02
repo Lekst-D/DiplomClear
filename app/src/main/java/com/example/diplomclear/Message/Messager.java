@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,12 @@ public class Messager extends AppCompatActivity {
     private DatabaseReference myRef;
 
     private String IdUser;
+    private String IdAnotherUser;
     private String FIO;
 
     String IDListMessager="";
+
+    TextView IdUserAnother;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class Messager extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         IDListMessager=arguments.get("IDListMessager").toString();
+        IdAnotherUser=arguments.get("IDAnotherUser").toString();
 
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -74,8 +79,8 @@ public class Messager extends AppCompatActivity {
             }
         });
 
-        Toast toast = Toast.makeText(this, IDListMessager,Toast.LENGTH_LONG);
-        toast.show();
+//        Toast toast = Toast.makeText(this, IDListMessager,Toast.LENGTH_LONG);
+//        toast.show();
 
 
         mDatabase.child("Messager").child(IDListMessager).addValueEventListener(new ValueEventListener() {
@@ -104,6 +109,9 @@ public class Messager extends AppCompatActivity {
 
                         ShowMessage(message);
                     }
+
+                    ScrollView IDScrollVIew=findViewById(R.id.IDScrollVIew);
+                    IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
 
 //                    Iterable<DataSnapshot> keys = dataSnapshot.getChildren();
 //                    for(DataSnapshot key :keys){
@@ -151,12 +159,30 @@ public class Messager extends AppCompatActivity {
 //            }
 //        });
 
-        ImageButton IDPostMessage=findViewById(R.id.IDPostMessage);
+        ImageView IDPostMessage=findViewById(R.id.IDPostMessage);
         IDPostMessage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SendMessage();
             }
         });
+
+        IdUserAnother=findViewById(R.id.IdUserAnother);
+
+        mDatabase.child("UserInfo").child(IdAnotherUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+
+
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    String Name = task.getResult().child("userName").getValue().toString();
+                    String Surname = task.getResult().child("userSurname").getValue().toString();
+                    IdUserAnother.setText(Surname+" "+Name);
+                }
+            }
+        });
+
     }
 
 
@@ -171,23 +197,52 @@ public class Messager extends AppCompatActivity {
         String TextMess=message.getTextMess();
         String ImageMess=message.getImageMess();
 
-        LinearLayout listView = findViewById(R.id.IDScrollLinear);
 
-        LayoutInflater inflater = getLayoutInflater();
-        View myLayout = inflater.inflate(R.layout.mess, null, false);
-
-        TextView textMess=myLayout.findViewById(R.id.IDMessText);
-        textMess.setText(TextMess);
-
-        LinearLayout linearLayout=myLayout.findViewById(R.id.IDLinearLayoutMess);
 //        linearLayout.setBackgroundColor(R.color.ColorAnotherUserMess);
 
-        if(IDU==IdUser)
+        if(IDU.contains(IdUser))
         {
-            linearLayout.setVerticalGravity(Gravity.RIGHT);
-            linearLayout.setHorizontalGravity(Gravity.RIGHT);
-//            linearLayout.setBackgroundColor(R.color.ColorUserMess);
-//            linearLayout.setVerticalGravity(Gravity.RIGHT);
+            LinearLayout listView = findViewById(R.id.IDScrollLinear);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View myLayout = inflater.inflate(R.layout.mess_user, null, false);
+
+            TextView textMess=myLayout.findViewById(R.id.IDMessText);
+            textMess.setText(TextMess);
+
+            LinearLayout linearLayout=myLayout.findViewById(R.id.IDLinearLayoutMess);
+
+            TextView IDMessDataTime=myLayout.findViewById(R.id.IDMessDataTime);
+
+            String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+
+            if(Date.contains(DateMess)){IDMessDataTime.setText(TimeMess);}
+            else{IDMessDataTime.setText(DateMess+" "+TimeMess);}
+
+            listView.addView(myLayout);
+
+
+        }
+        else
+        {
+            LinearLayout listView = findViewById(R.id.IDScrollLinear);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View myLayout = inflater.inflate(R.layout.mess, null, false);
+
+            TextView textMess=myLayout.findViewById(R.id.IDMessText);
+            textMess.setText(TextMess);
+
+            LinearLayout linearLayout=myLayout.findViewById(R.id.IDLinearLayoutMess);
+
+            TextView IDMessDataTime=myLayout.findViewById(R.id.IDMessDataTime);
+
+            String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+
+            if(Date.contains(DateMess)){IDMessDataTime.setText(TimeMess);}
+            else{IDMessDataTime.setText(DateMess+" "+TimeMess);}
+
+            listView.addView(myLayout);
         }
 
 //        TextView textView=new TextView(this);
@@ -195,11 +250,12 @@ public class Messager extends AppCompatActivity {
 //
 //        listView.addView(textView);
 
-        listView.addView(myLayout);
+
     }
 
     public void SendMessage()
     {
+
         String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
         String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
 
@@ -211,7 +267,10 @@ public class Messager extends AppCompatActivity {
 //     Message(String IDU, String FIO, String DateMess,String TimeMess, String TextMess,String ImageMess) {
 
         Message message=new Message(IdUser,FIO,Date,Time,TextMessage,ImageMess);
+        if(TextMessage!="") {
+            mDatabase.child("Messager").child(IDListMessager).push().setValue(message);
 
-        mDatabase.child("Messager").child(IDListMessager).push().setValue(message);
+            IDMessageText.setText("");
+        }
     }
 }

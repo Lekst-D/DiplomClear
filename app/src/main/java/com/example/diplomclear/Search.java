@@ -78,6 +78,7 @@ public class Search extends AppCompatActivity {
                 ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        AllUserSearchs.clear();
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
 //                            if( searchTextPart[0] in postSnapshot.child("userSurname").getValue().toString())
@@ -113,7 +114,6 @@ public class Search extends AppCompatActivity {
                             AllUserSearchs.add(new SearchList(Image,FIO,UserID));
 
                         }
-
                         ShowSearchList();
                     }
 
@@ -200,9 +200,6 @@ public class Search extends AppCompatActivity {
 
     void ShowSearchList() {
 
-        MyAddapterSearch adapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs);
-        adapter.notifyDataSetChanged();
-        usersList.setAdapter(adapter);
 
 //
 //        ArrayAdapter<String> adapter = new ArrayAdapter(this,

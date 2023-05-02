@@ -11,7 +11,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:gravity=""
-        android:background="@color/SelectionColorCream"
+        android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
 
         <LinearLayout

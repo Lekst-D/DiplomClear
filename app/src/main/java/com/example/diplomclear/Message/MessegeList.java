@@ -64,7 +64,7 @@ public class MessegeList extends AppCompatActivity {
                         Log.e("document",document.getKey().toString());
 
                         ShowMessageList(document.getKey().toString(),
-                                document.child("Name").toString());
+                                document.child("Name").getValue().toString());
                     }
 
                 }
@@ -104,8 +104,8 @@ public class MessegeList extends AppCompatActivity {
 //        toast.show();
 
         Intent intent = new Intent(this, Messager.class);
-        intent.putExtra("IDAnotherUser", IdUser);
-        intent.putExtra("IDUser", IDU);
+        intent.putExtra("IDAnotherUser", IDU);
+        intent.putExtra("IDUser", IdUser);
         intent.putExtra("IDListMessager", IDListMessager);
         startActivity(intent);
     }
