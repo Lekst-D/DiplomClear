@@ -57,12 +57,6 @@ public class Pages extends AppCompatActivity {
             }
         });
 
-        Message=(ImageButton) findViewById(R.id.IDMessage);
-        Message.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                MessageOpen();
-            }
-        });
 
 //        TestImageShow();
 
@@ -138,8 +132,12 @@ public class Pages extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void MessageOpen(){
-//        Intent intent = new Intent(this, Message.class);
-//        startActivity(intent);
+    public void CloseView(View view) {
+        finish();
+    }
+
+    public void ShowMessageList(View view) {
+        Intent intent = new Intent(this, MessegeList.class);
+        startActivity(intent);
     }
 }

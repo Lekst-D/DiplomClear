@@ -26,7 +26,7 @@
             android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp" />
 
         <LinearLayout
             android:gravity="center"
@@ -53,6 +53,7 @@
             android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:src="@drawable/message"
+            android:onClick="ShowMessageList"
             />
 
 

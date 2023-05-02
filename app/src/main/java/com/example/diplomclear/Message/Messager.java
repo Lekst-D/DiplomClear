@@ -186,7 +186,7 @@ public class Messager extends AppCompatActivity {
         {
             linearLayout.setVerticalGravity(Gravity.RIGHT);
             linearLayout.setHorizontalGravity(Gravity.RIGHT);
-            linearLayout.setBackgroundColor(R.color.ColorUserMess);
+//            linearLayout.setBackgroundColor(R.color.ColorUserMess);
 //            linearLayout.setVerticalGravity(Gravity.RIGHT);
         }
 

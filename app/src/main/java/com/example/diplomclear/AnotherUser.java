@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.diplomclear.Classes.Post;
 import com.example.diplomclear.Message.Messager;
+import com.example.diplomclear.Message.MessegeList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -271,7 +273,37 @@ public class AnotherUser extends AppCompatActivity {
             }
         });
 
+        ImageButton IDList=findViewById(R.id.IDList);
+        IDList.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View v) {
+                        ListOpen(v);
+                    }
+                }
+        );
 
+        ImageButton IDMessageList =findViewById(R.id.IDMessageList);
+        IDMessageList.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View v) {
+                        ShowMessage();
+                    }
+                }
+        );
+
+
+    }
+
+    void ShowMessage(){
+        Intent intent = new Intent(this, MessegeList.class);
+        startActivity(intent);
+    }
+
+    void ListOpen(View view){
+        Intent intent = new Intent(this, ListAct.class);
+        startActivity(intent);
     }
 
     void ShowMessager(String IDListMessager)

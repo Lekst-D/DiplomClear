@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.diplomclear.Classes.Post;
@@ -189,6 +190,11 @@ public class Search extends AppCompatActivity {
 //        Users.add("asdfadsf");
 //        Users.add("asdfadsf");
 
+        ImageButton IDBack=findViewById(R.id.IDBack);
+
+        IDBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {finish();}}
+        );
 
     }
 

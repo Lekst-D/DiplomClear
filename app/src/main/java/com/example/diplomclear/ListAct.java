@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.diplomclear.LogRegSwap.Login;
+import com.example.diplomclear.Message.MessegeList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,6 +89,20 @@ public class ListAct extends AppCompatActivity {
                         BackActivity();
                     }
                 });
+
+        ImageButton IDMessageList =findViewById(R.id.IDMessage);
+        IDMessageList.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View v) {
+                        ShowMessage();
+                    }
+                }
+        );
+    }
+    void ShowMessage(){
+        Intent intent = new Intent(this, MessegeList.class);
+        startActivity(intent);
     }
 
     public void LogOut(View view){

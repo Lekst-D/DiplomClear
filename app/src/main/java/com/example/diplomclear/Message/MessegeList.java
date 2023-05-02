@@ -3,6 +3,7 @@ package com.example.diplomclear.Message;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -85,9 +86,6 @@ public class MessegeList extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-//                    userName
-//                            userSurname
-
                     Log.e("firebase", "Error getting data", task.getException());
                 } else
                 {
@@ -96,9 +94,20 @@ public class MessegeList extends AppCompatActivity {
                     UserPhoto = task.getResult().child("userPhoto").getValue().toString();
 
                     textView.setText(Surname+" "+Name);
-//                    aksdfj
                 }
             }});
+    }
+
+    void ShowMessager(String IDListMessager,String IDU)
+    {
+//        Toast toast = Toast.makeText(this, IDListMessager,Toast.LENGTH_LONG);
+//        toast.show();
+
+        Intent intent = new Intent(this, Messager.class);
+        intent.putExtra("IDAnotherUser", IdUser);
+        intent.putExtra("IDUser", IDU);
+        intent.putExtra("IDListMessager", IDListMessager);
+        startActivity(intent);
     }
 
     void ShowMessageList(String idAU,String idMess)
@@ -115,6 +124,12 @@ public class MessegeList extends AppCompatActivity {
         textView.setText(idAU);
 
         ShowMessListName(idAU,textView);
+
+        IDLinearLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ShowMessager(idMess,idAU);
+            }});
+
 
         listView.addView(myLayout);
     }

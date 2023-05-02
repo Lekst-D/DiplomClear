@@ -52,6 +52,7 @@
             android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:src="@drawable/message"
+            android:onClick="ShowMessageList"
             />
 
 
