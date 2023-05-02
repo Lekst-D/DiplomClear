@@ -96,6 +96,7 @@ public class MessegeList extends AppCompatActivity {
                     UserPhoto = task.getResult().child("userPhoto").getValue().toString();
 
                     textView.setText(Surname+" "+Name);
+//                    aksdfj
                 }
             }});
     }
