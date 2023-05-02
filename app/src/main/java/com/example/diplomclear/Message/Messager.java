@@ -183,6 +183,13 @@ public class Messager extends AppCompatActivity {
             }
         });
 
+        ImageButton IDBack=findViewById(R.id.IDBack);
+        IDBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
 

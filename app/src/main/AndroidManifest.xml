@@ -19,6 +19,13 @@
         android:theme="@style/Theme.DiplomClear"
         tools:targetApi="31">
         <activity
+            android:name=".ChangeInfoUser"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Message.Messager"
             android:exported="false">
             <meta-data

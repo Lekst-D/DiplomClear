@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.diplomclear.ListAct;
 import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,6 +77,18 @@ public class MessegeList extends AppCompatActivity {
 
             }
         });
+
+        ImageButton IDList=findViewById(R.id.IDList);
+        IDList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ListOpen();
+            }
+        });
+    }
+
+    void ListOpen(){
+        Intent intent = new Intent(this, ListAct.class);
+        startActivity(intent);
     }
 
     String Name = null;

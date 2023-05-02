@@ -209,7 +209,20 @@ public class User extends AppCompatActivity {
                 ShowMessage();
             }
         });
+
+        TextView editInfoUser=findViewById(R.id.editInfoUser);
+        editInfoUser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ChangeInfo();
+            }
+        });
     }
+
+    void ChangeInfo(){
+        Intent intent = new Intent(this, ChangeInfoUser.class);
+        startActivity(intent);
+    }
+
     void ListOpen(){
         Intent intent = new Intent(this, ListAct.class);
         startActivity(intent);

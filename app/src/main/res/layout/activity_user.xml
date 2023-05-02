@@ -11,37 +11,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:background="@color/HatColor"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageButton
-            android:src="@drawable/info"
             android:id="@+id/IDList"
             android:layout_width="45dp"
             android:layout_height="25dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/info" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text=""
+                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -49,10 +49,9 @@
             android:id="@+id/IDMessage"
             android:layout_width="35dp"
             android:layout_height="30dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
-            />
+            android:scaleType="fitXY"
+            android:src="@drawable/message" />
 
 
     </LinearLayout>
@@ -67,14 +66,15 @@
             android:id="@+id/IDListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
                 android:gravity=""
                 android:orientation="vertical">
 
@@ -83,143 +83,152 @@
                     android:layout_height="195dp"
                     android:src="@drawable/ic_baseline_person_24" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/UserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Name"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/UserSurname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Surname"
+                        android:textSize="22sp" />
+
                 </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:text="Name"
-                    android:textSize="22sp"
-                    android:id="@+id/UserName"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:text="Surname"
                     android:textSize="22sp"
                     android:gravity="center"
-                    android:id="@+id/UserSurname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:textColor="@color/ColorTextLink"
+                    android:id="@+id/editInfoUser"
+                    android:text="Изменить данные пользователя"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <Button
-                android:backgroundTint="@color/ButtonColor"
-                android:id="@+id/IDPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Добавить пост" />
+
+
 
             <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/linear_layout_shape"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <LinearLayout
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
+                android:orientation="vertical"
+                android:paddingBottom="1dp"
                 android:paddingTop="5dp"
-
-               android:orientation="horizontal"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-
-               <ImageView
-                   android:id="@+id/ImageView1"
-                   android:layout_weight="1"
-                   android:layout_width="15dp"
-                   android:layout_height="120dp"
-                   android:layout_marginRight="5dp"/>
-
-               <ImageView
-                   android:id="@+id/ImageView2"
-                   android:layout_weight="1"
-                   android:layout_width="15dp"
-                   android:layout_height="120dp"
-                   android:layout_marginRight="5dp"/>
-
-               <ImageView
-                   android:id="@+id/ImageView3"
-                   android:layout_weight="1"
-                   android:layout_width="15dp"
-                   android:layout_height="120dp"/>
-
-           </LinearLayout>
-
-            <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="left"
                 >
 
-                <ImageView
-                    android:src="@drawable/plus_black"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="5dp"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
 
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Добавить изображение"
-                    />
-            </LinearLayout>
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp">
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="25dp"
-                android:src="@drawable/wertical_line"
-                />
+                    <ImageView
+                        android:id="@+id/ImageView1"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1" />
 
-            <LinearLayout
-                android:id="@+id/IDAllImages"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                >
+                    <ImageView
+                        android:id="@+id/ImageView2"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1" />
 
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Все изображения"
-                    android:gravity="center"
-                    />
+                    <ImageView
+                        android:id="@+id/ImageView3"
+                        android:layout_width="15dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/chevron_right_round_black"
-                    />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/plus_black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Добавить изображение"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/wertical_line" />
+
+                    <LinearLayout
+                        android:id="@+id/IDAllImages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Все изображения"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/chevron_right_round_black" />
 
 
-            </LinearLayout>
+                    </LinearLayout>
 
-        </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/IDPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/ButtonColor"
+                    android:text="Добавить пост" />
 
             </LinearLayout>
 
