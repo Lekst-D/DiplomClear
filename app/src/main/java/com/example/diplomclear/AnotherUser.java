@@ -180,15 +180,21 @@ public class AnotherUser extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
+                    if(task.getResult().getValue()!=null){
                     Subscribes = task.getResult().getValue().toString();
 
                     if (Subscribes.contains(IdUser)) {
                         Subscribe.setText("Отписаться");
                     } else {
                         Subscribe.setText("Подписаться");
+                    }}
+                    else
+                    {
+                        Subscribe.setText("Подписаться");
                     }
 
                 } else {
+                    Subscribes="";
                     Log.e("firebase", "Error getting data", task.getException());
                 }
             }
