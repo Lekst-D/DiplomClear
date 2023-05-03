@@ -76,7 +76,6 @@ public class ListAct extends AppCompatActivity {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDSearch=findViewById(R.id.IDSearch);
         IDSearch.setOnClickListener(
                 new View.OnClickListener() {
-
                     public void onClick(View v) {
                         ShowSearch();
                     }
@@ -99,7 +98,21 @@ public class ListAct extends AppCompatActivity {
                     }
                 }
         );
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDSubscribe=findViewById(R.id.IDSubscribe);
+        IDSubscribe.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShowSibscribes();
+                    }
+                });
     }
+
+    void ShowSibscribes(){
+        Intent intent = new Intent(this, Subscribes.class);
+        startActivity(intent);
+    }
+
     void ShowMessage(){
         Intent intent = new Intent(this, MessegeList.class);
         startActivity(intent);
