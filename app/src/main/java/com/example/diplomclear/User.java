@@ -48,7 +48,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -361,8 +363,18 @@ public class User extends AppCompatActivity {
             DownloadImage(post.getImagePost(), Image);
         }
 
-//        FIO.setText(post.getFIO_text());
-        PostTime.setText(post.getPostTime());
+        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+
+        String DatePost=post.getPostDate();
+        String TimePost=post.getPostTime();
+
+        if(Date.contains(DatePost)){
+            PostTime.setText(TimePost);
+        }
+        else{
+            PostTime.setText(DatePost+" "+TimePost);
+        }
+
         PostText.setText(post.getPostText());
 
         listView.addView(myLayout);

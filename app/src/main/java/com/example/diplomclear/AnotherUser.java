@@ -45,8 +45,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class AnotherUser extends AppCompatActivity {
@@ -133,25 +135,9 @@ public class AnotherUser extends AppCompatActivity {
                         AllUserPost.add(post);
                     }
 
-//                        for (int i = AllUserPost.size(); i >0; i--)
-//                        {
-//                            Post post=AllUserPost.get(i);
-//                            ShowPost(post);
-//                        }
-
                     for (Post post : (AllUserPost)) {
                         ShowPost(post);
                     }
-
-//                        for (Post post : Lists.reverse(AllUserPost)) {
-//                            ShowPost(post);
-//                        }
-
-//                    try {
-//                        ShowThreeImage();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
 
                     File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
                     if (!dir.exists()) {
@@ -220,10 +206,7 @@ public class AnotherUser extends AppCompatActivity {
                                                  Log.e("subs", subs.toString());
                                                  Log.e("Subscribes", Subscribes);
                                                  Subscribes = "";
-//                                                 for (String st:subs) {
-//                                                     Subscribes+=st+",";
-//                                                 }
-//
+
                                                  for (int j = 0; j < subs.size(); j++) {
 
                                                      Subscribes += subs.get(j);
@@ -261,9 +244,6 @@ public class AnotherUser extends AppCompatActivity {
 
         Messager.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                Log.e("Message",Message);
-//                mDatabase.child("MessageList").child(IDU+"-"+IdUser).setValue("true");
-
 
                 if(IDListMessager=="") {
                     mDatabase.child("MessageList").child(IDU).child(IdUser).child("Name").setValue(IDU + "-" + IdUser);
@@ -449,8 +429,18 @@ public class AnotherUser extends AppCompatActivity {
             DownloadImage(post.getImagePost(), Image);
         }
 
-//        FIO.setText(post.getFIO_text());
-        PostTime.setText(post.getPostTime());
+        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+
+        String DatePost=post.getPostDate();
+        String TimePost=post.getPostTime();
+
+        if(Date.contains(DatePost)){
+            PostTime.setText(TimePost);
+        }
+        else{
+            PostTime.setText(DatePost+" "+TimePost);
+        }
+
         PostText.setText(post.getPostText());
 
         listView.addView(myLayout);

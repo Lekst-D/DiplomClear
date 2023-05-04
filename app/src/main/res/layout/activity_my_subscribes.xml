@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/MainColor"
-    android:orientation="vertical"
-    tools:context=".Pages">
+    tools:context=".Search"
+    android:background="@color/MainColorCream"
+
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,15 +19,14 @@
         android:gravity="center">
 
         <ImageButton
-            android:src="@drawable/info"
-            android:id="@+id/IDList"
+            android:src="@drawable/arrowback_white"
+            android:id="@+id/IDBack"
             android:layout_width="45dp"
-            android:layout_height="25dp"
+            android:layout_height="35dp"
             android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:onClick="ListOpen"/>
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:gravity="center"
@@ -40,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Новости"
+                android:text="Мои подпичики"
                 android:textSize="22dp"
                 android:textStyle="bold"
                 android:textColor="@color/white"/>
@@ -49,35 +48,29 @@
 
         <ImageButton
             android:id="@+id/IDMessage"
-            android:layout_width="35dp"
+            android:layout_width="45dp"
             android:layout_height="30dp"
             android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
             />
 
 
     </LinearLayout>
 
 
-    <ScrollView
-        android:id="@+id/IDScroll"
-        android:layout_width="match_parent"
+    <GridView
+        android:id="@+id/IDgridview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:numColumns="auto_fit"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp"
+        android:stretchMode="columnWidth"
 
-        <LinearLayout
-            android:id="@+id/IDListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-
-
-        </LinearLayout>
-
-    </ScrollView>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
-</LinearLayout >
+</LinearLayout>

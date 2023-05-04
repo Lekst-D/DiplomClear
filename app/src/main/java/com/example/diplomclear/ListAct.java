@@ -106,6 +106,19 @@ public class ListAct extends AppCompatActivity {
                         ShowSibscribes();
                     }
                 });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDMySubscribes=findViewById(R.id.IDMySubscribes);
+        IDMySubscribes.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShowMySibscribers();
+                    }
+                });
+    }
+
+    void ShowMySibscribers(){
+        Intent intent = new Intent(this, MySubscribes.class);
+        startActivity(intent);
     }
 
     void ShowSibscribes(){

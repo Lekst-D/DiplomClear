@@ -1,17 +1,13 @@
 package com.example.diplomclear;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,14 +24,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Locale;
 
-public class Subscribes extends AppCompatActivity {
+public class MySubscribes extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -43,14 +41,13 @@ public class Subscribes extends AppCompatActivity {
     private DatabaseReference myRef;
 
     private String IdUser;
-    private String Subscribes;
 
     ArrayList<String> subs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subscribes);
+        setContentView(R.layout.activity_my_subscribes);
 
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -58,25 +55,36 @@ public class Subscribes extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         IdUser=user.getUid();
+        Log.d("IdUser",IdUser);
 
-
-        mDatabase.child("Subscribe").child(IdUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if(task.getResult().getValue()!=null){
-                        Subscribes=task.getResult().getValue().toString();
-                        subs = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
-                        subs.remove("null");
-                        Log.e("subs",subs.toString());
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        ShowSubscribes(); 
+                if(dataSnapshot.getValue()!=null){
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    Log.e("postSnapshot",postSnapshot.getKey().toString());
+//                    Log.e("postSnapshot",postSnapshot.getValue().toString());
+                    String ID=postSnapshot.getKey().toString();
+
+                    if(ID!=IdUser){
+                        subs.add(ID);
                     }
-                } else {
-                    Log.e("firebase", "Error getting data", task.getException());
                 }
+                Log.e("subs",subs.toString());
+                ShowSubscribes();}
             }
-        });
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("databaseError",databaseError.getMessage().toString());
+            }
+        };
+
+        Query query = myRef.child("Subscribe").orderByValue()
+                .startAt(IdUser.toUpperCase() )
+                .endAt(IdUser.toLowerCase() + "\uf8ff");
+        query.addValueEventListener(valueEventListener);
 
         ImageButton IDBack=findViewById(R.id.IDBack);
         IDBack.setOnClickListener(
@@ -85,12 +93,13 @@ public class Subscribes extends AppCompatActivity {
                         finish();
                     }
                 });
+
     }
 
     public void ShowSubscribes()
     {
         GridView IDgridview = findViewById(R.id.IDgridview);
-        IDgridview.setAdapter(new Subscribes.ImageAdapterGridView(this, subs));
+        IDgridview.setAdapter(new MySubscribes.ImageAdapterGridView(this, subs));
     }
 
     public class ImageAdapterGridView extends BaseAdapter {
@@ -114,7 +123,7 @@ public class Subscribes extends AppCompatActivity {
             return 0;
         }
 
-        public void UserInfo(TextView FIOTV, String idUser,LinearLayout IDSubAUser)
+        public void UserInfo(TextView FIOTV, String idUser, LinearLayout IDSubAUser)
         {
             DatabaseReference mDatabase;
             mDatabase = FirebaseDatabase.getInstance().getReference();

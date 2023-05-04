@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/IDPostTime"
-                    android:textColor="@color/ColorText"
+                    android:textColor="#8A082567"
                     android:paddingLeft="20dp"
                     android:text="Time"
                     android:layout_width="match_parent"
@@ -56,12 +56,15 @@
             android:layout_height="225dp"
             android:src="@drawable/ic_baseline_person_24" />
         <TextView
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/IDPostText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"
+            android:textColor="@color/ColorText"
             >
         </TextView>
 
