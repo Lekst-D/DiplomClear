@@ -97,9 +97,6 @@ public class User extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-//                    userName
-//                            userSurname
-
                     Log.e("firebase", "Error getting data", task.getException());
                 } else {
                     Name = task.getResult().child("userName").getValue().toString();
@@ -107,8 +104,7 @@ public class User extends AppCompatActivity {
                     UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                    ((TextView) findViewById(R.id.UserName)).setText(Name);
-                    ((TextView) findViewById(R.id.UserSurname)).setText(Surname);
+                    ((TextView) findViewById(R.id.UserName)).setText(Name+" "+Surname);
                 }
             }
         });

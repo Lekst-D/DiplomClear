@@ -8,8 +8,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:scaleType="fitCenter"
-        android:background="#EDEDED"
+        android:scaleType="centerCrop"
         android:id="@+id/IDImageView"
         android:layout_width="175dp"
         android:layout_height="225dp"

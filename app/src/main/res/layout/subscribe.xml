@@ -25,7 +25,6 @@
             android:id="@+id/IDPostIMagePost"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:background="#EDEDED"
             android:src="@drawable/ic_baseline_person_24" />
 
 
