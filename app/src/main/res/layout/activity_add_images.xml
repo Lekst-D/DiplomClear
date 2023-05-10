@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/MainColorCream"
+    android:orientation="vertical"
+    tools:context=".Pages">
+
+    <LinearLayout
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/HatColor"
+        android:gravity="center">
+
+        <ImageButton
+            android:src="@drawable/arrowback_white"
+            android:id="@+id/IDList"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:scaleType="fitXY"
+            android:background="@color/HatColor"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/IDMessage"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:background="@color/HatColor"
+            android:src="@drawable/message"
+            android:onClick="ShowMessageList"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="365dp" >
+
+        <GridView
+            android:id="@+id/IDgridview"
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+            android:horizontalSpacing="16dp"
+            android:numColumns="auto_fit"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="16dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/SelectionColorCream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <Button
+            android:backgroundTint="@color/ButtonColor"
+            android:id="@+id/IDNewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="добавить изображения" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/IDImageView"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:src="@drawable/image_black"
+        />
+
+</LinearLayout>
