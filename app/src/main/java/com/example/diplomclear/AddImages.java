@@ -92,6 +92,7 @@ public class AddImages extends AppCompatActivity {
                         if (data != null){
                             Log.e("data", data.toString()+"data");
                             Uri selectedImageUri = data.getClipData().getItemAt(0).getUri();
+                            int countImage=data.getClipData().getItemCount();
                             Log.e("selectedImageUri", data.getClipData().getItemAt(0).getUri().getPath());
                             Log.e("CountImage", data.getClipData().getItemCount()+"");
 
@@ -101,6 +102,11 @@ public class AddImages extends AppCompatActivity {
                                 try {
                                     Log.e("ImageList", ImageList.toString());
 
+                                        for (int i=0; i<countImage;i++)
+                                        {
+                                            Uri ImageUri = data.getClipData().getItemAt(i).getUri();
+                                            ImageList.add(ImageUri);
+                                        }
 
                                     ImageView IDImageView=findViewById(R.id.IDImageView);
                                     IDImageView.setImageURI(selectedImageUri);
@@ -129,9 +135,13 @@ public class AddImages extends AppCompatActivity {
 //
 //                activityResultLauncher.launch(intent);
 
-                pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
-//                        .setMediaType()
-                        .build());
+                try {
+                    pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                            .build());
+                }
+                catch (Exception e){}
+
             }
         });
     }
