@@ -142,9 +142,9 @@
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             android:inputType="phone"
-
-
             />
+
+        <!-- Set the masked characters -->
 
         <EditText
             android:id="@+id/EPassword"

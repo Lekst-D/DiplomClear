@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         user=mAuth.getCurrentUser();
         if(user!=null){
             //Toast.makeText(MainActivity.this,"User is active",Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, Pages.class);
-            Intent intent = new Intent(this, AddImages.class);
+            Intent intent = new Intent(this, Pages.class);
+//            Intent intent = new Intent(this, AddImages.class);
             startActivity(intent);
         }else{
             // Toast.makeText(MainActivity.this,"User isn't active",Toast.LENGTH_SHORT).show();

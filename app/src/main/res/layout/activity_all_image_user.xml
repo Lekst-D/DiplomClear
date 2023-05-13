@@ -46,13 +46,13 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/IDMessage"
+         <ImageButton
+            android:id="@+id/IDAddImage"
             android:layout_width="35dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
+            android:src="@drawable/plus_white"
             android:onClick="ShowMessageList"
             />
 

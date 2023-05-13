@@ -41,6 +41,7 @@ public class MySubscribes extends AppCompatActivity {
     private DatabaseReference myRef;
 
     private String IdUser;
+    private Context mContext;
 
     ArrayList<String> subs = new ArrayList<>();
 
@@ -54,39 +55,47 @@ public class MySubscribes extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        IdUser=user.getUid();
-        Log.d("IdUser",IdUser);
+        IdUser = user.getUid();
+        mContext = this;
+        Log.d("IdUser", IdUser);
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getValue()!=null){
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                if (dataSnapshot.getValue() != null) {
+                    subs.clear();
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 //                    Log.e("postSnapshot",postSnapshot.getKey().toString());
 //                    Log.e("postSnapshot",postSnapshot.getValue().toString());
-                    String ID=postSnapshot.getKey().toString();
+                        String ID = postSnapshot.getKey().toString();
 
-                    if(ID!=IdUser){
-                        subs.add(ID);
+                        if (ID != IdUser) {
+                            subs.add(ID);
+                        }
                     }
+                    Log.e("subs", subs.toString());
+
+                    LinearLayout IDSubList = findViewById(R.id.IDSubList);
+                    IDSubList.removeAllViews();
+
+                    ShowSubscribes();
                 }
-                Log.e("subs",subs.toString());
-                ShowSubscribes();}
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("databaseError",databaseError.getMessage().toString());
+                Log.e("databaseError", databaseError.getMessage().toString());
             }
         };
 
         Query query = myRef.child("Subscribe").orderByValue()
-                .startAt(IdUser.toUpperCase() )
+                .startAt(IdUser.toUpperCase())
                 .endAt(IdUser.toLowerCase() + "\uf8ff");
         query.addValueEventListener(valueEventListener);
 
-        ImageButton IDBack=findViewById(R.id.IDBack);
+        ImageButton IDBack = findViewById(R.id.IDBack);
         IDBack.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
@@ -96,10 +105,65 @@ public class MySubscribes extends AppCompatActivity {
 
     }
 
-    public void ShowSubscribes()
-    {
-        GridView IDgridview = findViewById(R.id.IDgridview);
-        IDgridview.setAdapter(new MySubscribes.ImageAdapterGridView(this, subs));
+    public void UserInfo(TextView FIOTV, String idUser, LinearLayout IDSubAUser) {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("UserInfo").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    String Name = task.getResult().child("userName").getValue().toString();
+                    String Surname = task.getResult().child("userSurname").getValue().toString();
+                    String UserPhoto = task.getResult().child("userPhoto").getValue().toString();
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                    FIOTV.setText(Surname + " " + Name);
+
+                    IDSubAUser.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, AnotherUser.class);
+                            intent.putExtra("UserID", idUser);
+                            intent.putExtra("FIO", Surname + " " + Name);
+                            intent.putExtra("ImageUser", UserPhoto);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    public void ShowSubscribes() {
+//        GridView IDgridview = findViewById(R.id.IDgridview);
+//        IDgridview.setAdapter(new Subscribes.ImageAdapterGridView(this, subs));
+
+        LinearLayout IDSubList = findViewById(R.id.IDSubList);
+
+        for (String idUser : subs) {
+
+            LayoutInflater inflater = getLayoutInflater();
+            View myLayout = inflater.inflate(R.layout.search_users, null, false);
+
+            LinearLayout IDLinearLayout = myLayout.findViewById(R.id.IDLinearLayout);
+            TextView textView = myLayout.findViewById(R.id.IDUserFIO);
+
+            UserInfo(textView, idUser, IDLinearLayout);
+
+
+            IDSubList.addView(myLayout);
+
+        }
+
+        LinearLayout IDLinearLayout = new LinearLayout(this);
+        ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT, 20);
+
+        IDLinearLayout.setLayoutParams(layoutParams);
+
+
     }
 
     public class ImageAdapterGridView extends BaseAdapter {
@@ -123,8 +187,7 @@ public class MySubscribes extends AppCompatActivity {
             return 0;
         }
 
-        public void UserInfo(TextView FIOTV, String idUser, LinearLayout IDSubAUser)
-        {
+        public void UserInfo(TextView FIOTV, String idUser, LinearLayout IDSubAUser) {
             DatabaseReference mDatabase;
             mDatabase = FirebaseDatabase.getInstance().getReference();
             mDatabase.child("UserInfo").child(idUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -138,16 +201,17 @@ public class MySubscribes extends AppCompatActivity {
                         String UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                         Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                        FIOTV.setText(Surname+" "+Name);
+                        FIOTV.setText(Surname + " " + Name);
 
                         IDSubAUser.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View view) {
                                 Intent intent = new Intent(mContext, AnotherUser.class);
-                                intent.putExtra("UserID",    idUser);
-                                intent.putExtra("FIO",       Surname+" "+Name);
+                                intent.putExtra("UserID", idUser);
+                                intent.putExtra("FIO", Surname + " " + Name);
                                 intent.putExtra("ImageUser", UserPhoto);
                                 startActivity(intent);
-                            }});
+                            }
+                        });
                     }
                 }
             });
@@ -167,11 +231,11 @@ public class MySubscribes extends AppCompatActivity {
 //            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 //            IDImageView.setImageBitmap(myBitmap);
 
-            TextView FIOTV=myLayout.findViewById(R.id.IDFIO);
+            TextView FIOTV = myLayout.findViewById(R.id.IDFIO);
 
-            LinearLayout IDSubAUser=myLayout.findViewById(R.id.IDSubAUser);
+            LinearLayout IDSubAUser = myLayout.findViewById(R.id.IDSubAUser);
 
-            UserInfo(FIOTV,idUser,IDSubAUser);
+            UserInfo(FIOTV, idUser, IDSubAUser);
 
             Log.d("idUser", idUser);
 

@@ -127,14 +127,10 @@ public class AddImages extends AppCompatActivity {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 //                Intent intent = new Intent(Intent.ACTION_PICK,
 //                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//
 //                activityResultLauncher.launch(intent);
-
                 try {
                     pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)

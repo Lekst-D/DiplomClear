@@ -220,15 +220,28 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/IDPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/ButtonColor"
-                    android:text="Добавить пост" />
+
 
             </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linear_layout_shape"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/IDPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/ButtonColor"
+                android:text="Добавить пост" />
+
+        </LinearLayout>
 
         </LinearLayout>
 

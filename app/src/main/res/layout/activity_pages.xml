@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,38 +11,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:background="@color/HatColor"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageButton
-            android:src="@drawable/info"
             android:id="@+id/IDList"
             android:layout_width="45dp"
             android:layout_height="25dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
+            android:onClick="ListOpen"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:onClick="ListOpen"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/info" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Новости"
+                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -51,10 +50,9 @@
             android:id="@+id/IDMessage"
             android:layout_width="35dp"
             android:layout_height="30dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
-            />
+            android:scaleType="fitXY"
+            android:src="@drawable/message" />
 
 
     </LinearLayout>
@@ -67,17 +65,67 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/IDListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/IDListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:textColor="@color/ColorText"
+                android:textSize="20sp"
+                android:id="@+id/IDTVTextNotPost"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="У вас нет постов"
+                />
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/IDLoad"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/two" />
+
+            <TextView
+                android:textColor="@color/ColorText"
+                android:textSize="20sp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Идет загрузка постов."
+                />
+
+        </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
 
-</LinearLayout >
+</LinearLayout>

@@ -58,6 +58,8 @@ import java.util.Calendar;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 
 public class Pages extends AppCompatActivity {
 
@@ -92,27 +94,26 @@ public class Pages extends AppCompatActivity {
 
         mDatabase.child("Subscribe").child(IdUser).get()
                 .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().getValue() != null) {
-                        Subscribes = task.getResult().getValue().toString();
-                        subs = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
-                        subs.remove("null");
-                        subs.add(IdUser);
-                        Log.e("subs", subs.toString());
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().getValue() != null) {
+                                Subscribes = task.getResult().getValue().toString();
+                                subs = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
+                                subs.remove("null");
+                                subs.add(IdUser);
+                                Log.e("subs", subs.toString());
 
-                        AllPost();
+                                AllPost();
+                            } else {
+                                subs.add(IdUser);
+                                AllPost();
+                            }
+                        } else {
+                            Log.e("firebase", "Error getting data", task.getException());
+                        }
                     }
-                    else{
-                        subs.add(IdUser);
-                        AllPost();
-                    }
-                } else {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-            }
-        });
+                });
 
 
         ImageButton ListSetting = (ImageButton) findViewById(R.id.IDList);
@@ -129,7 +130,6 @@ public class Pages extends AppCompatActivity {
             }
         });
     }
-
 
 //    void TestImageShow() {
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -185,7 +185,7 @@ public class Pages extends AppCompatActivity {
     public void AllPost() {
         Log.e("subs", subs.toString());
 
-        db.collection("usersPosts").whereIn("UserID",subs).get()
+        db.collection("usersPosts").whereIn("UserID", subs).get()
 //                .whereEqualTo("UserID", IdUser).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -205,21 +205,40 @@ public class Pages extends AppCompatActivity {
                                 AllUserPost.add(post);
                             }
 
-
-                            for (Post post : (AllUserPost)) {
-                                ShowPost(post);
-                            }
-
                             File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
                             if (!dir.exists()) {
                                 new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
                             }
 
+                            for (Post post : (AllUserPost)) {
+                                ShowPost(post);
+                            }
+
+                            if (AllUserPost.size() != 0) {
+                                HideLoad(true);
+                            } else {
+                                HideLoad(false);
+                            }
+
                         } else {
+
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
+    }
+
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+        
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+        IDLoad.setVisibility(View.GONE);
+
+        if (!check) {
+            TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
     }
 
     void ListOpen() {
@@ -306,16 +325,15 @@ public class Pages extends AppCompatActivity {
             DownloadImage(post.getImagePost(), Image);
         }
 
-        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 
-        String DatePost=post.getPostDate();
-        String TimePost=post.getPostTime();
+        String DatePost = post.getPostDate();
+        String TimePost = post.getPostTime();
 
-        if(Date.contains(DatePost)){
+        if (Date.contains(DatePost)) {
             PostTime.setText(TimePost);
-        }
-        else{
-            PostTime.setText(DatePost+" "+TimePost);
+        } else {
+            PostTime.setText(DatePost + " " + TimePost);
         }
 
         PostText.setText(post.getPostText());
