@@ -8,11 +8,17 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:gravity=""
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
+
+
+        <!--        android:layout_marginRight="20dp"-->
+        <!--        android:layout_marginLeft="20dp"-->
+        <!--        android:gravity=""-->
+
+
 
         <LinearLayout
             android:id="@+id/IDInfo"
@@ -25,8 +31,8 @@
                 android:id="@+id/IDUserImage"
                 android:src="@drawable/ic_baseline_person_24"
 
-                android:layout_width="35dp"
-                android:layout_height="35dp"/>
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
                     android:text="FIO"
+                    android:textSize="18sp"
                     android:textColor="@color/ColorText" />
 
             </LinearLayout>

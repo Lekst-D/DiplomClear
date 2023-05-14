@@ -22,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import io.grpc.internal.ServiceConfigUtil;
+
 public class ListAct extends AppCompatActivity {
 
     String Name;
@@ -114,6 +116,19 @@ public class ListAct extends AppCompatActivity {
                         ShowMySibscribers();
                     }
                 });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDChangeSecurity=findViewById(R.id.IDChangeSecurity);
+        IDChangeSecurity.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ChangeSecurity();
+                    }
+                });
+    }
+
+    void ChangeSecurity(){
+        Intent intent = new Intent(this, SecurityChange.class);
+        startActivity(intent);
     }
 
     void ShowMySibscribers(){

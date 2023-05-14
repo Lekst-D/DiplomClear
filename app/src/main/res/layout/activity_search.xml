@@ -62,18 +62,22 @@
         android:orientation="horizontal">
 
         <EditText
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLength="45"
             android:id="@+id/IDTextSearch"
             android:layout_weight="1"
             android:hint="Ведите имя мастера"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
-            android:backgroundTint="@color/ButtonColor"
+        <ImageButton
+            android:backgroundTint="#4EC3F8"
             android:id="@+id/IDButtonSearch"
-            android:text="Искать"
+            android:src="@drawable/ic_baseline_search_24"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
+
     </LinearLayout>
 
     <ListView
