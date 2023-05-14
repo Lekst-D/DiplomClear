@@ -50,11 +50,14 @@ public class Messager extends AppCompatActivity {
     String IDListMessager="";
 
     TextView IdUserAnother;
+    ScrollView IDScrollVIew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messager);
+
+        IDScrollVIew=findViewById(R.id.IDScrollVIew);
 
         Bundle arguments = getIntent().getExtras();
         IDListMessager=arguments.get("IDListMessager").toString();
@@ -88,6 +91,12 @@ public class Messager extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object value = dataSnapshot.getValue();
                 if (value == null){
+
+                    //                   if (dataSnapshot.getChildrenCount() != 0) {
+                    //                       HideLoad(true);
+                    //                  } else {
+                    //                   HideLoad(false);
+                    //               }
 //                    ShowMessage("11111");
 //                    dataSnapshot.getRef().setValue(new FBVocabulary(userVocabulary), completionListener);
                 }
@@ -108,26 +117,18 @@ public class Messager extends AppCompatActivity {
                         Message message=new Message(IDU,FIO,DateMess,TimeMess,TextMess,ImageMess);
 
                         ShowMessage(message);
+
+                        IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
                     }
 
-                    ScrollView IDScrollVIew=findViewById(R.id.IDScrollVIew);
+                    //                   if (dataSnapshot.getChildrenCount() != 0) {
+                    //                       HideLoad(true);
+                    //                  } else {
+                    //                   HideLoad(false);
+                    //               }
+
                     IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
 
-//                    Iterable<DataSnapshot> keys = dataSnapshot.getChildren();
-//                    for(DataSnapshot key :keys){
-//                        Log.d("key",key.child("idu").getValue().toString());
-//                    }
-//                    Log.e("dataSnapshot",dataSnapshot.getChildrenCount()+"");
-
-//                    String IDU=dataSnapshot.child("idu").getValue().toString();
-//                    String FIO=dataSnapshot.child("fio").getValue().toString();
-//                    String DateMess=dataSnapshot.child("dateMess").getValue().toString();
-//                    String TimeMess=dataSnapshot.child("timeMess").getValue().toString();
-//                    String TextMess=dataSnapshot.child("textMess").getValue().toString();
-//                    String ImageMess=dataSnapshot.child("imageMess").getValue().toString();
-//                    Message message=new Message(IDU,FIO,DateMess,TimeMess,TextMess,ImageMess);
-//
-//                    ShowMessage(value);
                 }
             }
 
@@ -192,6 +193,19 @@ public class Messager extends AppCompatActivity {
 
     }
 
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+        if(IDLoad.getVisibility()!=View.INVISIBLE){
+        IDLoad.setVisibility(View.INVISIBLE);}
+
+        if (!check) {
+            TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
+    }
 
     @SuppressLint("ResourceAsColor")
     public void ShowMessage(Message message)
@@ -279,7 +293,7 @@ public class Messager extends AppCompatActivity {
 
             IDMessageText.setText("");
         }
+
+        IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
     }
-
-
 }

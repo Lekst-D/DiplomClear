@@ -62,18 +62,58 @@
         android:orientation="horizontal">
 
         <EditText
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLength="45"
             android:id="@+id/IDTextSearch"
             android:layout_weight="1"
             android:hint="Ведите имя мастера"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
-            android:backgroundTint="@color/ButtonColor"
+        <ImageButton
+            android:backgroundTint="#4EC3F8"
             android:id="@+id/IDButtonSearch"
-            android:text="Искать"
+            android:src="@drawable/ic_baseline_search_24"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/IDTVTextNotPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Таких пользователей нет"
+            android:textColor="@color/ColorText"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/IDLoad"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/two" />
+
     </LinearLayout>
 
     <ListView

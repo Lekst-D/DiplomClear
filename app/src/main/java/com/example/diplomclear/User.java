@@ -159,6 +159,12 @@ public class User extends AppCompatActivity {
 //                            ShowPost(post);
 //                        }
 
+                    if (AllUserPost.size() != 0) {
+                        HideLoad(true);
+                    } else {
+                        HideLoad(false);
+                    }
+
                     for (Post post : (AllUserPost)) {
                         ShowPost(post);
                     }
@@ -214,6 +220,19 @@ public class User extends AppCompatActivity {
                 ChangeInfo();
             }
         });
+    }
+
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+        IDLoad.setVisibility(View.GONE);
+
+        if (!check) {
+            TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
     }
 
     void ChangeInfo(){

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="MainColor">#EEECECE7</color>
-    <color name="HatColor">#F8D089</color>
-    <color name="ButtonColor">#CD922B</color>
+    <color name="HatColor">#EDCA8A</color>
+    <color name="ButtonColor">#EDB95E</color>
     <color name="SelectionColorCream">#F6ECB5</color>
-    <color name="MainColorCream">#A9FFFDD0</color>
+    <color name="MainColorCream">#EEFFFFFF</color>
 
     <color name="ColorAnotherUserMess">#A9D5D5D2</color>
     <color name="ColorUserMess">#A3F1FB</color>

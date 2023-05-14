@@ -76,6 +76,12 @@ public class Subscribes extends AppCompatActivity {
                         LinearLayout IDSubList = findViewById(R.id.IDSubList);
                         IDSubList.removeAllViews();
 
+                        if (subs.size() != 0) {
+                            HideLoad(true);
+                        } else {
+                            HideLoad(false);
+                        }
+
                         ShowSubscribes(); 
                     }
                 } else {
@@ -91,6 +97,19 @@ public class Subscribes extends AppCompatActivity {
                         finish();
                     }
                 });
+    }
+
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+        TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+
+        IDLoad.setVisibility(View.GONE);
+
+        if (!check) {
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
     }
 
     public void UserInfo(TextView FIOTV, String idUser,LinearLayout IDSubAUser)

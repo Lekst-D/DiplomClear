@@ -52,8 +52,13 @@ public class MessegeList extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object value = dataSnapshot.getValue();
                 if (value == null){
-//                    ShowMessage("11111");
-//                    dataSnapshot.getRef().setValue(new FBVocabulary(userVocabulary), completionListener);
+
+                    if (dataSnapshot.getChildrenCount() != 0) {
+                        HideLoad(true);
+                    } else {
+                        HideLoad(false);
+                    }
+
                 }
                 else
                 {
@@ -67,6 +72,12 @@ public class MessegeList extends AppCompatActivity {
 
                         ShowMessageList(document.getKey().toString(),
                                 document.child("Name").getValue().toString());
+                    }
+
+                    if (dataSnapshot.getChildrenCount() != 0) {
+                        HideLoad(true);
+                    } else {
+                        HideLoad(false);
                     }
 
                 }
@@ -84,6 +95,19 @@ public class MessegeList extends AppCompatActivity {
                 ListOpen();
             }
         });
+    }
+
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+        IDLoad.setVisibility(View.GONE);
+
+        if (!check) {
+            TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
     }
 
     void ListOpen(){

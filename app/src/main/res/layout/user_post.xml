@@ -11,14 +11,16 @@
         android:layout_marginLeft="20dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:gravity=""
-        android:background="@drawable/linear_layout_shape"
+        android:background="@drawable/linear_layout_news"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:paddingRight="5dp"
+            android:paddingLeft="4dp"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -65,8 +67,9 @@
             android:id="@+id/IDPostText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16dp"
             android:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"
-            android:textColor="@color/ColorText"
+            android:textColor="@color/black"
             >
         </TextView>
 
@@ -86,8 +89,8 @@
                 >
                 <ImageView
                     android:src="@drawable/comment"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginRight="10dp"
                     />
 
@@ -110,13 +113,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="22dp"
+                    android:textSize="20dp"
                     android:layout_gravity="center"
                     />
                 <ImageView
                     android:src="@drawable/heart"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>

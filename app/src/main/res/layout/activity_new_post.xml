@@ -67,7 +67,6 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:background="@color/SelectionColorCream"
         >
         <ImageView
             android:id="@+id/IDImageView"
@@ -76,12 +75,11 @@
             android:src="@drawable/image_black"
             />
 
-
-
         <EditText
             android:id="@+id/IdTextPost"
             android:maxLength="250"
             android:inputType="textMultiLine"
+            android:layout_marginBottom="20dp"
             android:hint="Текст поста"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -96,9 +94,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@color/SelectionColorCream"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_gravity="center" >
 
         <Button

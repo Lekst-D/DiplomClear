@@ -24,6 +24,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.diplomclear.Classes.ImageUtils;
 import com.example.diplomclear.Message.MessegeList;
@@ -99,6 +100,13 @@ public class AllImageUser extends AppCompatActivity {
 
                             ImageList.add(Name);
                         }
+
+                        if (ImageList.size() != 0) {
+                            HideLoad(true);
+                        } else {
+                            HideLoad(false);
+                        }
+
                         ShowImages();
                     }
                 })
@@ -152,6 +160,22 @@ public class AllImageUser extends AppCompatActivity {
                 }
         );
 
+    }
+
+    void HideLoad(boolean check) {
+//        ImageView IDID =findViewById(R.id.IDID);
+//        IDID.setImageResource(R.drawable.two);
+
+        TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
+
+        LinearLayout IDLoad = findViewById(R.id.IDLoad);
+        IDLoad.setVisibility(View.GONE);
+        IDTVTextNotPost.setVisibility(View.GONE);
+
+        if (!check) {
+
+            IDTVTextNotPost.setVisibility(View.VISIBLE);
+        }
     }
 
     void ImageAddUser(Uri Photo) throws IOException {

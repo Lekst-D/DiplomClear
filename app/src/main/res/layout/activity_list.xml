@@ -66,7 +66,6 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:background="@color/SelectionColorCream"
         >
 
         <LinearLayout
@@ -82,22 +81,23 @@
                 android:src="@drawable/ic_baseline_person_24" />
 
             <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:textSize="18dp"
-                android:text="Учетная запись" />
+                android:drawableEnd="@drawable/go_to"
+                android:paddingLeft="20dp"
+                android:text="Учетная запись"
+                android:textColor="@color/ColorText"
+                android:textSize="18sp" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:id="@+id/IDSearch"
@@ -118,16 +118,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
+                android:drawableEnd="@drawable/go_to"
+                android:textSize="18sp"
                 android:text="Поиск" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,18 +147,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
+                android:drawableEnd="@drawable/go_to"
+                android:textSize="18sp"
                 android:text="Календарь" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
+
         <LinearLayout
+            android:id="@+id/IDChangeSecurity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -174,16 +177,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
+                android:drawableEnd="@drawable/go_to"
+                android:textSize="18sp"
                 android:text="Безопасность" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:id="@+id/IDSubscribe"
@@ -203,16 +207,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
+                android:drawableEnd="@drawable/go_to"
+                android:textSize="18sp"
                 android:text="Подписки" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:id="@+id/IDMySubscribes"
@@ -232,16 +237,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
+                android:drawableEnd="@drawable/go_to"
+                android:textSize="18sp"
                 android:text="Подписчики" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/go_to" />
-
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
 
 
@@ -262,6 +267,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:clickable="true"
 
             android:gravity="center"
