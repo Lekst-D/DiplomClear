@@ -244,64 +244,7 @@ public class Search extends AppCompatActivity {
                 .endAt(searchTextPart[0].toLowerCase() + "\uf8ff");
         query.addValueEventListener(valueEventListener);
     }
-    void Search()
-    {
-        String searchText = (SearchText.getText().toString()).trim();
-        String[] searchTextPart = searchText.split(" ");
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                AllUserSearchs.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-//                            if( searchTextPart[0] in postSnapshot.child("userSurname").getValue().toString())
-
-                    //TODO get the data here
-                    String UserName = postSnapshot.child("userName").getValue().toString();
-
-                    Log.d("Name", UserName);
-
-                    String name = postSnapshot.child("userName").getValue().toString();
-                    String surname = postSnapshot.child("userSurname").getValue().toString();
-
-                    String NameRequest=(name.trim()).toLowerCase(Locale.ROOT);
-                    String RequestName=(searchTextPart[0].trim()).toLowerCase(Locale.ROOT);
-                    if(!NameRequest.contains(RequestName))
-                    {
-                        Log.e("Not mistake","This is work");
-                        continue;
-                    }
-
-                    if(searchTextPart.length>1) {
-                        boolean hasString = (surname.toLowerCase())
-                                .contains(searchTextPart[1].toLowerCase());
-//                                Log.d("1", searchTextPart[1]);
-//                                Log.d("2", surname);
-                        if(!hasString)
-                            continue;
-                    }
-                    Users.add(name + " " + surname);
-                    String FIO=name + " " + surname;
-                    String Image=postSnapshot.child("userPhoto").getValue().toString();
-                    String UserID=postSnapshot.child("iduser").getValue().toString();
-                    AllUserSearchs.add(new SearchList(Image,FIO,UserID));
-
-                }
-                ShowSearchList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        Query query = myRef.child("UserInfo").orderByChild("userName")
-                .startAt(searchTextPart[0].toUpperCase() )
-                .endAt(searchTextPart[0].toLowerCase() + "\uf8ff");
-        query.addValueEventListener(valueEventListener);
-    }
 
     void ShowSearchList() {
 

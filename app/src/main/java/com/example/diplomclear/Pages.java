@@ -55,6 +55,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import com.squareup.picasso.Picasso;
 
@@ -302,6 +305,8 @@ public class Pages extends AppCompatActivity {
     }
 
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+    ArrayList<String> FioUsers = new ArrayList<>();
+    ArrayList<String> IDusers = new ArrayList<>();
     void ShowPost(Post post) {
 
         LinearLayout listView = findViewById(R.id.IDListView);
@@ -312,6 +317,26 @@ public class Pages extends AppCompatActivity {
         TextView FIO = myLayout.findViewById(R.id.IDUserFIO);
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
+
+        String idUserRequest = post.getUserID().toString();
+
+        FIO.setText(idUserRequest);
+
+            IDusers.add(idUserRequest);
+            mDatabase.child("UserInfo").child(idUserRequest).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        String Name = task.getResult().child("userName").getValue().toString();
+                        String Surname = task.getResult().child("userSurname").getValue().toString();
+                        String fio = Surname + " " + Name;
+
+                        FIO.setText(fio);
+                    }
+                }
+            });
 
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());

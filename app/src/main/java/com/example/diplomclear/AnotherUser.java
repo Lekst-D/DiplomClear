@@ -59,6 +59,7 @@ public class AnotherUser extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference myRef;
     private String IdUser;
+    private DatabaseReference mDatabase;
 
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
@@ -68,7 +69,7 @@ public class AnotherUser extends AppCompatActivity {
     String UserPhoto = null;
     String Subscribes = null;
     String IDU = null;
-    String IDListMessager="";
+    String IDListMessager = "";
 
     ArrayList<String> subs = new ArrayList<>();
 
@@ -95,7 +96,7 @@ public class AnotherUser extends AppCompatActivity {
         IdUser = arguments.get("UserID").toString();
         IDU = user.getUid();
 
-        DatabaseReference mDatabase;
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("UserInfo").child(IdUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -108,7 +109,7 @@ public class AnotherUser extends AppCompatActivity {
                     UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                    ((TextView) findViewById(R.id.UserName)).setText(Name+" "+Surname);
+                    ((TextView) findViewById(R.id.UserName)).setText(Name + " " + Surname);
                 }
             }
         });
@@ -120,13 +121,13 @@ public class AnotherUser extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-                        String ImagePost=document.get("Images").toString();
-                        String UserID=document.get("UserID").toString();
-                        String PostDate=document.get("DatePost").toString();
-                        String PostTime=document.get("TimePost").toString();
-                        String PostText=document.get("TextPost").toString();
+                        String ImagePost = document.get("Images").toString();
+                        String UserID = document.get("UserID").toString();
+                        String PostDate = document.get("DatePost").toString();
+                        String PostTime = document.get("TimePost").toString();
+                        String PostText = document.get("TextPost").toString();
 
-                        Post post = new Post(ImagePost,UserID,PostText,PostDate,PostTime);
+                        Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime);
 
                         AllUserPost.add(post);
                     }
@@ -134,7 +135,7 @@ public class AnotherUser extends AppCompatActivity {
                     for (Post post : (AllUserPost)) {
                         ShowPost(post);
                     }
-                    
+
                     if (AllUserPost.size() != 0) {
                         HideLoad(true);
                     } else {
@@ -168,21 +169,20 @@ public class AnotherUser extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
-                    if(task.getResult().getValue()!=null){
-                    Subscribes = task.getResult().getValue().toString();
+                    if (task.getResult().getValue() != null) {
+                        Subscribes = task.getResult().getValue().toString();
 
-                    if (Subscribes.contains(IdUser)) {
-                        Subscribe.setText("Отписаться");
+                        if (Subscribes.contains(IdUser)) {
+                            Subscribe.setText("Отписаться");
+                        } else {
+                            Subscribe.setText("Подписаться");
+                        }
                     } else {
-                        Subscribe.setText("Подписаться");
-                    }}
-                    else
-                    {
                         Subscribe.setText("Подписаться");
                     }
 
                 } else {
-                    Subscribes="";
+                    Subscribes = "";
                     Log.e("firebase", "Error getting data", task.getException());
                 }
             }
@@ -233,11 +233,12 @@ public class AnotherUser extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
-                    if(task.getResult().hasChild("Name")){
-                        IDListMessager="Children";
-                        IDListMessager=task.getResult().child("Name").getValue().toString();
+                    if (task.getResult().hasChild("Name")) {
+                        IDListMessager = "Children";
+                        IDListMessager = task.getResult().child("Name").getValue().toString();
+                    } else {
+                        IDListMessager = "";
                     }
-                    else{IDListMessager="";}
                 } else {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
@@ -247,13 +248,12 @@ public class AnotherUser extends AppCompatActivity {
         Messager.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                if(IDListMessager=="") {
+                if (IDListMessager == "") {
                     mDatabase.child("MessageList").child(IDU).child(IdUser).child("Name").setValue(IDU + "-" + IdUser);
                     mDatabase.child("MessageList").child(IdUser).child(IDU).child("Name").setValue(IDU + "-" + IdUser);
 
                     ShowMessager(IDU + "-" + IdUser);
-                }
-                else{
+                } else {
                     ShowMessager(IDListMessager);
                 }
 //                String IDListMessager=IDU+"-"+IdUser;
@@ -261,20 +261,18 @@ public class AnotherUser extends AppCompatActivity {
             }
         });
 
-        ImageButton IDList=findViewById(R.id.IDList);
+        ImageButton IDList = findViewById(R.id.IDList);
         IDList.setOnClickListener(
-                new View.OnClickListener()
-                {
+                new View.OnClickListener() {
                     public void onClick(View v) {
                         ListOpen(v);
                     }
                 }
         );
 
-        ImageButton IDMessageList =findViewById(R.id.IDMessageList);
+        ImageButton IDMessageList = findViewById(R.id.IDMessageList);
         IDMessageList.setOnClickListener(
-                new View.OnClickListener()
-                {
+                new View.OnClickListener() {
                     public void onClick(View v) {
                         ShowMessage();
                     }
@@ -297,18 +295,17 @@ public class AnotherUser extends AppCompatActivity {
         }
     }
 
-    void ShowMessage(){
+    void ShowMessage() {
         Intent intent = new Intent(this, MessegeList.class);
         startActivity(intent);
     }
 
-    void ListOpen(View view){
+    void ListOpen(View view) {
         Intent intent = new Intent(this, ListAct.class);
         startActivity(intent);
     }
 
-    void ShowMessager(String IDListMessager)
-    {
+    void ShowMessager(String IDListMessager) {
 //        Toast toast = Toast.makeText(this, IDListMessager,Toast.LENGTH_LONG);
 //        toast.show();
 
@@ -426,6 +423,24 @@ public class AnotherUser extends AppCompatActivity {
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
 
+        String idUserRequest = post.getUserID().toString();
+
+        FIO.setText(idUserRequest);
+
+        mDatabase.child("UserInfo").child(idUserRequest).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    String Name = task.getResult().child("userName").getValue().toString();
+                    String Surname = task.getResult().child("userSurname").getValue().toString();
+                    String fio = Surname + " " + Name;
+
+                    FIO.setText(fio);
+                }
+            }
+        });
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
         if (dir.exists()) {
@@ -444,16 +459,15 @@ public class AnotherUser extends AppCompatActivity {
             DownloadImage(post.getImagePost(), Image);
         }
 
-        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 
-        String DatePost=post.getPostDate();
-        String TimePost=post.getPostTime();
+        String DatePost = post.getPostDate();
+        String TimePost = post.getPostTime();
 
-        if(Date.contains(DatePost)){
+        if (Date.contains(DatePost)) {
             PostTime.setText(TimePost);
-        }
-        else{
-            PostTime.setText(DatePost+" "+TimePost);
+        } else {
+            PostTime.setText(DatePost + " " + TimePost);
         }
 
         PostText.setText(post.getPostText());

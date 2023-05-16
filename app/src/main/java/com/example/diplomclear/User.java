@@ -63,6 +63,8 @@ public class User extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference myRef;
     private String IdUser;
+    private DatabaseReference mDatabase;
+
 
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
@@ -91,7 +93,6 @@ public class User extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("UserInfo").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -104,7 +105,7 @@ public class User extends AppCompatActivity {
                     UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                    ((TextView) findViewById(R.id.UserName)).setText(Name+" "+Surname);
+                    ((TextView) findViewById(R.id.UserName)).setText(Name + " " + Surname);
                 }
             }
         });
@@ -142,13 +143,13 @@ public class User extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
 
-                        String ImagePost=document.get("Images").toString();
-                        String UserID=document.get("UserID").toString();
-                        String PostDate=document.get("DatePost").toString();
-                        String PostTime=document.get("TimePost").toString();
-                        String PostText=document.get("TextPost").toString();
+                        String ImagePost = document.get("Images").toString();
+                        String UserID = document.get("UserID").toString();
+                        String PostDate = document.get("DatePost").toString();
+                        String PostTime = document.get("TimePost").toString();
+                        String PostText = document.get("TextPost").toString();
 
-                        Post post = new Post(ImagePost,UserID,PostText,PostDate,PostTime);
+                        Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime);
 
                         AllUserPost.add(post);
                     }
@@ -200,21 +201,21 @@ public class User extends AppCompatActivity {
             }
         });
 
-        ImageButton IDList=findViewById(R.id.IDList);
+        ImageButton IDList = findViewById(R.id.IDList);
         IDList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ListOpen();
             }
         });
 
-        ImageButton IDMessage=findViewById(R.id.IDMessage);
+        ImageButton IDMessage = findViewById(R.id.IDMessage);
         IDMessage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ShowMessage();
             }
         });
 
-        TextView editInfoUser=findViewById(R.id.editInfoUser);
+        TextView editInfoUser = findViewById(R.id.editInfoUser);
         editInfoUser.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ChangeInfo();
@@ -235,17 +236,17 @@ public class User extends AppCompatActivity {
         }
     }
 
-    void ChangeInfo(){
+    void ChangeInfo() {
         Intent intent = new Intent(this, ChangeInfoUser.class);
         startActivity(intent);
     }
 
-    void ListOpen(){
+    void ListOpen() {
         Intent intent = new Intent(this, ListAct.class);
         startActivity(intent);
     }
 
-    void ShowMessage(){
+    void ShowMessage() {
         Intent intent = new Intent(this, MessegeList.class);
         startActivity(intent);
     }
@@ -257,7 +258,7 @@ public class User extends AppCompatActivity {
         ImageView ImageView2 = findViewById(R.id.ImageView2);
         ImageView ImageView3 = findViewById(R.id.ImageView3);
 
-        Log.e("ThreePost","22222222222");
+        Log.e("ThreePost", "22222222222");
         if (lenPost >= 1) {
             File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + AllUserPost.get(0).getImagePost());
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -330,7 +331,7 @@ public class User extends AppCompatActivity {
                 Image.setImageBitmap(bitmap);
 
                 try {
-                    Log.e("ThreePost","111111111111111");
+                    Log.e("ThreePost", "111111111111111");
                     ShowThreeImage();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -359,6 +360,24 @@ public class User extends AppCompatActivity {
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
 
+        String idUserRequest = post.getUserID().toString();
+
+        FIO.setText(idUserRequest);
+
+        mDatabase.child("UserInfo").child(idUserRequest).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    String Name = task.getResult().child("userName").getValue().toString();
+                    String Surname = task.getResult().child("userSurname").getValue().toString();
+                    String fio = Surname + " " + Name;
+
+                    FIO.setText(fio);
+                }
+            }
+        });
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
         if (dir.exists()) {
@@ -368,7 +387,7 @@ public class User extends AppCompatActivity {
             Image.setImageBitmap(myBitmap);
 
             try {
-                Log.e("ThreePost","111111111111111");
+                Log.e("ThreePost", "111111111111111");
                 ShowThreeImage();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -378,16 +397,15 @@ public class User extends AppCompatActivity {
             DownloadImage(post.getImagePost(), Image);
         }
 
-        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 
-        String DatePost=post.getPostDate();
-        String TimePost=post.getPostTime();
+        String DatePost = post.getPostDate();
+        String TimePost = post.getPostTime();
 
-        if(Date.contains(DatePost)){
+        if (Date.contains(DatePost)) {
             PostTime.setText(TimePost);
-        }
-        else{
-            PostTime.setText(DatePost+" "+TimePost);
+        } else {
+            PostTime.setText(DatePost + " " + TimePost);
         }
 
         PostText.setText(post.getPostText());

@@ -91,14 +91,7 @@ public class Messager extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object value = dataSnapshot.getValue();
                 if (value == null){
-
-                    //                   if (dataSnapshot.getChildrenCount() != 0) {
-                    //                       HideLoad(true);
-                    //                  } else {
-                    //                   HideLoad(false);
-                    //               }
-//                    ShowMessage("11111");
-//                    dataSnapshot.getRef().setValue(new FBVocabulary(userVocabulary), completionListener);
+                    HideLoad(false);
                 }
                 else
                 {
@@ -117,18 +110,7 @@ public class Messager extends AppCompatActivity {
                         Message message=new Message(IDU,FIO,DateMess,TimeMess,TextMess,ImageMess);
 
                         ShowMessage(message);
-
-                        IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
                     }
-
-                    //                   if (dataSnapshot.getChildrenCount() != 0) {
-                    //                       HideLoad(true);
-                    //                  } else {
-                    //                   HideLoad(false);
-                    //               }
-
-                    IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
-
                 }
             }
 
@@ -137,28 +119,6 @@ public class Messager extends AppCompatActivity {
 
             }
         });
-
-//        intent.putExtra("IDAnotherUser", IdUser);
-//        intent.putExtra("IDUser", IDU);
-//        intent.putExtra("IDListMessager", IDListMessager);
-
-//        mDatabase.child("Messager").child(IDListMessager).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                for (DataSnapshot document : task.getResult().getChildren())
-//                {
-//                    String IDU=document.child("idu").getValue().toString();
-//                    String FIO=document.child("fio").getValue().toString();
-//                    String DateMess=document.child("dateMess").getValue().toString();
-//                    String TimeMess=document.child("timeMess").getValue().toString();
-//                    String TextMess=document.child("textMess").getValue().toString();
-//                    String ImageMess=document.child("imageMess").getValue().toString();
-//                    Message message=new Message(IDU,FIO,DateMess,TimeMess,TextMess,ImageMess);
-//
-//                    ShowMessage(message);
-//                }
-//            }
-//        });
 
         ImageView IDPostMessage=findViewById(R.id.IDPostMessage);
         IDPostMessage.setOnClickListener(new View.OnClickListener() {
@@ -194,8 +154,6 @@ public class Messager extends AppCompatActivity {
     }
 
     void HideLoad(boolean check) {
-//        ImageView IDID =findViewById(R.id.IDID);
-//        IDID.setImageResource(R.drawable.two);
 
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
         if(IDLoad.getVisibility()!=View.INVISIBLE){
@@ -210,16 +168,12 @@ public class Messager extends AppCompatActivity {
     @SuppressLint("ResourceAsColor")
     public void ShowMessage(Message message)
     {
-
         String IDU=message.getIDU();
         String FIO=message.getFIO();
         String DateMess=message.getDateMess();
         String TimeMess=message.getTimeMess();
         String TextMess=message.getTextMess();
         String ImageMess=message.getImageMess();
-
-
-//        linearLayout.setBackgroundColor(R.color.ColorAnotherUserMess);
 
         if(IDU.contains(IdUser))
         {
@@ -241,8 +195,6 @@ public class Messager extends AppCompatActivity {
             else{IDMessDataTime.setText(DateMess+" "+TimeMess);}
 
             listView.addView(myLayout);
-
-
         }
         else
         {
@@ -266,12 +218,7 @@ public class Messager extends AppCompatActivity {
             listView.addView(myLayout);
         }
 
-//        TextView textView=new TextView(this);
-//        textView.setText(text);
-//
-//        listView.addView(textView);
-
-
+        IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
     }
 
     public void SendMessage()
