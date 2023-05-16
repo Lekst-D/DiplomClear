@@ -1,92 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--    android:layout_marginRight="20dp"-->
+    <!--    android:layout_marginLeft="20dp"-->
+    <!--    android:paddingTop="5dp"-->
+    <!--    android:paddingBottom="5dp"-->
+    <!--    android:paddingLeft="3dp"-->
+    <!--    android:paddingRight="3dp"-->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/OneLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+
+        <ImageView
+            android:id="@+id/IDLineOneOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
             android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:maxHeight="250dp" />
+
+        <ImageView
+            android:id="@+id/IDLineOneTwo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/IDLineOneThree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/TwoLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+
+        <ImageView
+            android:id="@+id/IDLineTwoOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/IDLineTwoTwo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/IDLineTwoThree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ThreeLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ThreeLine"
         android:orientation="horizontal">
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+
+        <ImageView
+            android:id="@+id/IDLineThreeOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/IDLineThreeTwo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
-        <Button
-            android:layout_weight="1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/IDLineThreeThree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>
