@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -234,7 +235,7 @@ public class Pages extends AppCompatActivity {
     void HideLoad(boolean check) {
 //        ImageView IDID =findViewById(R.id.IDID);
 //        IDID.setImageResource(R.drawable.two);
-        
+
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
         IDLoad.setVisibility(View.GONE);
 
@@ -307,6 +308,7 @@ public class Pages extends AppCompatActivity {
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     ArrayList<String> FioUsers = new ArrayList<>();
     ArrayList<String> IDusers = new ArrayList<>();
+
     void ShowPost(Post post) {
 
         LinearLayout listView = findViewById(R.id.IDListView);
@@ -322,21 +324,21 @@ public class Pages extends AppCompatActivity {
 
         FIO.setText(idUserRequest);
 
-            IDusers.add(idUserRequest);
-            mDatabase.child("UserInfo").child(idUserRequest).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        String Name = task.getResult().child("userName").getValue().toString();
-                        String Surname = task.getResult().child("userSurname").getValue().toString();
-                        String fio = Surname + " " + Name;
+        IDusers.add(idUserRequest);
+        mDatabase.child("UserInfo").child(idUserRequest).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    String Name = task.getResult().child("userName").getValue().toString();
+                    String Surname = task.getResult().child("userSurname").getValue().toString();
+                    String fio = Surname + " " + Name;
 
-                        FIO.setText(fio);
-                    }
+                    FIO.setText(fio);
                 }
-            });
+            }
+        });
 
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
@@ -349,6 +351,385 @@ public class Pages extends AppCompatActivity {
         } else {
             DownloadImage(post.getImagePost(), Image);
         }
+
+//        View myLayoutImages = inflater.inflate(R.layout.one_image, null, false);
+//
+//        int height = Image.getHeight() / 3;
+//        int width = Image.getWidth() / 3;
+//
+//        ImageView IDLineOneOne = myLayoutImages.findViewById(R.id.IDLineOneOne);
+//        ImageView IDLineOneTwo = myLayoutImages.findViewById(R.id.IDLineOneTwo);
+//        ImageView IDLineOneThree = myLayoutImages.findViewById(R.id.IDLineOneThree);
+//
+//        ImageView IDLineTwoOne = myLayoutImages.findViewById(R.id.IDLineTwoOne);
+//        ImageView IDLineTwoTwo = myLayoutImages.findViewById(R.id.IDLineTwoTwo);
+//        ImageView IDLineTwoThree = myLayoutImages.findViewById(R.id.IDLineTwoThree);
+//
+//        ImageView IDLineThreeOne = myLayoutImages.findViewById(R.id.IDLineThreeOne);
+//        ImageView IDLineThreeTwo = myLayoutImages.findViewById(R.id.IDLineThreeTwo);
+//        ImageView IDLineThreeThree = myLayoutImages.findViewById(R.id.IDLineThreeThree);
+//
+////        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
+////
+////        IDLineOneOne.setLayoutParams(layoutParams);
+////        IDLineOneTwo.setLayoutParams(layoutParams);
+////        IDLineOneThree.setLayoutParams(layoutParams);
+//
+//
+//        IDLineOneOne.setVisibility(View.GONE);
+//        IDLineOneTwo.setVisibility(View.GONE);
+//        IDLineOneThree.setVisibility(View.GONE);
+//
+//        IDLineTwoOne.setVisibility(View.GONE);
+//        IDLineTwoTwo.setVisibility(View.GONE);
+//        IDLineTwoThree.setVisibility(View.GONE);
+//
+//        IDLineThreeOne.setVisibility(View.GONE);
+//        IDLineThreeTwo.setVisibility(View.GONE);
+//        IDLineThreeThree.setVisibility(View.GONE);
+//
+
+//
+//        IDLineOneOne.setVisibility(View.VISIBLE);
+//
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT,1);
+//
+//        IDLineOneOne.setLayoutParams(layoutParams);
+//
+////        IDLineOneTwo.setVisibility(View.VISIBLE);
+////        IDLineOneThree.setVisibility(View.VISIBLE);
+////
+////        IDLineTwoOne.setVisibility(View.VISIBLE);
+////        IDLineTwoTwo.setVisibility(View.VISIBLE);
+////        IDLineTwoThree.setVisibility(View.VISIBLE);
+//
+//        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//        IDLineOneOne.setImageBitmap(myBitmap);
+////        IDLineOneTwo.setImageBitmap(myBitmap);
+////        IDLineOneThree.setImageBitmap(myBitmap);
+////
+////        IDLineTwoOne.setImageBitmap(myBitmap);
+////        IDLineTwoTwo.setImageBitmap(myBitmap);
+////        IDLineTwoThree.setImageBitmap(myBitmap);
+//
+
+////
+////
+////        if(images.size()<=1){
+////
+////            IDLineOneOne.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(0));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////
+////            IDLineOneOne.setImageBitmap(myBitmap);
+////
+////        }
+////        else if(images.size()<=2)
+////        {
+////            IDLineOneTwo.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(1));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineOneTwo.setImageBitmap(myBitmap);
+////
+////        }
+////        else if(images.size()<=3)
+////        {
+////            IDLineOneThree.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(2));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineOneThree.setImageBitmap(myBitmap);
+////        }
+////        else if(images.size()<=4)
+////        {
+////            IDLineTwoOne.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(3));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineTwoOne.setImageBitmap(myBitmap);
+////
+////        }
+////        else if(images.size()<=5){
+////            IDLineTwoTwo.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(4));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineTwoTwo.setImageBitmap(myBitmap);
+////
+////        }
+////        else if(images.size()<=6){
+////            IDLineTwoThree.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(5));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineTwoThree.setImageBitmap(myBitmap);
+////        }
+////        else if(images.size()<=7){
+////            IDLineThreeOne.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(6));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineThreeOne.setImageBitmap(myBitmap);
+////
+////        }
+////        else if(images.size()<=8){
+////
+////            Log.e("images",images.size()+"");
+////
+////            IDLineThreeTwo.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(7));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineThreeTwo.setImageBitmap(myBitmap);
+////        }
+////        else if(images.size()>=9){
+////
+////            Log.e("images",images.size()+"");
+////
+////            IDLineThreeThree.setVisibility(View.VISIBLE);
+////
+////            File file=new File(images.get(8));
+////            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+////            IDLineThreeThree.setImageBitmap(myBitmap);
+////
+////        }
+//
+//
+        LinearLayout IDImageView = myLayout.findViewById(R.id.IDImageView);
+
+        ArrayList<String> images = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+            images.add(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+        }
+
+        LinearLayout ImageLineOne=new LinearLayout(this);
+        ImageLineOne.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+        ImageLineOne.setGravity(View.FOCUS_LEFT);
+        ImageLineOne.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout ImageLineTwo=new LinearLayout(this);
+        ImageLineTwo.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+        ImageLineTwo.setGravity(View.FOCUS_LEFT);
+        ImageLineTwo.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout ImageLineThree=new LinearLayout(this);
+        ImageLineThree.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+        ImageLineThree.setGravity(View.FOCUS_LEFT);
+        ImageLineThree.setOrientation(LinearLayout.HORIZONTAL);
+
+        int sizeImage=images.size();
+        Log.e("sizeImage",sizeImage+"");
+
+        if(sizeImage <= 2)
+        {
+            Log.e("sizeImage",sizeImage+"");
+            for (String st:images) {
+                File file = new File( st);
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+
+                ImageView IDLineOneOne = new ImageView(this);
+
+                IDLineOneOne.setLayoutParams(layoutParams);
+                IDLineOneOne.setVisibility(View.VISIBLE);
+                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                IDLineOneOne.setImageBitmap(myBitmap);
+
+                IDLineOneOne.setPadding(2,2,0,0);
+
+                ImageLineOne.addView(IDLineOneOne);
+            }
+
+        }
+        else if(sizeImage<=8)
+        {
+            int height= (int) (ViewGroup.LayoutParams.MATCH_PARENT*0.8f);
+
+
+
+            for (int i=0;i<2;i++) {
+                File file = new File(images.get(i));
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        height, 1);
+
+                ImageView IDLineOneOne = new ImageView(this);
+
+                IDLineOneOne.setLayoutParams(layoutParams);
+                IDLineOneOne.setVisibility(View.VISIBLE);
+                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                IDLineOneOne.setImageBitmap(myBitmap);
+                IDLineOneOne.setPadding(2,2,0,0);
+
+                ImageLineOne.addView(IDLineOneOne);
+            }
+
+            height= (int) (ViewGroup.LayoutParams.MATCH_PARENT*0.2);
+            int width=(int) (ViewGroup.LayoutParams.MATCH_PARENT/6) -12;
+
+            File file = new File(images.get(1));
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    width,
+                    height, 1);
+
+            ImageView IDLineOneOne = new ImageView(this);
+
+            IDLineOneOne.setLayoutParams(layoutParams);
+            IDLineOneOne.setVisibility(View.VISIBLE);
+            IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            IDLineOneOne.setImageBitmap(myBitmap);
+            IDLineOneOne.setPadding(2,2,0,0);
+
+            ImageLineTwo.addView(IDLineOneOne);
+
+//            for (int i=2;i<8;i++) {
+//                File file = new File(images.get(i));
+//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//
+//                ImageView IDLineOneOne = new ImageView(this);
+//
+//                IDLineOneOne.setLayoutParams(layoutParams);
+//                IDLineOneOne.setVisibility(View.VISIBLE);
+//                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                IDLineOneOne.setImageBitmap(myBitmap);
+//                IDLineOneOne.setPadding(2,2,0,0);
+//
+//                ImageLineTwo.addView(IDLineOneOne);
+//            }
+        }
+        else if(sizeImage>=9)
+        {
+
+            for (int i=0;i<3;i++) {
+                File file = new File(images.get(i));
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+
+                ImageView IDLineOneOne = new ImageView(this);
+
+                IDLineOneOne.setLayoutParams(layoutParams);
+                IDLineOneOne.setVisibility(View.VISIBLE);
+                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                IDLineOneOne.setImageBitmap(myBitmap);
+                IDLineOneOne.setPadding(2,2,0,0);
+
+                ImageLineOne.addView(IDLineOneOne);
+            }
+
+            for (int i=3;i<6;i++) {
+                File file = new File(images.get(i));
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+
+                ImageView IDLineOneOne = new ImageView(this);
+
+                IDLineOneOne.setLayoutParams(layoutParams);
+                IDLineOneOne.setVisibility(View.VISIBLE);
+                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                IDLineOneOne.setImageBitmap(myBitmap);
+                IDLineOneOne.setPadding(2,2,0,0);
+
+                ImageLineTwo.addView(IDLineOneOne);
+            }
+
+            for (int i=6;i<9;i++) {
+                File file = new File(images.get(i));
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1);
+
+                ImageView IDLineOneOne = new ImageView(this);
+
+                IDLineOneOne.setLayoutParams(layoutParams);
+                IDLineOneOne.setVisibility(View.VISIBLE);
+                IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                IDLineOneOne.setImageBitmap(myBitmap);
+                IDLineOneOne.setPadding(2,2,0,0);
+
+                ImageLineThree.addView(IDLineOneOne);
+            }
+        }
+
+//        {
+//            ImageView IDLineOneOne = new ImageView(this);
+//
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//
+//            IDLineOneOne.setLayoutParams(layoutParams);
+//            IDLineOneOne.setVisibility(View.VISIBLE);
+//            IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            IDLineOneOne.setImageBitmap(myBitmap);
+//
+//            ImageLine.addView(IDLineOneOne);
+//        }
+//        {
+//            ImageView IDLineOneOne = new ImageView(this);
+//
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//
+//            IDLineOneOne.setLayoutParams(layoutParams);
+//            IDLineOneOne.setVisibility(View.VISIBLE);
+//            IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            IDLineOneOne.setImageBitmap(myBitmap);
+//
+//            ImageLine.addView(IDLineOneOne);
+//        }
+//        {
+//            ImageView IDLineOneOne = new ImageView(this);
+//
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//
+//            IDLineOneOne.setLayoutParams(layoutParams);
+//            IDLineOneOne.setVisibility(View.VISIBLE);
+//            IDLineOneOne.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            IDLineOneOne.setImageBitmap(myBitmap);
+//
+//            ImageLine.addView(IDLineOneOne);
+//        }
+
+
+        listView.addView(ImageLineOne);
+        listView.addView(ImageLineTwo);
+        listView.addView(ImageLineThree);
 
         String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 

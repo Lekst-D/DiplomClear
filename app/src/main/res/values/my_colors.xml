@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="MainColor">#EEECECE7</color>
-    <color name="HatColor">#EDCA8A</color>
+    <color name="HatColor">#E8CA94</color>
     <color name="ButtonColor">#EDB95E</color>
     <color name="SelectionColorCream">#F6ECB5</color>
     <color name="MainColorCream">#EEFFFFFF</color>

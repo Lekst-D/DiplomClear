@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:background="@drawable/linear_layout_shape"
         android:orientation="vertical">
 
 
@@ -49,9 +48,24 @@
                     android:textSize="18sp"
                     android:textColor="@color/ColorText" />
 
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/IDUserMess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Message"
+                    android:textSize="18sp"
+                    android:textColor="@color/ColorText" />
+
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/ButtonColor"
+            android:layout_height="1dp" />
 
     </LinearLayout>
 

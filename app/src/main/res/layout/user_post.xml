@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:maxHeight="350dp"
             android:id="@+id/IDImageView"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
         </LinearLayout>
 
