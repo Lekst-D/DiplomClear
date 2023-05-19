@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -178,6 +179,28 @@ public class AllImageUser extends AppCompatActivity {
         }
     }
 
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if (uri == null) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
+        }
+        // this is our fallback here
+        return uri.getPath();
+    }
+
     void ImageAddUser(Uri Photo) throws IOException {
         ArrayList<String> PhotoForSend = new ArrayList<>();
         String namePhotos="";
@@ -189,7 +212,7 @@ public class AllImageUser extends AppCompatActivity {
             new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
         }
 
-        Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Photo);
+        Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(getPath(Photo));
         try {
 
 
@@ -204,14 +227,6 @@ public class AllImageUser extends AppCompatActivity {
 
             fos.flush();
             fos.close();
-
-
-            namePhotos=String.join(", ", PhotoForSend);
-//                    ArrayList<String> Names = new ArrayList<>(Arrays.asList(name.split(",")));
-
-//                    Log.e("name new photo",PhotoForSend.toString());
-//                    Log.e("name new photo",name.toString());
-//                    Log.e("name new photo",Names.toString());
 
         } catch (IOException e) {
             e.printStackTrace();

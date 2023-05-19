@@ -25,10 +25,13 @@
 
 
         <LinearLayout
-            android:id="@+id/IDLinearLayoutMessImages"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
+            android:maxWidth="300dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:maxHeight="330dp"
+            android:id="@+id/IDImageView"
+            android:orientation="horizontal"/>
 
         <TextView
             android:id="@+id/IDMessText"

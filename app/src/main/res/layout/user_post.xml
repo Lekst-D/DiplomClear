@@ -54,6 +54,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="330dp"
             android:maxHeight="330dp"

@@ -54,8 +54,6 @@ public class NewPost extends AppCompatActivity {
     EditText TextPost;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListenner;
-    //    private FirebaseListAdapter<String> adapter ;
     private FirebaseUser user;
     private DatabaseReference myRef;
 
@@ -96,183 +94,6 @@ public class NewPost extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         IdUser=user.getUid().toString();
 
-
-//        NewPost.setOnClickListener(new View.OnClickListener() {
-//
-//            @SuppressLint("LongLogTag")
-//            @Override
-//            public void onClick(View view) {
-//
-//                ArrayList<String> PhotoForSend = new ArrayList<>();
-//                String namePhotos="";
-//
-//                File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
-//                if (!dir.exists()) {
-//                    new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
-//                }
-//
-//                String path = Environment.getExternalStorageDirectory() + "/Download/1.jpeg";
-////                File fi=new File(path);
-//                Uri u = UriAdressPhoto;
-//
-////                ImageView ImageID = null;
-////                ImageID.setImageURI(u);
-//                Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(selectedImagePath);
-//                try {
-//                    String NewName="";
-//                    long time = System.currentTimeMillis();
-//                    NewName=IdUser+ time + ".jpg";
-//
-//                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +NewName;
-//                    File f = new File(path);
-//                    f.createNewFile();
-//                    FileOutputStream fos = new FileOutputStream(path);
-//                    photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//
-//                    fos.flush();
-//                    fos.close();
-//
-//                    PhotoForSend.add(NewName);
-//
-//
-//                    namePhotos=String.join(", ", PhotoForSend);
-////                    ArrayList<String> Names = new ArrayList<>(Arrays.asList(name.split(",")));
-//
-////                    Log.e("name new photo",PhotoForSend.toString());
-////                    Log.e("name new photo",name.toString());
-////                    Log.e("name new photo",Names.toString());
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                String textpost=TextPost.getText().toString();
-//
-//                Date currentTime = Calendar.getInstance().getTime();
-//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-//                String datePost=sdf.format( currentTime );
-//
-////                System.out.println( "The date is: "+  sdf.format( date )  );
-////                LocalDateTime dateTime = LocalDateTime.parse(currentTime.toString());
-//
-////                String dataTime=currentTime.getDay() "."+currentTime.getMonth()+"."+currentTime.getYear()
-////                        +" "+currentTime.getHours()+":"+currentTime.getMinutes();
-//
-//                Log.e("date time not mistake day",sdf.format( currentTime )+"");
-//                Log.e("date time not mistake mouth",currentTime.getMonth()+"");
-//                Log.e("date time not mistake year",currentTime.getYear()+"");
-//
-//                Log.e("date time not mistake hours",currentTime.getMonth()+"");
-//                Log.e("date time not mistake minutes",currentTime.getYear()+"");
-//                Log.e("date time not mistake all date",currentTime.toString());
-//
-//
-////                String string = "January 2, 2010";
-////                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
-////                LocalDate date = LocalDate.parse(string, formatter);
-////                System.out.println(date); // 2010-01-02
-//
-//                Map<String, Object> user = new HashMap<>();
-//                user.put("dataTime", datePost);
-//                user.put("TextPost", textpost);
-//                user.put("Images", namePhotos);
-//                user.put("UserID", IdUser);
-//
-//                FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                db.collection("usersPosts")
-//                        .add(user)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.w(TAG, "Error adding document", e);
-//                            }
-//                        });
-//
-////                NewPost newPost=new NewPost(textpost, nameImage, dataTime);
-////
-////                myRef.child("Post").child(user.getUid()).
-////                        push().setValue(new Post(textpost, nameImage, dataTime));
-//
-//                for (String Photo:PhotoForSend) {
-//
-//
-//                    FirebaseStorage storage = FirebaseStorage.getInstance();
-//
-//                    StorageReference storageRef = storage.getReference();
-//                    StorageReference imagesRef = storageRef.child(IdUser+"/"+Photo);
-//                    StorageReference spaceRef = storageRef.child("images/space.jpg");
-//
-//                    spaceRef.getName().equals(spaceRef.getName());    // true
-//
-////                    path = Environment.getExternalStorageDirectory() + "/Download/23.jpg";
-//                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+Photo;
-//
-//                    InputStream stream = null;
-//                    try {
-//                        stream = new FileInputStream(new File(path));
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                    UploadTask uploadTask = imagesRef.putStream(stream);
-//                    uploadTask.addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception exception) {
-//                            // Handle unsuccessful uploads
-//                        }
-//                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                            // ...
-//                        }
-//                    });
-//                }
-//
-//            }
-//        });
-
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//
-//        StorageReference storageRef = storage.getReference();
-//        StorageReference imagesRef = storageRef.child("15");
-////        StorageReference spaceRef = storageRef.child("images/space.jpg");
-////
-////        spaceRef.getName().equals(spaceRef.getName());    // true
-//
-//        String path = Environment.getExternalStorageDirectory() + "/Download/15.jpg";
-////                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+photo;
-//
-//        InputStream stream = null;
-//        try {
-//            stream = new FileInputStream(new File(path));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        UploadTask uploadTask = imagesRef.putStream(stream);
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle unsuccessful uploads
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                // ...
-//            }
-//        });
-
         AddPost.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("LongLogTag")
@@ -288,11 +109,9 @@ public class NewPost extends AppCompatActivity {
                 }
 
                 String path = Environment.getExternalStorageDirectory() + "/Download/1.jpeg";
-//                File fi=new File(path);
+
                 Uri u = UriAdressPhoto;
 
-//                ImageView ImageID = null;
-//                ImageID.setImageURI(u);
                 Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(selectedImagePath);
                 try {
                     String NewName="";
@@ -312,11 +131,6 @@ public class NewPost extends AppCompatActivity {
 
 
                     namePhotos=String.join(", ", PhotoForSend);
-//                    ArrayList<String> Names = new ArrayList<>(Arrays.asList(name.split(",")));
-
-//                    Log.e("name new photo",PhotoForSend.toString());
-//                    Log.e("name new photo",name.toString());
-//                    Log.e("name new photo",Names.toString());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -365,11 +179,6 @@ public class NewPost extends AppCompatActivity {
                                 Log.w(TAG, "Error adding document", e);
                             }
                         });
-
-//                NewPost newPost=new NewPost(textpost, nameImage, dataTime);
-//
-//                myRef.child("Post").child(user.getUid()).
-//                        push().setValue(new Post(textpost, nameImage, dataTime));
 
                 for (String Photo:PhotoForSend) {
 
@@ -420,56 +229,6 @@ public class NewPost extends AppCompatActivity {
 
     }
 
-    private void uploadFile() {
-
-        //if there is a file to upload
-//        if (filePath != null) {
-//            //displaying a progress dialog while upload is going on
-//            final ProgressDialog progressDialog = new ProgressDialog(this);
-//            progressDialog.setTitle("Uploading");
-//            progressDialog.show();
-//
-//            StorageReference riversRef = storageReference.child("images/pic.jpeg");
-//            riversRef.putFile(filePath)
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            //if the upload is successfull
-//                            //hiding the progress dialog
-//                            progressDialog.dismiss();
-//
-//                            //and displaying a success toast
-//                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception exception) {
-//                            //if the upload is not successfull
-//                            //hiding the progress dialog
-//                            progressDialog.dismiss();
-//
-//                            //and displaying error message
-//                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-//                        }
-//                    })
-//                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                            //calculating progress percentage
-//                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//
-//                            //displaying percentage in progress dialog
-//                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
-//                        }
-//                    });
-//        }
-//        //if there is not any file
-//        else {
-//            //you can display an error toast
-//        }
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("Result_ok", resultCode + "");
@@ -482,7 +241,7 @@ public class NewPost extends AppCompatActivity {
                 UriAdressPhoto = selectedImageUri;
                 selectedImagePath = getPath(selectedImageUri);
 
-                ImagePost.setImageURI(selectedImageUri);
+//                ImagePost.setImageURI(selectedImageUri);
 
             }
         }
@@ -509,7 +268,6 @@ public class NewPost extends AppCompatActivity {
         // this is our fallback here
         return uri.getPath();
     }
-
 
     public void CloseThisSuccess()
     {
