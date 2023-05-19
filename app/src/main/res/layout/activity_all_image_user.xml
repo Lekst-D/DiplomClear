@@ -76,7 +76,7 @@
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="У вас нет постов"
+            android:text="У вас нет изображений"
             />
     </LinearLayout>
     <LinearLayout

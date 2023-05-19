@@ -259,6 +259,7 @@ public class User extends AppCompatActivity {
     void ShowAllImage() {
         Intent intent = new Intent(this, AllImageUser.class);
         intent.putExtra("IDUser", IdUser);
+        intent.putExtra("User", "User");
         startActivity(intent);
     }
 

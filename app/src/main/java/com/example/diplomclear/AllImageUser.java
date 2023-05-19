@@ -1,5 +1,7 @@
 package com.example.diplomclear;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -36,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -50,17 +54,23 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AllImageUser extends AppCompatActivity {
 
-    ArrayList<String> ImageList,NewImageList;
+    ArrayList<String> ImageList, NewImageList;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private DatabaseReference myRef;
     private String IdUser;
+    private String UserID;
 
-    ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
+    private Boolean ShowAdd = true;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
+    private String NameImageAll = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +78,20 @@ public class AllImageUser extends AppCompatActivity {
         setContentView(R.layout.activity_all_image_user);
 
         ImageList = new ArrayList<>();
-        NewImageList= new ArrayList<>();
+        NewImageList = new ArrayList<>();
 
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        IdUser=user.getUid();
+        IdUser = user.getUid();
 
         DatabaseReference mDatabas = FirebaseDatabase.getInstance().getReference();
 
         Bundle arguments = getIntent().getExtras();
-        String UserID = arguments.get("IDUser").toString();
+        UserID = arguments.get("IDUser").toString();
+
+        ShowAdd=!(arguments.get("User").toString()).contains("User");
+
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -120,19 +133,18 @@ public class AllImageUser extends AppCompatActivity {
 
         ImageButton arrowback_white = findViewById(R.id.IDList);
         arrowback_white.setOnClickListener(
-                new View.OnClickListener()
-                {
-                   public void onClick(View v) {
-                       finish();
-                   }
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        finish();
+                    }
                 }
         );
 
-        pickMultipleMedia =  registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(9), uris -> {
+        pickMultipleMedia = registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(9), uris -> {
             if (!uris.isEmpty()) {
                 Log.d("PhotoPicker", "Number of items selected: " + uris.size());
 
-                for (Uri u:uris) {
+                for (Uri u : uris) {
                     Log.e("uris", u.getPath());
                     try {
                         ImageAddUser(u);
@@ -140,6 +152,7 @@ public class AllImageUser extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                SendPost();
 
             } else {
                 Log.d("PhotoPicker", "No media selected");
@@ -147,19 +160,22 @@ public class AllImageUser extends AppCompatActivity {
         });
 
         ImageButton IDAddImage = findViewById(R.id.IDAddImage);
-        IDAddImage.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    public void onClick(View v) {
-                        try {
-                            pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
-                                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                                    .build());
+        if (ShowAdd) {
+            IDAddImage.setVisibility(View.INVISIBLE);
+        } else {
+            IDAddImage.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            try {
+                                pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                                        .build());
+                            } catch (Exception e) {
+                            }
                         }
-                        catch (Exception e){}
                     }
-                }
-        );
+            );
+        }
 
     }
 
@@ -174,7 +190,9 @@ public class AllImageUser extends AppCompatActivity {
         IDTVTextNotPost.setVisibility(View.GONE);
 
         if (!check) {
-
+            if (ShowAdd) {
+                IDTVTextNotPost.setText("У пользователя нет изображений");
+            }
             IDTVTextNotPost.setVisibility(View.VISIBLE);
         }
     }
@@ -201,11 +219,12 @@ public class AllImageUser extends AppCompatActivity {
         return uri.getPath();
     }
 
-    void ImageAddUser(Uri Photo) throws IOException {
+    String NewName = "";
+
+    boolean ImageAddUser(Uri Photo) throws IOException {
         ArrayList<String> PhotoForSend = new ArrayList<>();
-        String namePhotos="";
-        String NewName="";
-        String path="";
+        String namePhotos = "";
+        String path = "";
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
         if (!dir.exists()) {
@@ -217,9 +236,9 @@ public class AllImageUser extends AppCompatActivity {
 
 
             long time = System.currentTimeMillis();
-            NewName=IdUser+ time + ".jpg";
+            NewName = IdUser + time + ".jpg";
 
-            path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +NewName;
+            path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
             File f = new File(path);
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(path);
@@ -232,20 +251,20 @@ public class AllImageUser extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
         String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
 
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child(IdUser+"/"+NewName);
+        StorageReference imagesRef = storageRef.child(IdUser + "/" + NewName);
         StorageReference spaceRef = storageRef.child("images/space.jpg");
 
         spaceRef.getName().equals(spaceRef.getName());    // true
 
 //                    path = Environment.getExternalStorageDirectory() + "/Download/23.jpg";
-        path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+NewName;
+        path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
 
         InputStream stream = null;
         try {
@@ -264,13 +283,15 @@ public class AllImageUser extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                NameImageAll += NewName + ",";
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
             }
         });
+        return true;
     }
 
-    void ShowMessage(){
+    void ShowMessage() {
         Intent intent = new Intent(this, MessegeList.class);
         startActivity(intent);
     }
@@ -278,6 +299,39 @@ public class AllImageUser extends AppCompatActivity {
     public void ShowImages() {
         GridView IDgridview = findViewById(R.id.IDgridview);
         IDgridview.setAdapter(new ImageAdapterGridView(this, ImageList));
+    }
+
+    @SuppressLint("LongLogTag")
+    public void SendPost() {
+
+        String textpost = null;
+
+
+        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("DatePost", Date);
+        user.put("TimePost", Time);
+        user.put("TextPost", textpost);
+        user.put("Images", NameImageAll);
+        user.put("UserID", IdUser);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usersPosts")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
 
     public class ImageAdapterGridView extends BaseAdapter {
