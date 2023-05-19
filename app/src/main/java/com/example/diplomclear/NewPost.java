@@ -69,14 +69,15 @@ public class NewPost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
+        UriAdressPhoto = null;
         //elements form form
         ImagePost = findViewById(R.id.IDImageView);
         ShowImage = findViewById(R.id.IDNewImagePost);
         NewPost = findViewById(R.id.IDaddPost);
         TextPost = findViewById(R.id.IdTextPost);
 
-        AddPost=findViewById(R.id.IDCheck);
-        CloseNewPost=findViewById(R.id.IDClose);
+        AddPost = findViewById(R.id.IDCheck);
+        CloseNewPost = findViewById(R.id.IDClose);
 
         ShowImage.setOnClickListener(new View.OnClickListener() {
 
@@ -92,7 +93,7 @@ public class NewPost extends AppCompatActivity {
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        IdUser=user.getUid().toString();
+        IdUser = user.getUid().toString();
 
         AddPost.setOnClickListener(new View.OnClickListener() {
 
@@ -101,7 +102,7 @@ public class NewPost extends AppCompatActivity {
             public void onClick(View view) {
 
                 ArrayList<String> PhotoForSend = new ArrayList<>();
-                String namePhotos="";
+                String namePhotos = "null";
 
                 File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
                 if (!dir.exists()) {
@@ -109,50 +110,51 @@ public class NewPost extends AppCompatActivity {
                 }
 
                 String path = Environment.getExternalStorageDirectory() + "/Download/1.jpeg";
+                if (UriAdressPhoto != null) {
+                    Uri u = UriAdressPhoto;
 
-                Uri u = UriAdressPhoto;
+                    Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(selectedImagePath);
+                    try {
+                        String NewName = "";
+                        long time = System.currentTimeMillis();
+                        NewName = IdUser + time + ".jpg";
 
-                Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(selectedImagePath);
-                try {
-                    String NewName="";
-                    long time = System.currentTimeMillis();
-                    NewName=IdUser+ time + ".jpg";
+                        path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
+                        File f = new File(path);
+                        f.createNewFile();
+                        FileOutputStream fos = new FileOutputStream(path);
+                        photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
-                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +NewName;
-                    File f = new File(path);
-                    f.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(path);
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        fos.flush();
+                        fos.close();
 
-                    fos.flush();
-                    fos.close();
-
-                    PhotoForSend.add(NewName);
+                        PhotoForSend.add(NewName);
 
 
-                    namePhotos=String.join(", ", PhotoForSend);
+                        namePhotos = String.join(", ", PhotoForSend);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
-                String textpost=TextPost.getText().toString();
+                String textpost = TextPost.getText().toString();
 
                 Date currentTime = Calendar.getInstance().getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-                String datePost=sdf.format( currentTime );
+                String datePost = sdf.format(currentTime);
 
-                Log.e("date time not mistake day",sdf.format( currentTime )+"");
-                Log.e("date time not mistake mouth",currentTime.getMonth()+"");
-                Log.e("date time not mistake year",currentTime.getYear()+"");
+                Log.e("date time not mistake day", sdf.format(currentTime) + "");
+                Log.e("date time not mistake mouth", currentTime.getMonth() + "");
+                Log.e("date time not mistake year", currentTime.getYear() + "");
 
-                Log.e("date time not mistake hours",currentTime.getMonth()+"");
-                Log.e("date time not mistake minutes",currentTime.getYear()+"");
-                Log.e("date time not mistake all date",currentTime.toString());
+                Log.e("date time not mistake hours", currentTime.getMonth() + "");
+                Log.e("date time not mistake minutes", currentTime.getYear() + "");
+                Log.e("date time not mistake all date", currentTime.toString());
 
 
-                String Date=new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+                String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
                 String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
 
                 Map<String, Object> user = new HashMap<>();
@@ -180,19 +182,19 @@ public class NewPost extends AppCompatActivity {
                             }
                         });
 
-                for (String Photo:PhotoForSend) {
+                for (String Photo : PhotoForSend) {
 
 
                     FirebaseStorage storage = FirebaseStorage.getInstance();
 
                     StorageReference storageRef = storage.getReference();
-                    StorageReference imagesRef = storageRef.child(IdUser+"/"+Photo);
+                    StorageReference imagesRef = storageRef.child(IdUser + "/" + Photo);
                     StorageReference spaceRef = storageRef.child("images/space.jpg");
 
                     spaceRef.getName().equals(spaceRef.getName());    // true
 
 //                    path = Environment.getExternalStorageDirectory() + "/Download/23.jpg";
-                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/"+Photo;
+                    path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + Photo;
 
                     InputStream stream = null;
                     try {
@@ -269,8 +271,7 @@ public class NewPost extends AppCompatActivity {
         return uri.getPath();
     }
 
-    public void CloseThisSuccess()
-    {
+    public void CloseThisSuccess() {
         Intent intent = new Intent(this, User.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

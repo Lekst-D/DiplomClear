@@ -1,5 +1,7 @@
 package com.example.diplomclear.Message;
 
+import static androidx.fragment.app.DialogFragment.STYLE_NO_FRAME;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -7,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +31,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diplomclear.AnotherUser;
+import com.example.diplomclear.SliderImage.CustomDialogFragment;
 import com.example.diplomclear.Classes.ImageUtils;
 import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -74,11 +80,15 @@ public class Messager extends AppCompatActivity {
     ScrollView IDScrollVIew;
     ImageView IDImagesMessage;
 
+    Context mContext;
+
     private static final int CImageMax = 9;
 
     ArrayList<Uri> ImageList;
 
     ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
+
+    private ArrayList<String> ImageListSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +111,8 @@ public class Messager extends AppCompatActivity {
         IdUser = user.getUid();
 
         ImageList = new ArrayList<>();
+        ImageListSlider= new ArrayList<>();
+        mContext=this;
 
         mDatabase.child("UserInfo").child(IdUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -191,9 +203,21 @@ public class Messager extends AppCompatActivity {
 
                     Log.e("firebase", "Error getting data", task.getException());
                 } else {
+
                     String Name = task.getResult().child("userName").getValue().toString();
                     String Surname = task.getResult().child("userSurname").getValue().toString();
+                    String UserPhoto= task.getResult().child("userPhoto").getValue().toString();
+                    String idUser= task.getResult().getKey().toString();
                     IdUserAnother.setText(Surname + " " + Name);
+
+                    IdUserAnother.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, AnotherUser.class);
+                            intent.putExtra("UserID",    idUser);
+                            intent.putExtra("FIO",       Surname+" "+Name);
+                            intent.putExtra("ImageUser", UserPhoto);
+                            startActivity(intent);
+                        }});
                 }
             }
         });
@@ -247,51 +271,82 @@ public class Messager extends AppCompatActivity {
     }
 
     public String DownloadImage(String ImageName, ImageView Image) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
 
-        final long ONE_MEGABYTE = 1024 * 1024 * 1024;
-        storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        }
+        else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
 //__________________________________________________
-                File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
-                try {
-                    f.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
 //Convert bitmap to byte array
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
-                byte[] bitmapdata = bos.toByteArray();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(f);
-                    fos.write(bitmapdata);
-                    fos.flush();
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 //__________________________________________________
 
-                Image.setImageBitmap(bitmap);
+                    Image.setImageBitmap(bitmap);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+
+        ImageListSlider.add(ImageName);
+        int position=ImageListSlider.indexOf(ImageName);
+
+        Image.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putStringArrayList("mArrayUri", ImageListSlider);
+                args.putInt("CurentPosition",position);
+
+                CustomDialogFragment dialog = new CustomDialogFragment();
+                dialog.setArguments(args);
+                dialog.setStyle(STYLE_NO_FRAME,
+                        android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                dialog.show(getSupportFragmentManager(), "custom");
+            }}
+        );
 
         return ImageName;
     }
@@ -614,7 +669,6 @@ public class Messager extends AppCompatActivity {
         // this is our fallback here
         return uri.getPath();
     }
-
 
     public void SendMessage() throws IOException {
         ArrayList<String> PhotoForSend = new ArrayList<>();

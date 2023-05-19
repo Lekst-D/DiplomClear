@@ -3,6 +3,8 @@ package com.example.diplomclear;
 import static android.content.ContentValues.TAG;
 import static android.os.FileUtils.copy;
 
+import static androidx.fragment.app.DialogFragment.STYLE_NO_FRAME;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +28,7 @@ import android.widget.TextView;
 
 import com.example.diplomclear.Classes.Post;
 import com.example.diplomclear.Message.MessegeList;
+import com.example.diplomclear.SliderImage.CustomDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -255,52 +258,82 @@ public class Pages extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public String DownloadImage(String ImageName, ImageView Image) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+    public String DownloadImage(String ImageName, ImageView Image,ArrayList<String> ImageListSlider) {
 
-        final long ONE_MEGABYTE = 1024 * 1024 * 1024;
-        storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        }
+        else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
 //__________________________________________________
-                File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
-                try {
-                    f.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
 //Convert bitmap to byte array
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
-                byte[] bitmapdata = bos.toByteArray();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(f);
-                    fos.write(bitmapdata);
-                    fos.flush();
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 //__________________________________________________
 
-                Image.setImageBitmap(bitmap);
+                    Image.setImageBitmap(bitmap);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+
+        int position=ImageListSlider.indexOf(ImageName);
+
+        Image.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putStringArrayList("mArrayUri", ImageListSlider);
+                args.putInt("CurentPosition",position);
+
+                CustomDialogFragment dialog = new CustomDialogFragment();
+                dialog.setArguments(args);
+                dialog.setStyle(STYLE_NO_FRAME,
+                        android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                dialog.show(getSupportFragmentManager(), "custom");
+            }}
+        );
 
         return ImageName;
     }
@@ -341,193 +374,272 @@ public class Pages extends AppCompatActivity {
         });
 
 
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
-        if (dir.exists()) {
-
-            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            Image.setImageBitmap(myBitmap);
-
-        } else {
-            DownloadImage(post.getImagePost(), Image);
-        }
+//        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//        if (dir.exists()) {
+//
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//            Image.setImageBitmap(myBitmap);
+//
+//        } else {
+//            DownloadImage(post.getImagePost(), Image);
+//        }
 
         LinearLayout IDImageView = myLayout.findViewById(R.id.IDImageView);
 
-        ArrayList<String> images = new ArrayList<>();
+        String ImageMess=post.getImagePost();
 
-        for (int i = 0; i < 3; i++) {
-            images.add(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
-        }
+//        ArrayList<String> images = new ArrayList<>();
+//
+//        for (int i = 0; i < 3; i++) {
+//            images.add(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + post.getImagePost());
+//        }
+//
+//        int sizeImage=images.size();
+//        Log.e("sizeImage",sizeImage+"");
 
-        int sizeImage=images.size();
-        Log.e("sizeImage",sizeImage+"");
+        if (!ImageMess.contains("null")) {
 
-        if(sizeImage<=2)
-        {
-            View myLayoutImages = inflater.inflate(R.layout.one_image, null, false);
+            ArrayList<String> ImageListSlider= new ArrayList<>();
 
-            LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
-            LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
-            LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
+            ArrayList<String> images = new ArrayList<>();
+            images = new ArrayList<String>(Arrays.asList((ImageMess.split(","))));
+            images.remove("null");
 
-            if(sizeImage==1)
-            {
-                File file = new File( images.get(0));
-                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                ImageView imageView = (ImageView)IDLineOne.getChildAt(0);
-                imageView.setImageBitmap(myBitmap);
-
-                imageView = (ImageView)IDLineOne.getChildAt(1);
-
-                imageView.setVisibility(View.GONE);
+            for (String st: images) {
+                ImageListSlider.add(st.trim());
             }
-            else
+
+            int sizeImage=images.size();
+            Log.e("sizeImage",sizeImage+"");
+
+            if(sizeImage<=2)
             {
-                File file = new File( images.get(0));
+                View myLayoutImages = inflater.inflate(R.layout.one_image, null, false);
+
+                LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
+                LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
+                LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
+
+                if(sizeImage==1)
+                {
+                    File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                    Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    ImageView imageView = (ImageView)IDLineOne.getChildAt(0);
+                    imageView.setImageBitmap(myBitmap);
+
+                    DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+
+                    imageView = (ImageView)IDLineOne.getChildAt(1);
+
+                    imageView.setVisibility(View.GONE);
+                }
+                else
+                {
+                    File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                    Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
+                    imageView.setImageBitmap(myBitmap);
+                    DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+
+
+                    imageView = (ImageView)IDLineOne.getChildAt(1);
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.setImageBitmap(myBitmap);
+                    DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+
+                }
+
+                IDImageView.addView(myLayoutImages);
+            }
+            else if(sizeImage<=8)
+            {
+                View myLayoutImages = inflater.inflate(R.layout.two_image, null, false);
+
+                LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
+                LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
+                LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
+
+                File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
                 Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
                 imageView.setImageBitmap(myBitmap);
+                DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
 
                 imageView =  (ImageView)IDLineOne.getChildAt(1);
-                file = new File( images.get(1));
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
+                DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+
+                if(sizeImage>=3)
+                {
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(2).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(0);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(2).trim(),imageView,ImageListSlider);
+                }
+                if(sizeImage>=4)
+                {
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(3).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(1);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(3).trim(),imageView,ImageListSlider);
+                }
+                if(sizeImage>=5){
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(4).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(2);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(4).trim(),imageView,ImageListSlider);
+                }
+                if(sizeImage>=6){
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(5).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(3);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(5).trim(),imageView,ImageListSlider);
+                }
+                if(sizeImage>=7){
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(6).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(4);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(6).trim(),imageView,ImageListSlider);
+                }
+                if(sizeImage==8){
+                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(7).trim());
+
+                    myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    imageView = (ImageView)IDLineTwo.getChildAt(5);
+                    imageView.setImageBitmap(myBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                    DownloadImage(images.get(7).trim(),imageView,ImageListSlider);
+                }
+
+                IDImageView.addView(myLayoutImages);
+
             }
-
-            IDImageView.addView(myLayoutImages);
-        }
-        else if(sizeImage<=8)
-        {
-            View myLayoutImages = inflater.inflate(R.layout.two_image, null, false);
-
-            LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
-            LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
-            LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
-
-            File file = new File( images.get(0));
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineOne.getChildAt(1);
-            file = new File( images.get(1));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            if(sizeImage>=3)
+            else if(sizeImage>=9)
             {
-                file = new File( images.get(2));
-                myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                View myLayoutImages = inflater.inflate(R.layout.three_image, null, false);
 
-                imageView = (ImageView)IDLineTwo.getChildAt(0);
+                LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
+                LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
+                LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
+
+                File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if(sizeImage>=4)
-            {
-                file = new File( images.get(3));
+                DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineOne.getChildAt(1);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                imageView = (ImageView)IDLineTwo.getChildAt(1);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if(sizeImage>=5){
-                file = new File( images.get(4));
+                DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineOne.getChildAt(2);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(2).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                imageView = (ImageView)IDLineTwo.getChildAt(2);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if(sizeImage>=6){
-                file = new File( images.get(5));
+                DownloadImage(images.get(2).trim(),imageView,ImageListSlider);
+
+
+                imageView =  (ImageView)IDLineTwo.getChildAt(0);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(3).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                imageView = (ImageView)IDLineTwo.getChildAt(3);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if(sizeImage>=7){
-                file = new File( images.get(6));
+                DownloadImage(images.get(3).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineTwo.getChildAt(1);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(4).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                imageView = (ImageView)IDLineTwo.getChildAt(4);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if(sizeImage==8){
-                file = new File( images.get(7));
+                DownloadImage(images.get(4).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineTwo.getChildAt(2);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(5).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                imageView = (ImageView)IDLineTwo.getChildAt(5);
                 imageView.setImageBitmap(myBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            }
+                DownloadImage(images.get(5).trim(),imageView,ImageListSlider);
 
-            IDImageView.addView(myLayoutImages);
+
+                imageView =  (ImageView)IDLineThree.getChildAt(0);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(6).trim());
+                myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.setImageBitmap(myBitmap);
+                DownloadImage(images.get(6).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineThree.getChildAt(1);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(7).trim());
+                myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.setImageBitmap(myBitmap);
+                DownloadImage(images.get(7).trim(),imageView,ImageListSlider);
+
+                imageView =  (ImageView)IDLineThree.getChildAt(2);
+                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(8).trim());
+                myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.setImageBitmap(myBitmap);
+                DownloadImage(images.get(8).trim(),imageView,ImageListSlider);
+
+                IDImageView.addView(myLayoutImages);
+
+            }
+//
+
+//            Log.e("sizeImage",sizeImage+"");
+//            Log.e("images",images+"");
+//
+//
+//
+//            for (String st:images) {
+//                ImageView imageView=new ImageView(this);
+//                imageView.setLayoutParams(new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT));
+//
+//                File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + st.trim());
+//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//
+//
+//                if (file.exists()) {
+//                    Log.e("images exists",st+"");
+//                    imageView.setImageBitmap(myBitmap);
+//
+//                } else {
+//                    Log.e("images not exists",st+"");
+//                    DownloadImage(st, imageView);
+//                }
+//
+//
+//
+//                listView.addView(imageView);
+//            }
 
         }
-        else if(sizeImage>=9)
-        {
-            View myLayoutImages = inflater.inflate(R.layout.three_image, null, false);
 
-            LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
-            LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
-            LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
-
-            File file = new File( images.get(0));
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineOne.getChildAt(1);
-            file = new File( images.get(1));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineOne.getChildAt(2);
-            file = new File( images.get(2));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-
-            imageView =  (ImageView)IDLineTwo.getChildAt(0);
-            file = new File( images.get(3));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineTwo.getChildAt(1);
-            file = new File( images.get(4));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineTwo.getChildAt(2);
-            file = new File( images.get(5));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-
-            imageView =  (ImageView)IDLineThree.getChildAt(0);
-            file = new File( images.get(6));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineThree.getChildAt(1);
-            file = new File( images.get(7));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            imageView =  (ImageView)IDLineThree.getChildAt(2);
-            file = new File( images.get(8));
-            myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(myBitmap);
-
-            IDImageView.addView(myLayoutImages);
-
-        }
 //
 //        LinearLayout ImageLineOne=new LinearLayout(this);
 //        ImageLineOne.setLayoutParams(

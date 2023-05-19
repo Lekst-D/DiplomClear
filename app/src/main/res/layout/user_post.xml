@@ -64,6 +64,7 @@
         </LinearLayout>
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/IDPostIMagePost"
             android:layout_width="match_parent"
             android:layout_height="250dp"
