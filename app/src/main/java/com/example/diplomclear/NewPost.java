@@ -243,7 +243,7 @@ public class NewPost extends AppCompatActivity {
                 UriAdressPhoto = selectedImageUri;
                 selectedImagePath = getPath(selectedImageUri);
 
-//                ImagePost.setImageURI(selectedImageUri);
+                ImagePost.setImageURI(selectedImageUri);
 
             }
         }

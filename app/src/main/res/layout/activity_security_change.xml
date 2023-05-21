@@ -62,7 +62,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:background="@color/SelectionColorCream"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="20dp"
@@ -76,13 +75,16 @@
             android:orientation="horizontal">
 
             <TextView
+                android:background="@color/SelectionColorCream"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Смена пароля"
                 android:textColor="#B2000000"
                 android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
             <ImageButton
                 android:id="@id/expand_collapse"
@@ -141,12 +143,17 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:background="@color/ButtonColor"
+        android:layout_height="3dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@color/SelectionColorCream"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="20dp"
@@ -160,6 +167,8 @@
             android:orientation="horizontal">
 
             <TextView
+                android:background="@color/SelectionColorCream"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

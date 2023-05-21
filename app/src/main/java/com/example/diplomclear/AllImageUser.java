@@ -2,6 +2,8 @@ package com.example.diplomclear;
 
 import static android.content.ContentValues.TAG;
 
+import static androidx.fragment.app.DialogFragment.STYLE_NO_FRAME;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -31,11 +33,11 @@ import android.widget.TextView;
 
 import com.example.diplomclear.Classes.ImageUtils;
 import com.example.diplomclear.Message.MessegeList;
+import com.example.diplomclear.SliderImage.CustomDialogFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -54,8 +56,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AllImageUser extends AppCompatActivity {
@@ -70,7 +72,7 @@ public class AllImageUser extends AppCompatActivity {
 
     private Boolean ShowAdd = true;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
-    private String NameImageAll = null;
+    private String NameImageAll = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,58 @@ public class AllImageUser extends AppCompatActivity {
 
         ShowAdd=!(arguments.get("User").toString()).contains("User");
 
+        LoadImage();
 
+        ImageButton arrowback_white = findViewById(R.id.IDList);
+        arrowback_white.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
+
+        pickMultipleMedia = registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(9), uris -> {
+            if (!uris.isEmpty()) {
+                Log.d("PhotoPicker", "Number of items selected: " + uris.size());
+
+//                for (Uri u : uris) {
+//                    Log.e("uris", u.getPath());
+//                    try {
+//                        ImageAddUser(u);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+                ImageAddUser(uris);
+
+            } else {
+                Log.d("PhotoPicker", "No media selected");
+            }
+        });
+
+        ImageButton IDAddImage = findViewById(R.id.IDAddImage);
+        if (ShowAdd) {
+            IDAddImage.setVisibility(View.INVISIBLE);
+        } else {
+            IDAddImage.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            try {
+                                pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                                        .build());
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+            );
+        }
+
+    }
+
+    void LoadImage()
+    {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference allImage = storageRef.child(UserID);
@@ -101,6 +154,8 @@ public class AllImageUser extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
+
+                        ImageList.clear();
 
                         for (StorageReference prefix : listResult.getPrefixes()) {
                             // All the prefixes under listRef.
@@ -130,53 +185,6 @@ public class AllImageUser extends AppCompatActivity {
                         // Uh-oh, an error occurred!
                     }
                 });
-
-        ImageButton arrowback_white = findViewById(R.id.IDList);
-        arrowback_white.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        finish();
-                    }
-                }
-        );
-
-        pickMultipleMedia = registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(9), uris -> {
-            if (!uris.isEmpty()) {
-                Log.d("PhotoPicker", "Number of items selected: " + uris.size());
-
-                for (Uri u : uris) {
-                    Log.e("uris", u.getPath());
-                    try {
-                        ImageAddUser(u);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                SendPost();
-
-            } else {
-                Log.d("PhotoPicker", "No media selected");
-            }
-        });
-
-        ImageButton IDAddImage = findViewById(R.id.IDAddImage);
-        if (ShowAdd) {
-            IDAddImage.setVisibility(View.INVISIBLE);
-        } else {
-            IDAddImage.setOnClickListener(
-                    new View.OnClickListener() {
-                        public void onClick(View v) {
-                            try {
-                                pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
-                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                                        .build());
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-            );
-        }
-
     }
 
     void HideLoad(boolean check) {
@@ -221,74 +229,85 @@ public class AllImageUser extends AppCompatActivity {
 
     String NewName = "";
 
-    boolean ImageAddUser(Uri Photo) throws IOException {
-        ArrayList<String> PhotoForSend = new ArrayList<>();
-        String namePhotos = "";
-        String path = "";
+    void ImageAddUser(List<Uri> uris) {
+        NameImageAll="";
+        for (Uri Photo:uris) {
 
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
-        if (!dir.exists()) {
-            new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
-        }
+            ArrayList<String> PhotoForSend = new ArrayList<>();
+            String namePhotos = "";
+            String path = "";
 
-        Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(getPath(Photo));
-        try {
+            File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo");
+            if (!dir.exists()) {
+                new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo").mkdirs();
+            }
 
-
-            long time = System.currentTimeMillis();
-            NewName = IdUser + time + ".jpg";
-
-            path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
-            File f = new File(path);
-            f.createNewFile();
-            FileOutputStream fos = new FileOutputStream(path);
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-            fos.flush();
-            fos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
-        String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
+            Bitmap photo = ImageUtils.getInstant().getCompressedBitmap(getPath(Photo));
+            try {
 
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+                long time = System.currentTimeMillis();
+                NewName = IdUser + time + ".jpg";
 
-        StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child(IdUser + "/" + NewName);
-        StorageReference spaceRef = storageRef.child("images/space.jpg");
+                path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
+                File f = new File(path);
+                f.createNewFile();
+                FileOutputStream fos = new FileOutputStream(path);
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
-        spaceRef.getName().equals(spaceRef.getName());    // true
+                fos.flush();
+                fos.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            NameImageAll += NewName + ",";
+            
+            String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+            String Time = new SimpleDateFormat("HH.mm").format(Calendar.getInstance().getTime());
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            StorageReference storageRef = storage.getReference();
+            StorageReference imagesRef = storageRef.child(IdUser + "/" + NewName);
+            StorageReference spaceRef = storageRef.child("images/space.jpg");
+
+            spaceRef.getName().equals(spaceRef.getName());    // true
 
 //                    path = Environment.getExternalStorageDirectory() + "/Download/23.jpg";
-        path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
+            path = Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + NewName;
 
-        InputStream stream = null;
-        try {
-            stream = new FileInputStream(new File(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        UploadTask uploadTask = imagesRef.putStream(stream);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+            InputStream stream = null;
+            try {
+                stream = new FileInputStream(new File(path));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                NameImageAll += NewName + ",";
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-            }
-        });
-        return true;
+
+
+            UploadTask uploadTask = imagesRef.putStream(stream);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    LoadImage();
+                    Uri UriTest=uris.get(uris.size()-1);
+                    if(UriTest==Photo){
+                        SendPost();
+                    }
+                }
+            });}
+
+
+
+//        SendPost();
     }
 
     void ShowMessage() {
@@ -304,7 +323,8 @@ public class AllImageUser extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     public void SendPost() {
 
-        String textpost = null;
+
+        String textpost = "";
 
 
         String Date = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
@@ -367,6 +387,21 @@ public class AllImageUser extends AppCompatActivity {
             File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + nameImage);
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             IDImageView.setImageBitmap(myBitmap);
+
+            IDImageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Bundle args = new Bundle();
+                    args.putStringArrayList("mArrayUri", ImageList);
+                    args.putInt("CurentPosition",position);
+
+                    CustomDialogFragment dialog = new CustomDialogFragment();
+                    dialog.setArguments(args);
+                    dialog.setStyle(STYLE_NO_FRAME,
+                            android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                    dialog.show(getSupportFragmentManager(), "custom");
+                }}
+            );
 
             Log.d("Image Name All Gallery", nameImage);
 

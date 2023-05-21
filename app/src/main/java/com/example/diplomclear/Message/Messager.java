@@ -23,6 +23,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -172,7 +174,9 @@ public class Messager extends AppCompatActivity {
                         Message message = new Message(IDU, FIO, DateMess, TimeMess, TextMess, ImageMess);
 
                         ShowMessage(message);
+                        IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
                     }
+                    IDScrollVIew.fullScroll(IDScrollVIew.FOCUS_DOWN);
                 }
             }
 
@@ -604,36 +608,6 @@ public class Messager extends AppCompatActivity {
                 IDImageView.addView(myLayoutImages);
 
             }
-//
-
-//            Log.e("sizeImage",sizeImage+"");
-//            Log.e("images",images+"");
-//
-//
-//
-//            for (String st:images) {
-//                ImageView imageView=new ImageView(this);
-//                imageView.setLayoutParams(new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                        LinearLayout.LayoutParams.MATCH_PARENT));
-//
-//                File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + st.trim());
-//                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//
-//
-//                if (file.exists()) {
-//                    Log.e("images exists",st+"");
-//                    imageView.setImageBitmap(myBitmap);
-//
-//                } else {
-//                    Log.e("images not exists",st+"");
-//                    DownloadImage(st, imageView);
-//                }
-//
-//
-//
-//                listView.addView(imageView);
-//            }
 
         }
         else {
@@ -758,9 +732,13 @@ public class Messager extends AppCompatActivity {
 
         Message message = new Message(IdUser, FIO, Date, Time, TextMessage, namePhotos);
         if (TextMessage != "") {
+            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(IDMessageText.getWindowToken(), 0);
+
             mDatabase.child("Messager").child(IDListMessager).push().setValue(message);
 
             IDMessageText.setText("");
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
             ImageList.removeAll(ImageList);
             LinearLayout IDImageAddMess = findViewById(R.id.IDImageAddMess);

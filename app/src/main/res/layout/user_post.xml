@@ -7,8 +7,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+
         android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:paddingLeft="3dp"
@@ -53,6 +52,19 @@
 
         </LinearLayout>
 
+        <TextView
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/IDPostText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"
+            android:textColor="@color/black"
+            />
+
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
@@ -71,21 +83,10 @@
             android:background="#F3F3F3"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/IDPostText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:text="TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText"
-            android:textColor="@color/black"
-            >
-        </TextView>
+
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

@@ -1,8 +1,11 @@
 package com.example.diplomclear;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -27,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         if(user!=null){
+
             //Toast.makeText(MainActivity.this,"User is active",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, Pages.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //            Intent intent = new Intent(this, AddImages.class);
             startActivity(intent);
         }else{
