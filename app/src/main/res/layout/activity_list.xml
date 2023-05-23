@@ -11,37 +11,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:background="@color/HatColor"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageButton
-            android:src="@drawable/arrowback_white"
             android:id="@+id/IDBack"
             android:layout_width="45dp"
             android:layout_height="35dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/arrowback_white" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Список действий"
+                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -49,252 +49,291 @@
             android:id="@+id/IDMessage"
             android:layout_width="35dp"
             android:layout_height="30dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
-            android:src="@drawable/message"
-            />
+            android:scaleType="fitXY"
+            android:src="@drawable/message" />
 
 
     </LinearLayout>
 
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/IDScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity=""
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
-
-        <LinearLayout
-            android:id="@+id/IDUser"
-            android:onClick="ShowUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_baseline_person_24" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:paddingLeft="20dp"
-                android:text="Учетная запись"
-                android:textColor="@color/ColorText"
-                android:textSize="18sp" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
-
-        <LinearLayout
-            android:id="@+id/IDSearch"
-            android:onClick="ShowSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_baseline_search_24" />
-
-            <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:textSize="18sp"
-                android:text="Поиск" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/calender" />
-
-            <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:textSize="18sp"
-                android:text="Календарь" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
-
-        <LinearLayout
-            android:id="@+id/IDChangeSecurity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/lock" />
-
-            <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:textSize="18sp"
-                android:text="Безопасность" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
-
-        <LinearLayout
-            android:id="@+id/IDSubscribe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/master" />
-
-            <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:textSize="18sp"
-                android:text="Подписки" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
-
-        <LinearLayout
-            android:id="@+id/IDMySubscribes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="85dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:src="@drawable/customers" />
-
-            <TextView
-                android:textColor="@color/ColorText"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableEnd="@drawable/go_to"
-                android:textSize="18sp"
-                android:text="Подписчики" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/ButtonColor"
-            android:layout_height="1dp" />
-
-
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/DopAct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/IDMain"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:clickable="true"
+            android:orientation="vertical">
 
-            android:gravity="center"
-            android:onClick="PagesActive"
-            android:text="На главную"
-            android:textColor="@color/ColorText"
-            android:textSize="20sp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity=""
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
-            />
+                <LinearLayout
+                    android:id="@+id/IDUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="ShowUser">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_baseline_person_24" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Учетная запись"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
 
 
-        <TextView
-            android:id="@+id/IDLogOut"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
+                </LinearLayout>
 
-            android:clickable="true"
-            android:onClick="LogOut"
-            android:text="Выйти"
-            android:textColor="@color/ColorText"
-            android:textSize="20sp"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
 
-            />
+                <LinearLayout
+                    android:id="@+id/IDSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="ShowSearch">
 
-    </LinearLayout>
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_baseline_search_24" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Поиск"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+                <LinearLayout
+                    android:id="@+id/IDeditInfoUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="ShowSearch">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/edit" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Изменить данные"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/calender" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Календарь"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+                <LinearLayout
+                    android:id="@+id/IDChangeSecurity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/lock" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Безопасность"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+                <LinearLayout
+                    android:id="@+id/IDSubscribe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/master" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Подписки"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+                <LinearLayout
+                    android:id="@+id/IDMySubscribes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/customers" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawableEnd="@drawable/go_to"
+                        android:paddingLeft="20dp"
+                        android:text="Подписчики"
+                        android:textColor="@color/ColorText"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ButtonColor" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/DopAct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/IDMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+
+                    android:gravity="center"
+                    android:onClick="PagesActive"
+                    android:text="На главную"
+                    android:textColor="@color/ColorText"
+                    android:textSize="20sp"
+
+                    />
+
+
+                <TextView
+                    android:id="@+id/IDLogOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:clickable="true"
+
+                    android:gravity="center"
+                    android:onClick="LogOut"
+                    android:text="Выйти"
+                    android:textColor="@color/ColorText"
+                    android:textSize="20sp"
+
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

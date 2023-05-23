@@ -18,14 +18,14 @@
         android:paddingRight="10dp">
 
         <ImageButton
-            android:src="@drawable/arrowback_white"
             android:id="@+id/IDBack"
             android:layout_width="45dp"
             android:layout_height="35dp"
-            android:scaleType="fitXY"
             android:background="@color/HatColor"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/arrowback_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,91 +55,137 @@
 
     </LinearLayout>
 
-    <TableLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.01"
-                android:text="Имя" />
-
-            <EditText
-                android:id="@+id/NameUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.01"
-                android:text="Фамилия" />
-
-            <EditText
-                android:id="@+id/SurnameUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.01"
-                android:text="Телефон" />
-
-            <EditText
-                android:id="@+id/PhoneUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.01"
-                android:text="День рождения" />
-
-            <EditText
-                android:id="@+id/BirthDayUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </TableRow>
-
-    </TableLayout>
-
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/IDScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="25dp"
-        android:paddingRight="25dp"
-        android:layout_gravity="center"
-        >
-        <Button
-            android:backgroundTint="@color/ButtonColor"
-            android:id="@+id/ChangeInfoID"
-            android:text="Изменить"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="ChangeInfo"
-            android:layout_span="1"/>
-    </LinearLayout>
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+<!--        <LinearLayout-->
+<!--            android:paddingRight="10dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0.01"-->
+<!--                android:text="Краткая информация о вас" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/IDShortInfo"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1" />-->
+
+<!--        </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="@color/ButtonColor" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.01"
+                            android:text="Имя" />
+
+                        <EditText
+                            android:id="@+id/NameUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.01"
+                            android:text="Фамилия" />
+
+                        <EditText
+                            android:id="@+id/SurnameUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.01"
+                            android:text="Телефон" />
+
+                        <EditText
+                            android:id="@+id/PhoneUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.01"
+                            android:text="День рождения" />
+
+                        <EditText
+                            android:id="@+id/BirthDayUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:paddingRight="25dp">
+
+                    <Button
+                        android:id="@+id/ChangeInfoID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="1"
+                        android:backgroundTint="@color/ButtonColor"
+                        android:onClick="ChangeInfo"
+                        android:text="Изменить" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

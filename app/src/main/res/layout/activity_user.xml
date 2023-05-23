@@ -65,15 +65,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
                 android:gravity=""
                 android:orientation="horizontal">
 
@@ -81,50 +80,77 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/ic_baseline_person_24" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:paddingLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="FIO"
-                        android:textSize="22sp"
                         android:id="@+id/UserName"
-                        android:layout_weight="1"
-                        android:gravity="left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        />
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        android:text="FIO"
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
             </LinearLayout>
 
+
+            <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/expand_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                expandableTextView:animDuration="200"
+                expandableTextView:maxCollapsedLines="4">
+
+                <TextView
+                    android:id="@id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="asdfadsfadfasdfadsf"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:background="@android:color/transparent"
+                    android:padding="16dp" />
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
             <TextView
+                android:id="@+id/editInfoUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text"
-                android:textSize="22sp"
                 android:gravity="center"
-                android:textColor="@color/ColorTextLink"
-                android:id="@+id/editInfoUser"
                 android:text="Изменить данные пользователя"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
+                android:textColor="@color/ColorTextLink"
+                android:textSize="22sp"
+                android:visibility="invisible" />
 
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/linear_layout_shape"
                 android:orientation="vertical"
-                android:paddingBottom="1dp"
                 android:paddingTop="5dp"
-                >
+                android:paddingBottom="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,34 +163,34 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:scaleType="centerCrop"
                         android:id="@+id/ImageView1"
                         android:layout_width="15dp"
                         android:layout_height="120dp"
                         android:layout_marginRight="5dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop" />
 
                     <ImageView
-                        android:scaleType="centerCrop"
                         android:id="@+id/ImageView2"
                         android:layout_width="15dp"
                         android:layout_height="120dp"
                         android:layout_marginRight="5dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop" />
 
                     <ImageView
-                        android:scaleType="centerCrop"
                         android:id="@+id/ImageView3"
                         android:layout_width="15dp"
                         android:layout_height="120dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginBottom="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -221,58 +247,57 @@
                 </LinearLayout>
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/IDPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="@color/ButtonColor"
+                    android:text="Добавить пост" />
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <Button
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/IDPost"
+            <LinearLayout
+                android:id="@+id/IDListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/ButtonColor"
-                android:text="Добавить пост" />
+                android:orientation="vertical" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/IDListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            />
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="@color/ColorText"
-                    android:textSize="20sp"
                     android:id="@+id/IDTVTextNotPost"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="У вас нет постов"
-                    />
+                    android:textColor="@color/ColorText"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/IDLoad"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 

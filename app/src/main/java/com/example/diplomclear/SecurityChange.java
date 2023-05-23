@@ -63,7 +63,7 @@ public class SecurityChange extends AppCompatActivity {
         LinearLayout IDForPassword=findViewById(R.id.IDForPassword);
         LinearLayout IDForEmail=findViewById(R.id.IDForEmail);
 
-        IDShowPassword.setVisibility(View.GONE);
+        IDShowPassword.setVisibility(View.VISIBLE);
         IDEmailShow.setVisibility(View.GONE);
 
         IDForPassword.setOnClickListener(new View.OnClickListener() {

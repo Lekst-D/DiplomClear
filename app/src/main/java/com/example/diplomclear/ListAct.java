@@ -124,6 +124,19 @@ public class ListAct extends AppCompatActivity {
                         ChangeSecurity();
                     }
                 });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDeditInfoUser=findViewById(R.id.IDeditInfoUser);
+        IDeditInfoUser.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        EditInfo();
+                    }
+                });
+    }
+
+    void EditInfo(){
+        Intent intent = new Intent(this, ChangeInfoUser.class);
+        startActivity(intent);
     }
 
     void ChangeSecurity(){

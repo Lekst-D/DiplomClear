@@ -63,9 +63,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/IDForPassword"
@@ -75,16 +73,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:background="@color/SelectionColorCream"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/SelectionColorCream"
+                android:paddingLeft="5dp"
                 android:text="Смена пароля"
                 android:textColor="#B2000000"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@id/expand_collapse"
@@ -102,62 +99,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-        <EditText
-            android:id="@+id/IDOldPasswordForPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="Ведите пароль"
-            android:textColor="@color/ColorText"
-            android:textColorHint="@color/ColorTextHint" />
+            <EditText
+                android:id="@+id/IDOldPasswordForPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Ведите пароль"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint" />
 
-        <EditText
-            android:id="@+id/IDEmailForPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="Ведите почту"
-            android:textColor="@color/ColorText"
-            android:textColorHint="@color/ColorTextHint" />
+            <EditText
+                android:id="@+id/IDEmailForPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Ведите почту"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint" />
 
-        <EditText
-            android:id="@+id/IDNewPasswordForPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="Ведите новый пароль"
-            android:textColor="@color/ColorText"
-            android:textColorHint="@color/ColorTextHint" />
+            <EditText
+                android:id="@+id/IDNewPasswordForPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Ведите новый пароль"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint" />
 
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/BADDForPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/ButtonColor"
-            android:text="Изменить" />
+            <Button
+                android:id="@+id/BADDForPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/ButtonColor"
+                android:text="Изменить" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_width="match_parent"
-        android:background="@color/ButtonColor"
-        android:layout_height="3dp" />
+        android:background="@color/ButtonColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/IDForEmail"
@@ -167,11 +164,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:background="@color/SelectionColorCream"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/SelectionColorCream"
+                android:paddingLeft="5dp"
                 android:text="Смена почты"
                 android:textColor="#B2000000"
                 android:textSize="22dp"
@@ -193,7 +190,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <EditText
                 android:id="@+id/IDOldPasswordForEmail"
@@ -223,10 +222,10 @@
                 android:textColorHint="@color/ColorTextHint" />
 
             <Button
-                android:layout_gravity="center"
                 android:id="@+id/BADDForEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:backgroundTint="@color/ButtonColor"
                 android:text="Изменить" />
 
