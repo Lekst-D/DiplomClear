@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите пароль"
+                android:hint="Введите пароль"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите почту"
+                android:hint="Введите почту"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите новый пароль"
+                android:hint="Введите новый пароль"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 
@@ -199,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите пароль"
+                android:hint="Введите пароль"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 
@@ -208,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите почту"
+                android:hint="Введите почту"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 
@@ -217,7 +217,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Ведите новую почту"
+                android:hint="Введите новую почту"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint" />
 

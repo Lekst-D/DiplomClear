@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight ="1"
-                android:hint="Ведите имя"
+                android:hint="Введите имя"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint"
                 />
@@ -83,7 +83,7 @@
                 android:id="@+id/ESurname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ведите фамилию"
+                android:hint="Введите фамилию"
                 android:textColor="@color/ColorText"
                 android:textColorHint="@color/ColorTextHint"
                 />
@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight ="1"
-                    android:hint="Ведите дату рождения"
+                    android:hint="Введите дату рождения"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -129,7 +129,7 @@
             android:id="@+id/EMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ведите почту"
+            android:hint="Введите почту"
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             />
@@ -138,7 +138,7 @@
             android:id="@+id/EPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ведите телефон"
+            android:hint="Введите телефон"
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             android:inputType="phone"
@@ -151,7 +151,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ведите пароль"
+            android:hint="Введите пароль"
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             />
