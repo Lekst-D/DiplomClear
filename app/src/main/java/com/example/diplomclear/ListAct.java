@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.example.diplomclear.EditInfo.ChangeInfoUser;
+import com.example.diplomclear.EditInfo.SecurityChange;
 import com.example.diplomclear.LogRegSwap.Login;
 import com.example.diplomclear.Message.MessegeList;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,8 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import io.grpc.internal.ServiceConfigUtil;
 
 public class ListAct extends AppCompatActivity {
 
@@ -114,14 +113,6 @@ public class ListAct extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         ShowMySibscribers();
-                    }
-                });
-
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDChangeSecurity=findViewById(R.id.IDChangeSecurity);
-        IDChangeSecurity.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        ChangeSecurity();
                     }
                 });
 

@@ -97,7 +97,7 @@
                         android:paddingLeft="20dp"
                         android:text="Учетная запись"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -128,7 +128,7 @@
                         android:paddingLeft="20dp"
                         android:text="Поиск"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -159,7 +159,7 @@
                         android:paddingLeft="20dp"
                         android:text="Изменить данные"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -188,37 +188,7 @@
                         android:paddingLeft="20dp"
                         android:text="Календарь"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/ButtonColor" />
-
-                <LinearLayout
-                    android:id="@+id/IDChangeSecurity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="85dp"
-                        android:layout_height="55dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/lock" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:drawableEnd="@drawable/go_to"
-                        android:paddingLeft="20dp"
-                        android:text="Безопасность"
-                        android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -248,7 +218,7 @@
                         android:paddingLeft="20dp"
                         android:text="Подписки"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -278,7 +248,7 @@
                         android:paddingLeft="20dp"
                         android:text="Подписчики"
                         android:textColor="@color/ColorText"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
                 </LinearLayout>
 
@@ -310,7 +280,7 @@
                     android:onClick="PagesActive"
                     android:text="На главную"
                     android:textColor="@color/ColorText"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
 
                     />
 
@@ -327,7 +297,7 @@
                     android:onClick="LogOut"
                     android:text="Выйти"
                     android:textColor="@color/ColorText"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
 
                     />
 

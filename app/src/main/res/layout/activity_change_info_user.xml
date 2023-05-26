@@ -93,6 +93,7 @@
 <!--                android:background="@color/ButtonColor" />-->
 
             <LinearLayout
+                android:layout_marginBottom="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -183,6 +184,67 @@
                         android:onClick="ChangeInfo"
                         android:text="Изменить" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/ButtonColor" />
+
+            <LinearLayout
+                android:id="@+id/IDCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="ShowSearch">
+
+                <ImageView
+                    android:layout_width="85dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/category" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableEnd="@drawable/go_to"
+                    android:paddingLeft="20dp"
+                    android:text="Категории"
+                    android:textColor="@color/ColorText"
+                    android:textSize="22sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/ButtonColor" />
+
+            <LinearLayout
+                android:id="@+id/IDChangeSecurity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="85dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/lock" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableEnd="@drawable/go_to"
+                    android:paddingLeft="20dp"
+                    android:text="Безопасность"
+                    android:textColor="@color/ColorText"
+                    android:textSize="22sp" />
+
+
             </LinearLayout>
 
         </LinearLayout>

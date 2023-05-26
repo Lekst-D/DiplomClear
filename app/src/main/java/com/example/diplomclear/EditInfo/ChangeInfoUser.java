@@ -1,15 +1,20 @@
-package com.example.diplomclear;
+package com.example.diplomclear.EditInfo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
+import com.example.diplomclear.Category;
+import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,5 +90,39 @@ public class ChangeInfoUser extends AppCompatActivity {
 
             }
         });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDChangeSecurity=findViewById(R.id.IDChangeSecurity);
+        IDChangeSecurity.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ChangeSecurity();
+                    }
+                });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDCategory=findViewById(R.id.IDCategory);
+        IDCategory.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShowAllCategory();
+                    }
+                });
+
+        ImageButton IDBack=findViewById(R.id.IDBack);
+        IDBack.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+
+    }
+    void ShowAllCategory(){
+        Intent intent = new Intent(this, Category.class);
+        startActivity(intent);
+    }
+
+    void ChangeSecurity(){
+        Intent intent = new Intent(this, SecurityChange.class);
+        startActivity(intent);
     }
 }

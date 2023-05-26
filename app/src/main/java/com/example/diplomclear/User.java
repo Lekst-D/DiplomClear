@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,29 +16,25 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.diplomclear.Classes.Post;
+import com.example.diplomclear.EditInfo.ChangeInfoUser;
 import com.example.diplomclear.Message.MessegeList;
 import com.example.diplomclear.SliderImage.CustomDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.collect.Lists;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -55,10 +50,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class User extends AppCompatActivity {
 
@@ -111,6 +102,20 @@ public class User extends AppCompatActivity {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
                     ((TextView) findViewById(R.id.UserName)).setText(Name + " " + Surname);
+
+
+
+                    if (task.getResult().hasChild("shortText")) {
+
+                        String shortText = task.getResult().child("").getValue().toString();
+                        ((TextView) findViewById(R.id.expandable_text)).setText(shortText);
+
+                    }
+                    else
+                    {
+                        ((TextView) findViewById(R.id.expandable_text)).setText("Вы не оставили текс, о себе");
+                    }
+
                 }
             }
         });
@@ -226,6 +231,19 @@ public class User extends AppCompatActivity {
                 ChangeInfo();
             }
         });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDCategory = findViewById(R.id.IDCategory);
+        IDCategory.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                ShowAllCategory();
+            }
+        });
+    }
+
+    void ShowAllCategory() {
+        Intent intent = new Intent(this, Category.class);
+        startActivity(intent);
     }
 
     void HideLoad(boolean check) {

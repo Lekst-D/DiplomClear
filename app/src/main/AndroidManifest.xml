@@ -19,7 +19,14 @@
         android:theme="@style/Theme.DiplomClear"
         tools:targetApi="31">
         <activity
-            android:name=".SecurityChange"
+            android:name=".Category"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".EditInfo.SecurityChange"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -47,7 +54,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ChangeInfoUser"
+            android:name=".EditInfo.ChangeInfoUser"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
