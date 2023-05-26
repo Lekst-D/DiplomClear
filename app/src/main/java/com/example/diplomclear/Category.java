@@ -7,8 +7,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.example.diplomclear.R;
@@ -20,6 +23,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Category extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -28,10 +34,33 @@ public class Category extends AppCompatActivity {
     private String IdUser;
     private DatabaseReference mDatabase;
 
+
+    ArrayList<String> Categories = new ArrayList<>();
+    Spinner IDspinner;
+
+    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        String Subscribes ="Мастер ногтевого сервиса," +
+                "Визажист Лешмейкер," +
+                "Парикмахер," +
+                "Барбер," +
+                "Мастер по перманентному макияжу," +
+                "Мастер по депиляции," +
+                "Броу-мастер";
+
+        Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
+
+        IDspinner=findViewById(R.id.IDspinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        IDspinner.setAdapter(adapter);
 
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -80,7 +109,9 @@ public class Category extends AppCompatActivity {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton IDNewCategory=findViewById(R.id.IDNewCategory);
         IDNewCategory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String text=IDspinner.getSelectedItem().toString();
 
+                mDatabase.child("UserInfo").child(IdUser).child("Category").setValue(text);
             }
         });
 
