@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Ваши категории"
+                android:text="Ваша деятельность"
                 android:textColor="@color/white"
                 android:textSize="22dp"
                 android:textStyle="bold" />
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="У вас нет постов"
+                    android:text="Вы не указали деятельность"
                     android:textColor="@color/ColorText"
                     android:textSize="20sp"
                     android:visibility="gone" />
