@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.diplomclear.Classes.Post;
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class Search extends AppCompatActivity {
@@ -51,6 +53,7 @@ public class Search extends AppCompatActivity {
     private String IdUser;
     private FirebaseFirestore db;
 
+    Spinner IDspinner;
 
     ArrayList<String> Users = new ArrayList<>();
     ArrayList<SearchList> AllUserSearchs = new ArrayList<>();
@@ -61,6 +64,24 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        String Subscribes ="Укажите вашу деятельность," +
+                "Мастер ногтевого сервиса," +
+                "Визажист Лешмейкер," +
+                "Парикмахер," +
+                "Барбер," +
+                "Мастер по перманентному макияжу," +
+                "Мастер по депиляции," +
+                "Броу-мастер";
+        ArrayList<String> Categories = new ArrayList<>();
+        Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
+
+        IDspinner=findViewById(R.id.IDspinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        IDspinner.setAdapter(adapter);
 
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
