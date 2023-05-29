@@ -67,31 +67,32 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        IDShowCategory=findViewById(R.id.IDShowCategory);
+        IDShowCategory = findViewById(R.id.IDShowCategory);
         IDShowCategory.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                LinearLayout IDLineCategory=findViewById(R.id.IDLineCategory);
-                int visible=IDLineCategory.getVisibility();
+                                              public void onClick(View view) {
+                                                  LinearLayout IDLineCategory = findViewById(R.id.IDLineCategory);
+                                                  int visible = IDLineCategory.getVisibility();
 
-                if(visible!=View.VISIBLE){
-                    IDLineCategory.setVisibility(View.VISIBLE);
-                    IDShowCategory.setImageResource(R.drawable.arrow_up_black);
-                }
-                else{
-                    IDLineCategory.setVisibility(View.GONE);
-                    IDShowCategory.setImageResource(R.drawable.arrow_down_black);
-                }
-            }}
+                                                  if (visible != View.VISIBLE) {
+                                                      IDLineCategory.setVisibility(View.VISIBLE);
+                                                      IDShowCategory.setImageResource(R.drawable.arrow_up_black);
+                                                  } else {
+                                                      IDLineCategory.setVisibility(View.GONE);
+                                                      IDShowCategory.setImageResource(R.drawable.arrow_down_black);
+                                                  }
+                                              }
+                                          }
         );
 
-        ImageButton IDNewCategory=findViewById(R.id.IDNewCategory);
+        ImageButton IDNewCategory = findViewById(R.id.IDNewCategory);
         IDNewCategory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 IDspinner.setSelection(0);
-            }});
+            }
+        });
 
 
-        String Subscribes ="Укажите вашу деятельность," +
+        String Subscribes = "Укажите вашу деятельность," +
                 "Мастер ногтевого сервиса," +
                 "Визажист Лешмейкер," +
                 "Парикмахер," +
@@ -102,7 +103,7 @@ public class Search extends AppCompatActivity {
         ArrayList<String> Categories = new ArrayList<>();
         Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
 
-        IDspinner=findViewById(R.id.IDspinner);
+        IDspinner = findViewById(R.id.IDspinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,7 +124,7 @@ public class Search extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    Log.e("actionId",actionId+"");
+                    Log.e("actionId", actionId + "");
                     Search();
                     return true;
                 }
@@ -135,9 +136,10 @@ public class Search extends AppCompatActivity {
 //        myRef.child("UserInfo").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 
         SearchButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Search();
-            }}
+                                            public void onClick(View view) {
+                                                Search();
+                                            }
+                                        }
         );
 
 
@@ -199,10 +201,13 @@ public class Search extends AppCompatActivity {
 //        Users.add("asdfadsf");
 //        Users.add("asdfadsf");
 
-        ImageButton IDBack=findViewById(R.id.IDBack);
+        ImageButton IDBack = findViewById(R.id.IDBack);
 
         IDBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {finish();}}
+                                      public void onClick(View view) {
+                                          finish();
+                                      }
+                                  }
         );
 
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
@@ -211,27 +216,25 @@ public class Search extends AppCompatActivity {
     }
 
     void HideLoad(boolean check) {
-//        ImageView IDID =findViewById(R.id.IDID);
-//        IDID.setImageResource(R.drawable.two);
+        TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
 
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
         IDLoad.setVisibility(View.GONE);
+        IDTVTextNotPost.setVisibility(View.GONE);
 
         if (!check) {
-            TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
             IDTVTextNotPost.setVisibility(View.VISIBLE);
         }
     }
 
-    void Search()
-    {
+    void Search() {
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
         IDLoad.setVisibility(View.VISIBLE);
 
         String searchText = (SearchText.getText().toString()).trim();
         String[] searchTextPart = searchText.split(" ");
 
-        String textSpiner=IDspinner.getSelectedItem().toString();
+        String textSpiner = IDspinner.getSelectedItem().toString();
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -249,37 +252,42 @@ public class Search extends AppCompatActivity {
                     String name = postSnapshot.child("userName").getValue().toString();
                     String surname = postSnapshot.child("userSurname").getValue().toString();
 
-                    String NameRequest=(name.trim()).toLowerCase(Locale.ROOT);
-                    String RequestName=(searchTextPart[0].trim()).toLowerCase(Locale.ROOT);
-                    if(!NameRequest.contains(RequestName))
-                    {
-                        Log.e("Not mistake","This is work");
+                    String NameRequest = (name.trim()).toLowerCase(Locale.ROOT);
+                    String RequestName = (searchTextPart[0].trim()).toLowerCase(Locale.ROOT);
+
+                    if (!NameRequest.contains(RequestName)) {
+                        Log.e("Not mistake", "This is work");
                         continue;
                     }
-                    if( postSnapshot.hasChild("Category") && !textSpiner.contains("Укажите вашу деятельность"))
-                    {
-                        String text=postSnapshot.child("Category").getValue().toString();
 
-                        if(!text.contains(textSpiner))
-                        {
-                            Log.e("Not mistake","This is work");
+                    if (!textSpiner.contains("Укажите вашу деятельность")) {
+                        if (postSnapshot.hasChild("Category")) {
+
+                            String text = postSnapshot.child("Category").getValue().toString();
+
+                            if (!text.contains(textSpiner)) {
+                                Log.e("Not mistake", "This is work");
+                                continue;
+                            }
+                        }else {
                             continue;
                         }
+
                     }
 
-                    if(searchTextPart.length>1) {
+                    if (searchTextPart.length > 1) {
                         boolean hasString = (surname.toLowerCase())
                                 .contains(searchTextPart[1].toLowerCase());
 //                                Log.d("1", searchTextPart[1]);
 //                                Log.d("2", surname);
-                        if(!hasString)
+                        if (!hasString)
                             continue;
                     }
                     Users.add(name + " " + surname);
-                    String FIO=name + " " + surname;
-                    String Image=postSnapshot.child("userPhoto").getValue().toString();
-                    String UserID=postSnapshot.child("iduser").getValue().toString();
-                    AllUserSearchs.add(new SearchList(Image,FIO,UserID));
+                    String FIO = name + " " + surname;
+                    String Image = postSnapshot.child("userPhoto").getValue().toString();
+                    String UserID = postSnapshot.child("iduser").getValue().toString();
+                    AllUserSearchs.add(new SearchList(Image, FIO, UserID));
 
                 }
 
@@ -299,30 +307,21 @@ public class Search extends AppCompatActivity {
         };
 
 
-        if(searchText.trim()=="" && !textSpiner.contains("Укажите вашу деятельность"))
-        {
+        if (searchText.trim() == "" && !textSpiner.contains("Укажите вашу деятельность")) {
             Query query = myRef.child("UserInfo").orderByChild("userName");
             query.addValueEventListener(valueEventListener);
+        } else {
+            Query query = myRef.child("UserInfo").orderByChild("userName")
+                    .startAt(searchTextPart[0].trim().toUpperCase())
+                    .endAt(searchTextPart[0].trim().toLowerCase() + "\uf8ff");
+            query.addValueEventListener(valueEventListener);
         }
-        else {
-        Query query = myRef.child("UserInfo").orderByChild("userName")
-                .startAt(searchTextPart[0].trim().toUpperCase() )
-                .endAt(searchTextPart[0].trim().toLowerCase() + "\uf8ff");
-        query.addValueEventListener(valueEventListener);}
 
 
     }
 
 
     void ShowSearchList() {
-
-
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter(this,
-//                android.R.layout.simple_list_item_1, Users);
-//
-//        usersList.setAdapter(adapter);
-
         MyAddapterSearch stateAdapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs);
         usersList.setAdapter(stateAdapter);
     }

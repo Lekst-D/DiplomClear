@@ -52,9 +52,9 @@ public class Category extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        IDListView=findViewById(R.id.IDListView);
+        IDListView = findViewById(R.id.IDListView);
 
-        String Subscribes ="Укажите вашу деятельность," +
+        String Subscribes = "Укажите вашу деятельность," +
                 "Мастер ногтевого сервиса," +
                 "Визажист Лешмейкер," +
                 "Парикмахер," +
@@ -65,7 +65,7 @@ public class Category extends AppCompatActivity {
 
         Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
 
-        IDspinner=findViewById(R.id.IDspinner);
+        IDspinner = findViewById(R.id.IDspinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Categories);
@@ -88,46 +88,46 @@ public class Category extends AppCompatActivity {
                     HideLoad(false);
                 } else {
 
-                   if( dataSnapshot.hasChild("Category")) {
-                       CategoriesHave.clear();
-                       Log.e("getChildren", dataSnapshot.getChildrenCount() + "");
-                       Log.e("getChildren", dataSnapshot.child("Category").getValue() + "");
+                    if (dataSnapshot.hasChild("Category")) {
+                        CategoriesHave.clear();
+                        Log.e("getChildren", dataSnapshot.getChildrenCount() + "");
+                        Log.e("getChildren", dataSnapshot.child("Category").getValue() + "");
 
-                       String categories = dataSnapshot.child("Category").getValue().toString();
-                       CategoriesHave = new ArrayList<String>(Arrays.asList((categories.split(","))));
-                       CategoriesHave.remove("null");
-                       CategoriesHave.remove("");
+                        String categories = dataSnapshot.child("Category").getValue().toString();
+                        CategoriesHave = new ArrayList<String>(Arrays.asList((categories.split(","))));
+                        CategoriesHave.remove("null");
+                        CategoriesHave.remove("");
 
-                       Log.e("categories", categories);
+                        Log.e("categories", categories);
 
-                       IDListView.removeAllViews();
+                        IDListView.removeAllViews();
 
-                       if (CategoriesHave.size() != 0) {
-                           HideLoad(true);
+                        Log.e("CategoriesHave", CategoriesHave + "");
 
-                           for (String cat : CategoriesHave) {
-                               ShowCategories(cat);
-                           }
+                        if (CategoriesHave.size() != 0) {
+                            HideLoad(true);
 
-                       } else {
-                           HideLoad(false);
-                       }
-                   }
-                   else
-                   {
+                            for (String cat : CategoriesHave) {
+                                ShowCategories(cat);
+                            }
 
-                       if (CategoriesHave.size() != 0) {
-                           HideLoad(true);
+                        } else {
+                            HideLoad(false);
+                        }
+                    } else {
 
-                           for (String cat : CategoriesHave) {
-                               ShowCategories(cat);
-                           }
+                        if (CategoriesHave.size() != 0) {
+                            HideLoad(true);
 
-                       } else {
-                           HideLoad(false);
-                       }
+                            for (String cat : CategoriesHave) {
+                                ShowCategories(cat);
+                            }
 
-                   }
+                        } else {
+                            HideLoad(false);
+                        }
+
+                    }
 
                 }
             }
@@ -138,7 +138,7 @@ public class Category extends AppCompatActivity {
             }
         });
 
-        ImageButton IDBack=findViewById(R.id.IDBack);
+        ImageButton IDBack = findViewById(R.id.IDBack);
         IDBack.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
@@ -146,69 +146,72 @@ public class Category extends AppCompatActivity {
                     }
                 });
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton IDNewCategory=findViewById(R.id.IDNewCategory);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton IDNewCategory = findViewById(R.id.IDNewCategory);
         IDNewCategory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String newCategory=IDspinner.getSelectedItem().toString();
+                Log.e("CategoriesHave", CategoriesHave + "");
 
-                if (!newCategory.contains("Укажите вашу деятельность")){
-                if(CategoriesHave.contains(newCategory))
-                {
-                    ShowNotAdd();
+                String newCategory = IDspinner.getSelectedItem().toString();
+
+                if (!newCategory.contains("Укажите вашу деятельность")) {
+                    if (CategoriesHave.contains(newCategory)) {
+                        ShowNotAdd();
+                    } else {
+                        String text = "";
+
+                        for (int i = 0; i < CategoriesHave.size(); i++) {
+
+                            String st = CategoriesHave.get(i).toString();
+
+                            Log.e("CategoriesHave", st + "");
+
+                            text += st + ",";
+
+//                            if (i != CategoriesHave.size() - 1) {
+//
+//                            } else {
+//                                text += st;
+//                            }
+                        }
+
+                        text += IDspinner.getSelectedItem().toString();
+                        mDatabase.child("UserInfo").child(IdUser).child("Category").setValue(text);
+
+                        IDspinner.setSelection(0);
+                    }
                 }
-                else{
-                String text="";
-
-                for (int i=0;i<CategoriesHave.size();i++)
-                {
-                    String st=CategoriesHave.get(i).toString();
-                    if(i!=CategoriesHave.size()-1){
-                    text+=st+",";}
-                    else{
-                        text+=st;}
-                }
-
-                for (String st:CategoriesHave) {
-                    text=st+",";
-                }
-
-                text+=IDspinner.getSelectedItem().toString();
-                mDatabase.child("UserInfo").child(IdUser).child("Category").setValue(text);
-
-                    IDspinner.setSelection(0);
-            }}}
+            }
         });
 
     }
 
-    void ShowNotAdd()
-    {
-        Toast toast = Toast.makeText(this, "Вы уже отметели эту профессию ",Toast.LENGTH_LONG);
+    void ShowNotAdd() {
+        Toast toast = Toast.makeText(this, "Вы уже отметели эту профессию ", Toast.LENGTH_LONG);
         toast.show();
     }
 
-    void ShowCategories(String category)
-    {
-        LayoutInflater inflater= getLayoutInflater();
+    void ShowCategories(String category) {
+        LayoutInflater inflater = getLayoutInflater();
         View myLayoutImages = inflater.inflate(R.layout.category_line, null, false);
 
-        TextView IDNameCategory=myLayoutImages.findViewById(R.id.IDNameCategory);
+        TextView IDNameCategory = myLayoutImages.findViewById(R.id.IDNameCategory);
         IDNameCategory.setText(category);
 
-        ImageView IDEditCategory=myLayoutImages.findViewById(R.id.IDEditCategory);
+        ImageView IDEditCategory = myLayoutImages.findViewById(R.id.IDEditCategory);
         IDEditCategory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 CategoriesHave.remove(category);
-                String text="";
+                String text = "";
 
-                for (String st:CategoriesHave) {
-                    text=st+",";
+                for (String st : CategoriesHave) {
+                    text = st + ",";
                 }
 
                 mDatabase.child("UserInfo").child(IdUser).child("Category").setValue(text);
 
-            }});
+            }
+        });
         IDListView.addView(myLayoutImages);
     }
 
