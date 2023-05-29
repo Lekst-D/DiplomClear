@@ -232,13 +232,13 @@ public class User extends AppCompatActivity {
             }
         });
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDCategory = findViewById(R.id.IDCategory);
-        IDCategory.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                ShowAllCategory();
-            }
-        });
+//        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDCategory = findViewById(R.id.IDCategory);
+//        IDCategory.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                ShowAllCategory();
+//            }
+//        });
     }
 
     void ShowAllCategory() {

@@ -75,17 +75,28 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:backgroundTint="#4EC3F8"
-            android:src="@drawable/ic_baseline_search_24" />
+            android:src="@drawable/ic_baseline_search_24_white" />
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/IDLineCategory"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/ButtonColor" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <Spinner
             android:layout_weight="1"
             android:id="@+id/IDspinner"
@@ -99,12 +110,21 @@
             android:src="@drawable/close_black"
             android:scaleType="fitXY" />
 
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/ButtonColor" />
+
+
     </LinearLayout>
 
     <ImageView
         android:background="@drawable/shape"
         android:id="@+id/IDShowCategory"
         android:layout_gravity="center"
+        android:layout_marginTop="5dp"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:layout_width="35dp"
