@@ -258,7 +258,6 @@ public class Search extends AppCompatActivity {
                     }
                     if( postSnapshot.hasChild("Category") && !textSpiner.contains("Укажите вашу деятельность"))
                     {
-
                         String text=postSnapshot.child("Category").getValue().toString();
 
                         if(!text.contains(textSpiner))
