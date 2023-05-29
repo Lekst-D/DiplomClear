@@ -123,6 +123,19 @@ public class ListAct extends AppCompatActivity {
                         EditInfo();
                     }
                 });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout IDCalendar=findViewById(R.id.IDCalendar);
+        IDCalendar.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShowIDCalendar();
+                    }
+                });
+    }
+
+    void ShowIDCalendar(){
+        Intent intent = new Intent(this, Calendar.class);
+        startActivity(intent);
     }
 
     void EditInfo(){
