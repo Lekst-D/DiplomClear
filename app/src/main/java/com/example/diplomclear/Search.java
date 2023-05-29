@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -58,12 +59,37 @@ public class Search extends AppCompatActivity {
     ArrayList<String> Users = new ArrayList<>();
     ArrayList<SearchList> AllUserSearchs = new ArrayList<>();
 
+    ImageView IDShowCategory;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        IDShowCategory=findViewById(R.id.IDShowCategory);
+        IDShowCategory.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                LinearLayout IDLineCategory=findViewById(R.id.IDLineCategory);
+                int visible=IDLineCategory.getVisibility();
+
+                if(visible!=View.VISIBLE){
+                    IDLineCategory.setVisibility(View.VISIBLE);
+                    IDShowCategory.setImageResource(R.drawable.arrow_up_black);
+                }
+                else{
+                    IDLineCategory.setVisibility(View.GONE);
+                    IDShowCategory.setImageResource(R.drawable.arrow_down_black);
+                }
+            }}
+        );
+
+        ImageButton IDNewCategory=findViewById(R.id.IDNewCategory);
+        IDNewCategory.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                IDspinner.setSelection(0);
+            }});
+
 
         String Subscribes ="Укажите вашу деятельность," +
                 "Мастер ногтевого сервиса," +
@@ -205,6 +231,8 @@ public class Search extends AppCompatActivity {
         String searchText = (SearchText.getText().toString()).trim();
         String[] searchTextPart = searchText.split(" ");
 
+        String textSpiner=IDspinner.getSelectedItem().toString();
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -227,6 +255,16 @@ public class Search extends AppCompatActivity {
                     {
                         Log.e("Not mistake","This is work");
                         continue;
+                    }
+                    if( postSnapshot.hasChild("Category") && !textSpiner.contains("Укажите вашу деятельность"))
+                    {
+                        String text=postSnapshot.child("Category").getValue().toString();
+
+                        if(!text.contains(textSpiner))
+                        {
+                            Log.e("Not mistake","This is work");
+                            continue;
+                        }
                     }
 
                     if(searchTextPart.length>1) {
@@ -260,10 +298,19 @@ public class Search extends AppCompatActivity {
             }
         };
 
+
+        if(searchText.trim()=="" && !textSpiner.contains("Укажите вашу деятельность"))
+        {
+            Query query = myRef.child("UserInfo").orderByChild("userName");
+            query.addValueEventListener(valueEventListener);
+        }
+        else {
         Query query = myRef.child("UserInfo").orderByChild("userName")
-                .startAt(searchTextPart[0].toUpperCase() )
-                .endAt(searchTextPart[0].toLowerCase() + "\uf8ff");
-        query.addValueEventListener(valueEventListener);
+                .startAt(searchTextPart[0].trim().toUpperCase() )
+                .endAt(searchTextPart[0].trim().toLowerCase() + "\uf8ff");
+        query.addValueEventListener(valueEventListener);}
+
+
     }
 
 
