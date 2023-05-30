@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="5dp"
@@ -45,11 +46,15 @@
                 android:inputType="textMultiLine"
                 android:text="Дата"
                 android:textColor="@color/ColorText"
-                android:textSize="22sp" />
+                android:textSize="12sp" />
 
 
         </LinearLayout>
-
+        <View
+            android:layout_marginTop="4dp"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/ButtonColor" />
         <TextView
             android:maxLines="3"
             android:lines="1"

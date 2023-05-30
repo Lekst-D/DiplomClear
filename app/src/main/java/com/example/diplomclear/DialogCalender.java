@@ -29,7 +29,7 @@ import androidx.fragment.app.DialogFragment;
 public class DialogCalender extends DialogFragment {
 
     public interface OnInputListener {
-        void sendInput(CalendarInfo input);
+        void sendInput(CalendarInfo input,String UID);
     }
 
     public OnInputListener mOnInputListener;
@@ -56,11 +56,13 @@ public class DialogCalender extends DialogFragment {
     };
 
     private void setInitialDate() {
-        IDTextDate.setText("Дата: " + DateUtils.formatDateTime(getActivity(),
-                dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
-        ));
+//        IDTextDate.setText("Дата: " + DateUtils.formatDateTime(getActivity(),
+//                dateAndTime.getTimeInMillis(),
+//                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+//        ));
+
         dateBirth = DateUtils.formatDateTime(getActivity(), dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        IDTextDate.setText("Дата: " + dateBirth);
 
 //        Toast toast = Toast.makeText(getActivity(), dateBirth+"",Toast.LENGTH_LONG);
 //        toast.show();
@@ -108,10 +110,27 @@ public class DialogCalender extends DialogFragment {
         String recordInfo = (getArguments().getString("record"));
         String UIDInfo = (getArguments().getString("UID"));
 
+        inflater = getLayoutInflater();
+        View myLayout = inflater.inflate(R.layout.info_save, null, false);
+
+        Button IDDeleteCalendar=myLayout.findViewById(R.id.IDDeleteCalendar);
+        IDDeleteCalendar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String time = "Delete";
+
+                String date = dateBirth;
+                date = date.replace("Дата: ", "");
+
+                String record = IDRecordCalender.getText().toString();
+                CalendarInfo input = new CalendarInfo(time, date, record);
+
+                mOnInputListener.sendInput(input,UIDInfo);
+                getDialog().dismiss();
+
+            }});
+        IDDeleteCalendar.setVisibility(View.GONE);
 
         if (UIDInfo.trim() == "New!") {
-            inflater = getLayoutInflater();
-            View myLayout = inflater.inflate(R.layout.info_save, null, false);
 
             LinearLayout IDDateSave = myLayout.findViewById(R.id.IDDateSave);
             IDTextDate = myLayout.findViewById(R.id.IDTextDate);
@@ -152,7 +171,7 @@ public class DialogCalender extends DialogFragment {
                                                     String record = IDRecordCalender.getText().toString();
                                                     CalendarInfo input = new CalendarInfo(time, date, record);
 
-                                                    mOnInputListener.sendInput(input);
+                                                    mOnInputListener.sendInput(input,UIDInfo);
                                                     getDialog().dismiss();
                                                 }
                                             }
@@ -160,10 +179,11 @@ public class DialogCalender extends DialogFragment {
 //        String text = getArguments().getString("text");
 
             return myLayout;
-        } else {
+        }
+        else {
+            IDDeleteCalendar.setVisibility(View.VISIBLE);
 
-            inflater = getLayoutInflater();
-            View myLayout = inflater.inflate(R.layout.info_save, null, false);
+            dateBirth=dateInfo;
 
             LinearLayout IDDateSave = myLayout.findViewById(R.id.IDDateSave);
             IDTextDate = myLayout.findViewById(R.id.IDTextDate);
@@ -205,7 +225,7 @@ public class DialogCalender extends DialogFragment {
                                                     String record = IDRecordCalender.getText().toString();
                                                     CalendarInfo input = new CalendarInfo(time, date, record);
 
-                                                    mOnInputListener.sendInput(input);
+                                                    mOnInputListener.sendInput(input,UIDInfo);
                                                     getDialog().dismiss();
                                                 }
                                             }

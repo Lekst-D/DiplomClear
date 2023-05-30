@@ -49,8 +49,15 @@ public class Calendar extends AppCompatActivity
     ;
 
     @Override
-    public void sendInput(CalendarInfo input) {
+    public void sendInput(CalendarInfo input,String UID) {
+        if (UID.trim() == "New!") {
         mDatabase.child("Calendar").child(IdUser).push().setValue(input);
+        }else{
+            if(input.getTime().trim()=="Delete"){
+                mDatabase.child("Calendar").child(IdUser).child(UID).removeValue();}
+            else{
+            mDatabase.child("Calendar").child(IdUser).child(UID).setValue(input);}
+        }
 //        Toast toast = Toast.makeText(this,
 //                "time "+input.getTime()+
 //                        "date"+input.getDate()+
@@ -106,6 +113,7 @@ public class Calendar extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object value = dataSnapshot.getValue();
                 if (value == null) {
+                    listView.removeAllViews();
                     HideLoad(false);
                 } else {
 
@@ -177,7 +185,7 @@ public class Calendar extends AppCompatActivity
                         args.putString("time", info.getTime());
                         args.putString("date", info.getDate());
                         args.putString("record", info.getRecord());
-                        args.putString("UID", info.getRecord());
+                        args.putString("UID", id);
 
                         DialogCalender dialog = new DialogCalender();
                         dialog.setArguments(args);
@@ -188,7 +196,7 @@ public class Calendar extends AppCompatActivity
                     }
                 });
 
-        listView.addView(myLayout);
+        listView.addView(myLayout,0);
     }
 
 }
