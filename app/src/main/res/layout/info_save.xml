@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_height="match_parent">
+
+    <TableRow>
+        <LinearLayout
+            android:id="@+id/IDTimeSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ShowUser">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/pencil" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:text="Время:"
+                android:textColor="@color/ColorText"
+                android:textSize="22sp" />
+
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow>
+        <LinearLayout
+            android:id="@+id/IDDateSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ShowUser">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:src="@drawable/pencil" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:text="Дата:"
+                android:textColor="@color/ColorText"
+                android:textSize="22sp" />
+        </LinearLayout>
+    </TableRow>
+
+
+
+    <TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ShowUser">
+
+        <TextView
+            android:id="@+id/IDNameCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:inputType="textMultiLine"
+            android:text="Запись:"
+            android:textColor="@color/ColorText"
+            android:textSize="22sp" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:backgroundTint="@color/ButtonColor"
+            android:id="@+id/IDChangeSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сохранить изменения"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            />
+    </TableRow>
+
+</TableLayout>

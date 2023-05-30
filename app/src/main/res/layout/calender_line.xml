@@ -5,10 +5,49 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_marginTop="3dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="ShowUser">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:maxLines="3"
+                android:lines="1"
+                android:id="@+id/IDTimeSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:inputType="textMultiLine"
+                android:text="Время"
+                android:textColor="@color/ColorText"
+                android:textSize="22sp" />
+
+
+            <TextView
+                android:maxLines="3"
+                android:lines="1"
+                android:id="@+id/IDTimeDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:inputType="textMultiLine"
+                android:text="Дата"
+                android:textColor="@color/ColorText"
+                android:textSize="22sp" />
+
+
+        </LinearLayout>
 
         <TextView
             android:maxLines="3"
@@ -16,22 +55,15 @@
             android:id="@+id/IDNameCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingLeft="20dp"
+            android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:inputType="textMultiLine"
             android:text="Запись"
             android:textColor="@color/ColorText"
             android:textSize="22sp" />
 
-        <ImageView
-            android:id="@+id/IDEditCategory"
-            android:layout_marginRight="5dp"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/pencil" />
+
 
 
     </LinearLayout>
