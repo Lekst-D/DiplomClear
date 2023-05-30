@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/IDCalendarLine"
         android:orientation="horizontal"
         android:layout_marginTop="3dp"
         android:layout_width="match_parent"
@@ -62,9 +63,6 @@
             android:text="Запись"
             android:textColor="@color/ColorText"
             android:textSize="22sp" />
-
-
-
 
     </LinearLayout>
 
