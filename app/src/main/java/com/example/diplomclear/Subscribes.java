@@ -81,10 +81,12 @@ public class Subscribes extends AppCompatActivity {
                         } else {
                             HideLoad(false);
                         }
+                        Log.e("mass",subs.size() +"");
 
                         ShowSubscribes(); 
                     }
                 } else {
+                    HideLoad(true);
                     Log.e("firebase", "Error getting data", task.getException());
                 }
             }
@@ -100,8 +102,7 @@ public class Subscribes extends AppCompatActivity {
     }
 
     void HideLoad(boolean check) {
-//        ImageView IDID =findViewById(R.id.IDID);
-//        IDID.setImageResource(R.drawable.two);
+
         TextView IDTVTextNotPost = findViewById(R.id.IDTVTextNotPost);
         LinearLayout IDLoad = findViewById(R.id.IDLoad);
 

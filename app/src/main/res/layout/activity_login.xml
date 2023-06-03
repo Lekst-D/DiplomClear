@@ -51,19 +51,18 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
-        <EditText
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:background="@drawable/custum_input"
-            android:layout_width="match_parent"
-            android:minHeight="35dp"
-            android:layout_height="wrap_content"
-
-            android:hint="Ведите пароль"
-            android:id="@+id/Epassword"
-            android:textColor="@color/ColorText"
-            android:textColorHint="@color/ColorTextHint"
-            />
+            <EditText
+                android:id="@+id/Epassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custum_input"
+                android:hint="Ведите пароль"
+                android:minHeight="35dp"
+android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/ColorText"
+                android:textColorHint="@color/ColorTextHint" />
 
 
         </LinearLayout>

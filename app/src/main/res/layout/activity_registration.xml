@@ -142,11 +142,13 @@
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             android:inputType="phone"
+
             />
 
         <!-- Set the masked characters -->
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/EPassword"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -157,6 +159,7 @@
             />
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/EPasswordPovtor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
