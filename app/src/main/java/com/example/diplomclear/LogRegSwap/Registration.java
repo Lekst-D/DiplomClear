@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +61,65 @@ public class Registration extends AppCompatActivity {
         surname=(EditText)findViewById(R.id.ESurname);
         birth_day=(EditText)findViewById(R.id.EDataBirth);
         reg=(Button) findViewById(R.id.BADD);
+
+        phone.addTextChangedListener(new TextWatcher() {
+            int len = 0;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                String str = phone.getText().toString();
+                len = str.length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    String str = s.toString();
+
+                    String val = phone.getText().toString();
+//                    if ((val.length() == 5 && len < val.length()) || (val.length() == 13 && len < val.length())) {
+//                        str += "-";
+//                        phone.setText(str);
+//                        phone.setSelection(str.length());
+//                    }
+
+                    if((val.length() == 1)&& (len < val.length()))
+                    {
+                        str = "+"+str;
+                        phone.setText(str);
+                        phone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 5)&& (len < val.length()))
+                    {
+                        str += "-";
+                        phone.setText(str);
+                        phone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 9)&& (len < val.length()))
+                    {
+                        str += "-";
+                        phone.setText(str);
+                        phone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 12)&& (len < val.length()))
+                    {
+                        str += "-";
+                        phone.setText(str);
+                        phone.setSelection(str.length());
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+        });
 
 
         mAuth=FirebaseAuth.getInstance();

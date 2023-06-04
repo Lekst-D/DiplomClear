@@ -144,6 +144,8 @@
                             android:text="Телефон" />
 
                         <EditText
+                            android:inputType="phone"
+                            android:maxLength="15"
                             android:id="@+id/PhoneUser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

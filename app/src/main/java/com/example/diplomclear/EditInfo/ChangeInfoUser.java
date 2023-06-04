@@ -4,16 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.diplomclear.Category;
+import com.example.diplomclear.Classes.CustomDialogFragment;
+import com.example.diplomclear.LogRegSwap.Registration;
 import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 public class ChangeInfoUser extends AppCompatActivity {
 
@@ -48,6 +59,70 @@ public class ChangeInfoUser extends AppCompatActivity {
         ESurname=findViewById(R.id.SurnameUser);
         EDateBirth=findViewById(R.id.BirthDayUser);
         EUserPhone=findViewById(R.id.PhoneUser);
+
+        EDateBirth.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                closeKeyboard();
+            }}
+        );
+
+        EUserPhone.addTextChangedListener(new TextWatcher() {
+            int len = 0;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                String str = EUserPhone.getText().toString();
+                len = str.length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    String str = s.toString();
+
+                    String val = EUserPhone.getText().toString();
+//                    if ((val.length() == 5 && len < val.length()) || (val.length() == 13 && len < val.length())) {
+//                        str += "-";
+//                        phone.setText(str);
+//                        phone.setSelection(str.length());
+//                    }
+
+                    if((val.length() == 1)&& (len < val.length()))
+                    {
+                        str = "+"+str;
+                        EUserPhone.setText(str);
+                        EUserPhone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 5)&& (len < val.length()))
+                    {
+                        str += "-";
+                        EUserPhone.setText(str);
+                        EUserPhone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 9)&& (len < val.length()))
+                    {
+                        str += "-";
+                        EUserPhone.setText(str);
+                        EUserPhone.setSelection(str.length());
+                    }
+
+                    if((val.length() == 12)&& (len < val.length()))
+                    {
+                        str += "-";
+                        EUserPhone.setText(str);
+                        EUserPhone.setSelection(str.length());
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+        });
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -116,6 +191,73 @@ public class ChangeInfoUser extends AppCompatActivity {
                 });
 
     }
+
+    String dateBirth;
+
+    Calendar dateAndTime=Calendar.getInstance();
+
+    public void setDate() {
+        new DatePickerDialog(this, d,
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
+
+    private void setInitialDateTime() {
+
+        EDateBirth.setText(DateUtils.formatDateTime(this,
+                dateAndTime.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+        ));
+        dateBirth=DateUtils.formatDateTime(this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+    }
+
+    public void CallCustDialFrag(String title,String text) {
+
+        CustomDialogFragment dialog = new CustomDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("text", text);
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), "custom");
+    }
+
+    private void closeKeyboard()
+    {
+        // this will give us the view
+        // which is currently focus
+        // in this layout
+        View view = this.getCurrentFocus();
+
+        // if nothing is currently
+        // focus then this will protect
+        // the app from crash
+        if (view != null) {
+
+            // now assign the system
+            // service to InputMethodManager
+            InputMethodManager manager
+                    = (InputMethodManager)
+                    getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+            manager
+                    .hideSoftInputFromWindow(
+                            view.getWindowToken(), 0);
+        }
+
+        setDate();
+    }
+
     void ShowAllCategory(){
         Intent intent = new Intent(this, Category.class);
         startActivity(intent);

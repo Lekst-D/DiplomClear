@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
 
             android:id="@+id/ELogin"
-            android:hint="Ведите логин"
+            android:hint="Введите логин"
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             />
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/custum_input"
-                android:hint="Ведите пароль"
+                android:hint="Введите пароль"
                 android:minHeight="35dp"
 android:inputType="textPassword"
                 android:paddingLeft="10dp"

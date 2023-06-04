@@ -1,11 +1,19 @@
 package com.example.diplomclear.LogRegSwap;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +30,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
+    private static final int REQUEST_CODE_ASK_PERMISSIONS =1 ;
+    private static final int PERMISSION_REQUEST_CODE =1 ;
     private EditText Email,Password;
     private FirebaseAuth mAuth;
 
@@ -80,8 +90,20 @@ public class Login extends AppCompatActivity {
     }
 
     public void CompleteLogin(){
+
         Intent intent = new Intent(this, Pages.class);
         startActivity(intent);
+
+//        Intent intent1 = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//        intent1.setData(Uri.parse("package:" + getPackageName()));
+//        startActivity(intent1);
+
+        Intent intent1 = new Intent();
+        intent1.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent1.setData(uri);
+        startActivity(intent1);
+
     }
 
     public void ShowPassword(View view){

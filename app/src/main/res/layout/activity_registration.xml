@@ -62,7 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        tools:ignore="MissingClass">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,6 +136,7 @@
             />
 
         <EditText
+            android:maxLength="15"
             android:id="@+id/EPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,8 +144,8 @@
             android:textColor="@color/ColorText"
             android:textColorHint="@color/ColorTextHint"
             android:inputType="phone"
-
             />
+
 
         <!-- Set the masked characters -->
 

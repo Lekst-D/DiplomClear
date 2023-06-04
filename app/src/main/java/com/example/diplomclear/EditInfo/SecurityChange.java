@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.diplomclear.R;
@@ -140,6 +141,14 @@ public class SecurityChange extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "Error auth failed");
                         }
+                    }
+                });
+
+        ImageButton IDBack=findViewById(R.id.IDBack);
+        IDBack.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        finish();
                     }
                 });
     }

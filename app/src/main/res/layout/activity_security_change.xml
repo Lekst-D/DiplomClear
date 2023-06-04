@@ -104,6 +104,7 @@
             android:paddingRight="20dp">
 
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/IDOldPasswordForPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,6 +123,7 @@
                 android:textColorHint="@color/ColorTextHint" />
 
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/IDNewPasswordForPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,6 +197,7 @@
             android:paddingRight="20dp">
 
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/IDOldPasswordForEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
