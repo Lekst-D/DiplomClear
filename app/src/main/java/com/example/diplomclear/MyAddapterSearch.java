@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.diplomclear.Classes.Post;
 
@@ -25,16 +26,19 @@ public class MyAddapterSearch extends ArrayAdapter<SearchList> {
     private int layout;
     private ArrayList<SearchList> searchs;
     private Context context;
+    private String UID;
+
 
 
 
     public MyAddapterSearch(Context context, int resource,
-                            ArrayList<SearchList> searchs) {
+                            ArrayList<SearchList> searchs,String UID) {
         super(context, resource, searchs);
         this.context=context;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
         this.searchs = searchs;
+        this.UID = UID;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,15 +51,35 @@ public class MyAddapterSearch extends ArrayAdapter<SearchList> {
 
         SearchList search = searchs.get(position);
 
+        String GteID=search.getIDUser().trim();
+
+        if(!UID.trim().contains(GteID)){
         LinearLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
+//                Toast toast = Toast.makeText(getContext(), "Hello Android!",Toast.LENGTH_LONG);
+//                toast.show();
+
                 Intent intent = new Intent(getContext(), AnotherUser.class);
                 intent.putExtra("UserID",    search.getIDUser());
                 intent.putExtra("FIO",       search.getFIO());
                 intent.putExtra("ImageUser", search.getImageUser());
 
                 context.startActivity(intent);
-            }});
+            }});}
+        else{
+            LinearLayout.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+
+
+
+                    Intent intent = new Intent(getContext(), User.class);
+                    intent.putExtra("UserID",    search.getIDUser());
+                    intent.putExtra("FIO",       search.getFIO());
+                    intent.putExtra("ImageUser", search.getImageUser());
+
+                    context.startActivity(intent);
+                }});}
 
         int CountPositions = searchs.size();
 

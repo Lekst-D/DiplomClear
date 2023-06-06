@@ -15,12 +15,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.diplomclear.Classes.Post;
 import com.example.diplomclear.EditInfo.ChangeInfoUser;
@@ -60,6 +63,7 @@ public class User extends AppCompatActivity {
     private String IdUser;
     private DatabaseReference mDatabase;
 
+    ImageView IDImageMain;
 
     ArrayList<String> ImageFormPost;
     ArrayList<Post> AllUserPost = new ArrayList<>();
@@ -69,6 +73,7 @@ public class User extends AppCompatActivity {
     String Surname = null;
     String UserPhoto = null;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +93,27 @@ public class User extends AppCompatActivity {
         IdUser = user.getUid().toString();
 
         Bundle arguments = getIntent().getExtras();
+
+        IDImageMain=findViewById(R.id.IDImageMain);
+        IDImageMain.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Initializing the popup menu and giving the reference as current context
+                PopupMenu popupMenu = new PopupMenu(User.this, IDImageMain);
+
+                // Inflating popup menu from popup_menu.xml file
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        // Toast message on menu item clicked
+                        Toast.makeText(User.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                // Showing the popup menu
+                popupMenu.show();
+            }
+        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("UserInfo").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

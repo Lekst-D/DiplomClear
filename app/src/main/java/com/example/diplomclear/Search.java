@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -100,6 +101,7 @@ public class Search extends AppCompatActivity {
                 "Мастер по перманентному макияжу," +
                 "Мастер по депиляции," +
                 "Броу-мастер";
+
         ArrayList<String> Categories = new ArrayList<>();
         Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
 
@@ -319,10 +321,13 @@ public class Search extends AppCompatActivity {
 
 
     }
-
+    void ShowSearchListAct() {
+        LayoutInflater inflater = getLayoutInflater();
+        View myLayoutImages = inflater.inflate(R.layout.category_line, null, false);
+    }
 
     void ShowSearchList() {
-        MyAddapterSearch stateAdapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs);
+        MyAddapterSearch stateAdapter = new MyAddapterSearch(this, R.layout.search_users, AllUserSearchs,IdUser);
         usersList.setAdapter(stateAdapter);
     }
 }
