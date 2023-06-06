@@ -1,25 +1,16 @@
-package com.example.diplomclear;
-
-import static androidx.fragment.app.DialogFragment.STYLE_NO_FRAME;
+package com.example.diplomclear.Calender;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.example.diplomclear.LogRegSwap.Registration;
-import com.example.diplomclear.SliderImage.CustomDialogFragment;
+import com.example.diplomclear.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +40,7 @@ public class Calendar extends AppCompatActivity
     ;
 
     @Override
-    public void sendInput(CalendarInfo input,String UID) {
+    public void sendInput(CalendarInfo input, String UID) {
         if (UID.trim() == "New!") {
         mDatabase.child("Calendar").child(IdUser).push().setValue(input);
         }else{
@@ -196,6 +187,23 @@ public class Calendar extends AppCompatActivity
                     }
                 });
 
+        IDNameCategory.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Bundle args = new Bundle();
+                        args.putString("time", info.getTime());
+                        args.putString("date", info.getDate());
+                        args.putString("record", info.getRecord());
+                        args.putString("UID", id);
+
+                        DialogCalender dialog = new DialogCalender();
+                        dialog.setArguments(args);
+//                        dialog.setStyle(STYLE_NO_FRAME,
+//                                android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                        dialog.show(getSupportFragmentManager(), "custom");
+                    }
+                });
         listView.addView(myLayout,0);
     }
 

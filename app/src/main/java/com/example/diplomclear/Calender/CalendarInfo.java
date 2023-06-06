@@ -1,4 +1,4 @@
-package com.example.diplomclear;
+package com.example.diplomclear.Calender;
 
 public class CalendarInfo {
 

@@ -1,11 +1,9 @@
-package com.example.diplomclear;
+package com.example.diplomclear.Calender;
 
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,15 +19,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.diplomclear.Calender.CalendarInfo;
+import com.example.diplomclear.R;
+
 public class DialogCalender extends DialogFragment {
 
     public interface OnInputListener {
-        void sendInput(CalendarInfo input,String UID);
+        void sendInput(CalendarInfo input, String UID);
     }
 
     public OnInputListener mOnInputListener;

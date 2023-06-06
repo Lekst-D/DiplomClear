@@ -19,7 +19,7 @@
         android:theme="@style/Theme.DiplomClear"
         tools:targetApi="31">
         <activity
-            android:name=".Calendar"
+            android:name=".Calender.Calendar"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

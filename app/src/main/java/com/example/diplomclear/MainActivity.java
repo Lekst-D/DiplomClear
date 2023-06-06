@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
 //            Intent intent = new Intent(this, AddImages.class);
             startActivity(intent);
         }else{
-            // Toast.makeText(MainActivity.this,"User isn't active",Toast.LENGTH_SHORT).show();
+
+
+
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
