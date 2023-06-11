@@ -94,26 +94,26 @@ public class User extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        IDImageMain=findViewById(R.id.IDImageMain);
-        IDImageMain.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Initializing the popup menu and giving the reference as current context
-                PopupMenu popupMenu = new PopupMenu(User.this, IDImageMain);
-
-                // Inflating popup menu from popup_menu.xml file
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        // Toast message on menu item clicked
-                        Toast.makeText(User.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-                // Showing the popup menu
-                popupMenu.show();
-            }
-        });
+        IDImageMain = findViewById(R.id.IDImageMain);
+//        IDImageMain.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                // Initializing the popup menu and giving the reference as current context
+//                PopupMenu popupMenu = new PopupMenu(User.this, IDImageMain);
+//
+//                // Inflating popup menu from popup_menu.xml file
+//                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem menuItem) {
+//                        // Toast message on menu item clicked
+//                        Toast.makeText(User.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+//                        return true;
+//                    }
+//                });
+//                // Showing the popup menu
+//                popupMenu.show();
+//            }
+//        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("UserInfo").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -129,16 +129,17 @@ public class User extends AppCompatActivity {
 
                     ((TextView) findViewById(R.id.UserName)).setText(Name + " " + Surname);
 
-
+                    if(UserPhoto.trim()!="null")
+                    {
+                        DownloadImageUser(UserPhoto.trim(),IDImageMain);
+                    }
 
                     if (task.getResult().hasChild("shortText")) {
 
                         String shortText = task.getResult().child("").getValue().toString();
                         ((TextView) findViewById(R.id.expandable_text)).setText(shortText);
 
-                    }
-                    else
-                    {
+                    } else {
                         ((TextView) findViewById(R.id.expandable_text)).setText("Вы не оставили текс, о себе");
                     }
 
@@ -184,8 +185,9 @@ public class User extends AppCompatActivity {
                         String PostDate = document.get("DatePost").toString();
                         String PostTime = document.get("TimePost").toString();
                         String PostText = document.get("TextPost").toString();
+                        String PostD = document.getId().toString();
 
-                        Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime);
+                        Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime, PostD);
 
                         AllUserPost.add(post);
                     }
@@ -312,6 +314,68 @@ public class User extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public String DownloadImageUser(String ImageName, ImageView Image) {
+
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        } else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+//__________________________________________________
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+//Convert bitmap to byte array
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//__________________________________________________
+
+                    Image.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+        return ImageName;
+    }
+
+
     void ShowThreeImage() throws InterruptedException {
         int lenPost = images.size();
 
@@ -324,21 +388,23 @@ public class User extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             ImageView1.setImageBitmap(myBitmap);
 
-            int position=0;
+            int position = 0;
 
             ImageView1.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putStringArrayList("mArrayUri", images);
-                    args.putInt("CurentPosition",position);
+                                              public void onClick(View v) {
+                                                  Bundle args = new Bundle();
+                                                  args.putStringArrayList("mArrayUri", images);
+                                                  args.putInt("CurentPosition", position);
+                                                  args.putString("Status", "userImage");
 
-                    CustomDialogFragment dialog = new CustomDialogFragment();
-                    dialog.setArguments(args);
-                    dialog.setStyle(STYLE_NO_FRAME,
-                            android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                                                  CustomDialogFragment dialog = new CustomDialogFragment();
+                                                  dialog.setArguments(args);
+                                                  dialog.setStyle(STYLE_NO_FRAME,
+                                                          android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
-                    dialog.show(getSupportFragmentManager(), "custom");
-                }}
+                                                  dialog.show(getSupportFragmentManager(), "custom");
+                                              }
+                                          }
             );
         }
         if (lenPost >= 2) {
@@ -346,21 +412,24 @@ public class User extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             ImageView2.setImageBitmap(myBitmap);
 
-            int position=1;
+            int position = 1;
 
             ImageView2.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putStringArrayList("mArrayUri", images);
-                    args.putInt("CurentPosition",position);
+                                              public void onClick(View v) {
+                                                  Bundle args = new Bundle();
+                                                  args.putStringArrayList("mArrayUri", images);
+                                                  args.putInt("CurentPosition", position);
+                                                  args.putString("Status", "userImage");
 
-                    CustomDialogFragment dialog = new CustomDialogFragment();
-                    dialog.setArguments(args);
-                    dialog.setStyle(STYLE_NO_FRAME,
-                            android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
-                    dialog.show(getSupportFragmentManager(), "custom");
-                }}
+                                                  CustomDialogFragment dialog = new CustomDialogFragment();
+                                                  dialog.setArguments(args);
+                                                  dialog.setStyle(STYLE_NO_FRAME,
+                                                          android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                                                  dialog.show(getSupportFragmentManager(), "custom");
+                                              }
+                                          }
             );
         }
         if (lenPost >= 3) {
@@ -368,27 +437,29 @@ public class User extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             ImageView3.setImageBitmap(myBitmap);
 
-            int position=2;
+            int position = 2;
 
             ImageView3.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putStringArrayList("mArrayUri", images);
-                    args.putInt("CurentPosition",position);
+                                              public void onClick(View v) {
+                                                  Bundle args = new Bundle();
+                                                  args.putStringArrayList("mArrayUri", images);
+                                                  args.putInt("CurentPosition", position);
+                                                  args.putString("Status", "userImage");
 
-                    CustomDialogFragment dialog = new CustomDialogFragment();
-                    dialog.setArguments(args);
-                    dialog.setStyle(STYLE_NO_FRAME,
-                            android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                                                  CustomDialogFragment dialog = new CustomDialogFragment();
+                                                  dialog.setArguments(args);
+                                                  dialog.setStyle(STYLE_NO_FRAME,
+                                                          android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
-                    dialog.show(getSupportFragmentManager(), "custom");
-                }}
+                                                  dialog.show(getSupportFragmentManager(), "custom");
+                                              }
+                                          }
             );
         }
 
     }
 
-    public String DownloadImage(String ImageName, ImageView Image,ArrayList<String> ImageListSlider) {
+    public String DownloadImage(String ImageName, ImageView Image, ArrayList<String> ImageListSlider, String PostID) {
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
         if (dir.exists()) {
@@ -397,8 +468,7 @@ public class User extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             Image.setImageBitmap(myBitmap);
 
-        }
-        else {
+        } else {
 
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -448,21 +518,24 @@ public class User extends AppCompatActivity {
             });
         }
 
-        int position=ImageListSlider.indexOf(ImageName);
+        int position = ImageListSlider.indexOf(ImageName);
 
         Image.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putStringArrayList("mArrayUri", ImageListSlider);
-                args.putInt("CurentPosition",position);
+                                     public void onClick(View v) {
+                                         Bundle args = new Bundle();
+                                         args.putStringArrayList("mArrayUri", ImageListSlider);
+                                         args.putInt("CurentPosition", position);
+                                         args.putString("Status", "userImage");
+                                         args.putString("PostID", PostID);
 
-                CustomDialogFragment dialog = new CustomDialogFragment();
-                dialog.setArguments(args);
-                dialog.setStyle(STYLE_NO_FRAME,
-                        android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                                         CustomDialogFragment dialog = new CustomDialogFragment();
+                                         dialog.setArguments(args);
+                                         dialog.setStyle(STYLE_NO_FRAME,
+                                                 android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
-                dialog.show(getSupportFragmentManager(), "custom");
-            }}
+                                         dialog.show(getSupportFragmentManager(), "custom");
+                                     }
+                                 }
         );
 
         try {
@@ -475,12 +548,52 @@ public class User extends AppCompatActivity {
         return ImageName;
     }
 
+    public void removePost(String PostID, View myLayout, LinearLayout listView, String ImageMess) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usersPosts")
+                .document(PostID).delete();
+
+        listView.removeView(myLayout);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        ArrayList<String> images = new ArrayList<>();
+        images = new ArrayList<String>(Arrays.asList((ImageMess.split(","))));
+        images.remove("null");
+
+        for (String UserImage : images) {
+            StorageReference imagesRef = storageRef.child(IdUser + "/" + UserImage);
+            imagesRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                }
+            });
+        }
+
+        try {
+            Log.e("ThreePost", "111111111111111");
+            ShowThreeImage();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @SuppressLint({"MissingInflatedId", "LocalSuppress"})
     ArrayList<String> FioUsers = new ArrayList<>();
     ArrayList<String> IDusers = new ArrayList<>();
 
     void ShowPost(Post post) {
 
+        String PostID = post.getPostD();
         LinearLayout listView = findViewById(R.id.IDListView);
         LayoutInflater inflater = getLayoutInflater();
         View myLayout = inflater.inflate(R.layout.user_post, null, false);
@@ -489,6 +602,42 @@ public class User extends AppCompatActivity {
         TextView FIO = myLayout.findViewById(R.id.IDUserFIO);
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
+
+
+        String ImageMess = post.getImagePost();
+
+
+        ImageView IDMenuPost = myLayout.findViewById(R.id.IDMenuPost);
+
+        IDMenuPost.setVisibility(View.VISIBLE);
+        IDMenuPost.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Initializing the popup menu and giving the reference as current context
+                PopupMenu popupMenu = new PopupMenu(User.this, IDMenuPost);
+
+                // Inflating popup menu from popup_menu.xml file
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu_post, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        int id = menuItem.getItemId();
+
+                        switch (id) {
+//                            case R.id.IDEdit:
+//
+//                                return true;
+                            case R.id.IDRemove:
+                                removePost(PostID,myLayout,listView,ImageMess);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                // Showing the popup menu
+                popupMenu.show();
+            }
+        });
 
         String idUserRequest = post.getUserID().toString();
 
@@ -512,216 +661,206 @@ public class User extends AppCompatActivity {
 
         LinearLayout IDImageView = myLayout.findViewById(R.id.IDImageView);
 
-        String ImageMess=post.getImagePost();
+
 
 
         if (!ImageMess.contains("null")) {
 
-            ArrayList<String> ImageListSlider= new ArrayList<>();
+            ArrayList<String> ImageListSlider = new ArrayList<>();
 
             ArrayList<String> images = new ArrayList<>();
             images = new ArrayList<String>(Arrays.asList((ImageMess.split(","))));
             images.remove("null");
 
-            for (String st: images) {
+            for (String st : images) {
                 ImageListSlider.add(st.trim());
             }
 
             this.images.addAll(ImageListSlider);
 
-            int sizeImage=images.size();
-            Log.e("sizeImage",sizeImage+"");
+            int sizeImage = images.size();
+            Log.e("sizeImage", sizeImage + "");
 
-            if(sizeImage<=2)
-            {
+            if (sizeImage <= 2) {
                 View myLayoutImages = inflater.inflate(R.layout.one_image, null, false);
 
                 LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
                 LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
                 LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
 
-                if(sizeImage==1)
-                {
-                    File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                if (sizeImage == 1) {
+                    File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(0).trim());
                     Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    ImageView imageView = (ImageView)IDLineOne.getChildAt(0);
+                    ImageView imageView = (ImageView) IDLineOne.getChildAt(0);
                     imageView.setImageBitmap(myBitmap);
 
-                    DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(0).trim(), imageView, ImageListSlider, PostID);
 
-                    imageView = (ImageView)IDLineOne.getChildAt(1);
+                    imageView = (ImageView) IDLineOne.getChildAt(1);
 
                     imageView.setVisibility(View.GONE);
-                }
-                else
-                {
-                    File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                } else {
+                    File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(0).trim());
                     Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
+                    ImageView imageView = (ImageView) IDLineOne.getChildAt(0);
                     imageView.setImageBitmap(myBitmap);
-                    DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(0).trim(), imageView, ImageListSlider, PostID);
 
 
-                    imageView = (ImageView)IDLineOne.getChildAt(1);
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
+                    imageView = (ImageView) IDLineOne.getChildAt(1);
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(1).trim());
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     imageView.setImageBitmap(myBitmap);
-                    DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(1).trim(), imageView, ImageListSlider, PostID);
 
                 }
 
                 IDImageView.addView(myLayoutImages);
-            }
-            else if(sizeImage<=8)
-            {
+            } else if (sizeImage <= 8) {
                 View myLayoutImages = inflater.inflate(R.layout.two_image, null, false);
 
                 LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
                 LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
                 LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
 
-                File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(0).trim());
                 Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
+                ImageView imageView = (ImageView) IDLineOne.getChildAt(0);
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(0).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineOne.getChildAt(1);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
+                imageView = (ImageView) IDLineOne.getChildAt(1);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(1).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(1).trim(), imageView, ImageListSlider, PostID);
 
-                if(sizeImage>=3)
-                {
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(2).trim());
+                if (sizeImage >= 3) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(2).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(0);
+                    imageView = (ImageView) IDLineTwo.getChildAt(0);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(2).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(2).trim(), imageView, ImageListSlider, PostID);
                 }
-                if(sizeImage>=4)
-                {
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(3).trim());
+                if (sizeImage >= 4) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(3).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(1);
+                    imageView = (ImageView) IDLineTwo.getChildAt(1);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(3).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(3).trim(), imageView, ImageListSlider, PostID);
                 }
-                if(sizeImage>=5){
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(4).trim());
+                if (sizeImage >= 5) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(4).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(2);
+                    imageView = (ImageView) IDLineTwo.getChildAt(2);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(4).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(4).trim(), imageView, ImageListSlider, PostID);
                 }
-                if(sizeImage>=6){
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(5).trim());
+                if (sizeImage >= 6) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(5).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(3);
+                    imageView = (ImageView) IDLineTwo.getChildAt(3);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(5).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(5).trim(), imageView, ImageListSlider, PostID);
                 }
-                if(sizeImage>=7){
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(6).trim());
+                if (sizeImage >= 7) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(6).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(4);
+                    imageView = (ImageView) IDLineTwo.getChildAt(4);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(6).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(6).trim(), imageView, ImageListSlider, PostID);
                 }
-                if(sizeImage==8){
-                    file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(7).trim());
+                if (sizeImage == 8) {
+                    file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(7).trim());
 
                     myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                    imageView = (ImageView)IDLineTwo.getChildAt(5);
+                    imageView = (ImageView) IDLineTwo.getChildAt(5);
                     imageView.setImageBitmap(myBitmap);
                     imageView.setVisibility(View.VISIBLE);
-                    DownloadImage(images.get(7).trim(),imageView,ImageListSlider);
+                    DownloadImage(images.get(7).trim(), imageView, ImageListSlider, PostID);
                 }
 
                 IDImageView.addView(myLayoutImages);
 
-            }
-            else if(sizeImage>=9)
-            {
+            } else if (sizeImage >= 9) {
                 View myLayoutImages = inflater.inflate(R.layout.three_image, null, false);
 
                 LinearLayout IDLineOne = myLayoutImages.findViewById(R.id.OneLine);
                 LinearLayout IDLineTwo = myLayoutImages.findViewById(R.id.TwoLine);
                 LinearLayout IDLineThree = myLayoutImages.findViewById(R.id.ThreeLine);
 
-                File file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(0).trim());
+                File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(0).trim());
                 Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                ImageView imageView =  (ImageView)IDLineOne.getChildAt(0);
+                ImageView imageView = (ImageView) IDLineOne.getChildAt(0);
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(0).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(0).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineOne.getChildAt(1);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(1).trim());
+                imageView = (ImageView) IDLineOne.getChildAt(1);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(1).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(1).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(1).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineOne.getChildAt(2);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(2).trim());
+                imageView = (ImageView) IDLineOne.getChildAt(2);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(2).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(2).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(2).trim(), imageView, ImageListSlider, PostID);
 
 
-                imageView =  (ImageView)IDLineTwo.getChildAt(0);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(3).trim());
+                imageView = (ImageView) IDLineTwo.getChildAt(0);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(3).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(3).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(3).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineTwo.getChildAt(1);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(4).trim());
+                imageView = (ImageView) IDLineTwo.getChildAt(1);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(4).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(4).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(4).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineTwo.getChildAt(2);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(5).trim());
+                imageView = (ImageView) IDLineTwo.getChildAt(2);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(5).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(5).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(5).trim(), imageView, ImageListSlider, PostID);
 
 
-                imageView =  (ImageView)IDLineThree.getChildAt(0);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(6).trim());
+                imageView = (ImageView) IDLineThree.getChildAt(0);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(6).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(6).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(6).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineThree.getChildAt(1);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(7).trim());
+                imageView = (ImageView) IDLineThree.getChildAt(1);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(7).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(7).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(7).trim(), imageView, ImageListSlider, PostID);
 
-                imageView =  (ImageView)IDLineThree.getChildAt(2);
-                file = new File( Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" +images.get(8).trim());
+                imageView = (ImageView) IDLineThree.getChildAt(2);
+                file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(8).trim());
                 myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(myBitmap);
-                DownloadImage(images.get(8).trim(),imageView,ImageListSlider);
+                DownloadImage(images.get(8).trim(), imageView, ImageListSlider, PostID);
 
                 IDImageView.addView(myLayoutImages);
 

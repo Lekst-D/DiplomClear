@@ -206,8 +206,9 @@ public class Pages extends AppCompatActivity {
                                 String PostDate = document.get("DatePost").toString();
                                 String PostTime = document.get("TimePost").toString();
                                 String PostText = document.get("TextPost").toString();
+                                String PostD = document.getId().toString();
 
-                                Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime);
+                                Post post = new Post(ImagePost, UserID, PostText, PostDate, PostTime,PostD);
 
                                 AllUserPost.add(post);
                             }

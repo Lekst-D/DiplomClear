@@ -87,6 +87,7 @@ public class AllImageUser extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         IdUser = user.getUid();
 
+
         DatabaseReference mDatabas = FirebaseDatabase.getInstance().getReference();
 
         Bundle arguments = getIntent().getExtras();
@@ -393,6 +394,8 @@ public class AllImageUser extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putStringArrayList("mArrayUri", ImageList);
                     args.putInt("CurentPosition",position);
+                    args.putString("Status", "userImage");
+
 
                     CustomDialogFragment dialog = new CustomDialogFragment();
                     dialog.setArguments(args);

@@ -28,6 +28,7 @@
                 android:layout_height="35dp"/>
 
             <LinearLayout
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -49,6 +50,14 @@
 
 
             </LinearLayout>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/IDMenuPost"
+                android:scaleType="centerCrop"
+                android:src="@drawable/three_point_black"
+                android:layout_width="25dp"
+                android:layout_height="35dp"/>
 
         </LinearLayout>
 

@@ -89,6 +89,8 @@ public class NewPost extends AppCompatActivity {
             }
         });
 
+
+
         //firebase
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
