@@ -8,15 +8,26 @@ public class Post {
     private String PostTime;
     private String PostText;
 
+    private String PostD;
+
     Post() {
     }
 
-    public Post(String ImagePost, String UserID,String PostText,String PostDate,String PostTime) {
+    public Post(String ImagePost, String UserID,String PostText,String PostDate,String PostTime,String PostD) {
         this.UserID = UserID;
         this.ImagePost = ImagePost;
         this.PostTime = PostTime;
         this.PostText = PostText;
         this.PostDate=PostDate;
+        this.PostD=PostD;
+    }
+
+    public String getPostD() {
+        return PostD;
+    }
+
+    public void setPostD(String postD) {
+        PostD = postD;
     }
 
     public String getImagePost() {
