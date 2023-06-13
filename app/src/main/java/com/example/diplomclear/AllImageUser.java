@@ -324,6 +324,7 @@ public class AllImageUser extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     public void SendPost() {
 
+        NameImageAll = NameImageAll.substring(0, NameImageAll.length() - 1);
 
         String textpost = "";
 

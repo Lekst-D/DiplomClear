@@ -310,7 +310,10 @@ public class User extends AppCompatActivity {
     }
 
     void NewPostView() {
-        Intent intent = new Intent(this, NewPost.class);
+//        Intent intent = new Intent(this, NewPost.class);
+
+        Intent intent = new Intent(this, NewPostMulty.class);
+
         startActivity(intent);
     }
 
@@ -382,6 +385,10 @@ public class User extends AppCompatActivity {
         ImageView ImageView1 = findViewById(R.id.ImageView1);
         ImageView ImageView2 = findViewById(R.id.ImageView2);
         ImageView ImageView3 = findViewById(R.id.ImageView3);
+
+        ImageView1.setImageResource(0);
+        ImageView2.setImageResource(0);
+        ImageView3.setImageResource(0);
 
         if (lenPost >= 1) {
             File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + images.get(0));
@@ -559,15 +566,22 @@ public class User extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        ArrayList<String> images = new ArrayList<>();
-        images = new ArrayList<String>(Arrays.asList((ImageMess.split(","))));
-        images.remove("null");
+        ArrayList<String> imagesString = new ArrayList<>();
+        imagesString = new ArrayList<String>(Arrays.asList((ImageMess.split(","))));
+        imagesString.remove("null");
 
-        for (String UserImage : images) {
+        for (String UserImage : imagesString) {
             StorageReference imagesRef = storageRef.child(IdUser + "/" + UserImage);
             imagesRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+                    images.remove(UserImage);
+                    try {
+                        Log.e("ThreePost", "111111111111111");
+                        ShowThreeImage();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     // File deleted successfully
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -602,6 +616,12 @@ public class User extends AppCompatActivity {
         TextView FIO = myLayout.findViewById(R.id.IDUserFIO);
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
+
+        ImageView IDUserPostImage= myLayout.findViewById(R.id.IDUserPostImage);
+        if(UserPhoto.trim()!="null")
+        {
+            DownloadImageUser(UserPhoto.trim(),IDUserPostImage);
+        }
 
 
         String ImageMess = post.getImagePost();

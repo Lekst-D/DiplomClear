@@ -24,14 +24,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -113,7 +121,68 @@ public class Subscribes extends AppCompatActivity {
         }
     }
 
-    public void UserInfo(TextView FIOTV, String idUser,LinearLayout IDSubAUser)
+    public String DownloadImageUser(String ImageName, ImageView Image) {
+
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        } else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+//__________________________________________________
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+//Convert bitmap to byte array
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//__________________________________________________
+
+                    Image.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+        return ImageName;
+    }
+
+    public void UserInfo(TextView FIOTV, String idUser,LinearLayout IDSubAUser,ImageView imageUser)
     {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -127,6 +196,8 @@ public class Subscribes extends AppCompatActivity {
                     String Surname = task.getResult().child("userSurname").getValue().toString();
                     String UserPhoto = task.getResult().child("userPhoto").getValue().toString();
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
+
+                    DownloadImageUser(UserPhoto,imageUser);
 
                     FIOTV.setText(Surname+" "+Name);
 
@@ -160,7 +231,9 @@ public class Subscribes extends AppCompatActivity {
             LinearLayout IDLinearLayout=myLayout.findViewById(R.id.IDLinearLayout);
             TextView textView=myLayout.findViewById(R.id.IDUserFIO);
 
-            UserInfo(textView,idUser,IDLinearLayout);
+            ImageView imageView=myLayout.findViewById(R.id.IDUserImage);
+
+            UserInfo(textView,idUser,IDLinearLayout,imageView);
 
 
             IDSubList.addView(myLayout);

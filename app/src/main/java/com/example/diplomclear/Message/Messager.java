@@ -79,6 +79,7 @@ public class Messager extends AppCompatActivity {
     String IDListMessager = "";
 
     TextView IdUserAnother;
+    ImageView IdImageUser;
     ScrollView IDScrollVIew;
     ImageView IDImagesMessage;
 
@@ -96,6 +97,8 @@ public class Messager extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messager);
+
+        IdImageUser=findViewById(R.id.IdImageUser);
 
         IDScrollVIew = findViewById(R.id.IDScrollVIew);
 
@@ -222,6 +225,11 @@ public class Messager extends AppCompatActivity {
                             intent.putExtra("ImageUser", UserPhoto);
                             startActivity(intent);
                         }});
+
+                    if(UserPhoto.trim()!="null")
+                    {
+                        DownloadImageUser(UserPhoto.trim(),IdImageUser);
+                    }
                 }
             }
         });
@@ -233,6 +241,67 @@ public class Messager extends AppCompatActivity {
             }
         });
 
+    }
+
+    public String DownloadImageUser(String ImageName, ImageView Image) {
+
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        } else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+//__________________________________________________
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+//Convert bitmap to byte array
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//__________________________________________________
+
+                    Image.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+        return ImageName;
     }
 
     void ShowImage() {

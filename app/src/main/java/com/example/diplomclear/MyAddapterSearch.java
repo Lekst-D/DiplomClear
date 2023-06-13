@@ -15,9 +15,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.diplomclear.Classes.Post;
+import androidx.annotation.NonNull;
 
+import com.example.diplomclear.Classes.Post;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyAddapterSearch extends ArrayAdapter<SearchList> {
@@ -41,11 +51,72 @@ public class MyAddapterSearch extends ArrayAdapter<SearchList> {
         this.UID = UID;
     }
 
+    public String DownloadImageUser(String ImageName, ImageView Image) {
+
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        } else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(UID).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+//__________________________________________________
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+//Convert bitmap to byte array
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//__________________________________________________
+
+                    Image.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+        return ImageName;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = inflater.inflate(this.layout, parent, false);
 
-        ImageView Image = view.findViewById(R.id.IDPostIMagePost);
+        ImageView Image = view.findViewById(R.id.IDUserImage);
         TextView FIO = view.findViewById(R.id.IDUserFIO);
         LinearLayout LinearLayout=view.findViewById(R.id.IDLinearLayout);
 
@@ -89,12 +160,14 @@ public class MyAddapterSearch extends ArrayAdapter<SearchList> {
 
 //        Log.e("Myadappter","non if");
         if (!search.getImageUser().contains("none")) {
-            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + search.getImageUser());
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            FIO.setText(search.getImageUser());
-//            Log.e("Myadappter","if");
-//        Image.setImageBitmap(myBitmap);
-            return view;
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + search.getImageUser());
+//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//            FIO.setText(search.getImageUser());
+////            Log.e("Myadappter","if");
+//            Image.setImageBitmap(myBitmap);
+
+            DownloadImageUser(search.getImageUser().trim(),Image);
+
         }
 
         FIO.setText(search.getFIO());

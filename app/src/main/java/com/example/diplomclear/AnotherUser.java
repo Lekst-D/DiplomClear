@@ -74,6 +74,8 @@ public class AnotherUser extends AppCompatActivity {
     String IDU = null;
     String IDListMessager = "";
 
+    ImageView IDUserImage;
+
     ArrayList<String> subs = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
     @SuppressLint("MissingInflatedId")
@@ -81,6 +83,8 @@ public class AnotherUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_another_user);
+
+        IDUserImage=findViewById(R.id.IDUserImage);
 //      --------------------------------------------------------
         Bundle arguments = getIntent().getExtras();
 //
@@ -113,6 +117,8 @@ public class AnotherUser extends AppCompatActivity {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
                     ((TextView) findViewById(R.id.UserName)).setText(Name + " " + Surname);
+
+                    DownloadImageUser(UserPhoto,IDUserImage);
                 }
             }
         });
@@ -332,7 +338,66 @@ public class AnotherUser extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public String DownloadImageUser(String ImageName, ImageView Image) {
 
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+        if (dir.exists()) {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo/" + ImageName);
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Image.setImageBitmap(myBitmap);
+
+        } else {
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+
+            final long ONE_MEGABYTE = 1024 * 1024 * 1024;
+            storageRef.child(IdUser).child(ImageName).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+//__________________________________________________
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/YouDeo", ImageName);
+                    try {
+                        f.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+//Convert bitmap to byte array
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//__________________________________________________
+
+                    Image.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+        return ImageName;
+    }
 
     void ShowThreeImage() throws InterruptedException {
         int lenPost = images.size();
@@ -511,6 +576,12 @@ public class AnotherUser extends AppCompatActivity {
         TextView FIO = myLayout.findViewById(R.id.IDUserFIO);
         TextView PostTime = myLayout.findViewById(R.id.IDPostTime);
         TextView PostText = myLayout.findViewById(R.id.IDPostText);
+
+        ImageView IDUserPostImage= myLayout.findViewById(R.id.IDUserPostImage);
+        if(UserPhoto.trim()!="null")
+        {
+            DownloadImageUser(UserPhoto.trim(),IDUserPostImage);
+        }
 
         String idUserRequest = post.getUserID().toString();
 
