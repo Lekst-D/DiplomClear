@@ -86,7 +86,9 @@ public class MySubscribes extends AppCompatActivity {
                         String ID = postSnapshot.getKey().toString();
 
                         if (ID.trim() != IdUser.trim()) {
-                            subs.add(ID);
+                            String value=postSnapshot.getValue().toString();
+                            if(value.contains(IdUser)){
+                            subs.add(ID);}
                         }
                     }
                     Log.e("subs", subs.toString());
@@ -116,8 +118,8 @@ public class MySubscribes extends AppCompatActivity {
 
         Log.e("Query", IdUser);
         Query query = myRef.child("Subscribe").orderByValue()
-                .startAt(IdUser.toUpperCase()+ "\uf8ff")
-                .endAt(IdUser.toLowerCase() + "\uf8ff");
+                .startAt(IdUser.toUpperCase()+ "\uf8ff");
+//                .endAt(IdUser.toLowerCase() + "\uf8ff");
         query.addValueEventListener(valueEventListener);
         Log.e("Query", IdUser);
 
