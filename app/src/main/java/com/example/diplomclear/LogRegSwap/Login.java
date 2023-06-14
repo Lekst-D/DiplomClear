@@ -98,11 +98,11 @@ public class Login extends AppCompatActivity {
 //        intent1.setData(Uri.parse("package:" + getPackageName()));
 //        startActivity(intent1);
 
-        Intent intent1 = new Intent();
-        intent1.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent1.setData(uri);
-        startActivity(intent1);
+//        Intent intent1 = new Intent();
+//        intent1.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//        Uri uri = Uri.fromParts("package", getPackageName(), null);
+//        intent1.setData(uri);
+//        startActivity(intent1);
 
     }
 
