@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.diplomclear.Classes.CustomDialogFragment;
 import com.example.diplomclear.Classes.UserInfo;
+import com.example.diplomclear.Pages;
 import com.example.diplomclear.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -165,13 +167,13 @@ public class Registration extends AppCompatActivity {
 
         RadioButton AgreePersonalData=(RadioButton)findViewById(R.id.AgreePersonalData);
 
-        String Name=name.getText().toString();
-        String Email=mail.getText().toString();
-        String Phone=phone.getText().toString();
-        String Password=password.getText().toString();
-        String PasswordPav=password_pav.getText().toString();
-        String Surname=surname.getText().toString();
-        String BirthDay=birth_day.getText().toString();
+        String Name=name.getText().toString().trim();
+        String Email=mail.getText().toString().trim();
+        String Phone=phone.getText().toString().trim();
+        String Password=password.getText().toString().trim();
+        String PasswordPav=password_pav.getText().toString().trim();
+        String Surname=surname.getText().toString().trim();
+        String BirthDay=birth_day.getText().toString().trim();
 
         if(Name.matches(""))
         {
@@ -311,7 +313,7 @@ public class Registration extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    Toast.makeText(Registration.this,"Complete registration",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registration.this,"Вы зарегестрированны в системе",Toast.LENGTH_SHORT).show();
                     FirebaseUser user =mAuth.getInstance().getCurrentUser();
                     Log.e("firebase", user.getUid(), task.getException());
 
@@ -340,6 +342,8 @@ public class Registration extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    Intent intent = new Intent(Registration.this, Pages.class);
+                                    startActivity(intent);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -351,7 +355,7 @@ public class Registration extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(Registration.this,"False registration",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registration.this,"Регистрация завершилась ошибкой",Toast.LENGTH_SHORT).show();
                 }
             }
         });

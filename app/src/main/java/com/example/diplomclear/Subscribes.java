@@ -79,6 +79,7 @@ public class Subscribes extends AppCompatActivity {
                         Subscribes=task.getResult().getValue().toString();
                         subs = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
                         subs.remove("null");
+                        subs.remove("");
                         Log.e("subs",subs.toString());
 
                         LinearLayout IDSubList = findViewById(R.id.IDSubList);
@@ -101,7 +102,7 @@ public class Subscribes extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                HideLoad(true);
+                HideLoad(false);
             }
         });
 

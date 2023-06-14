@@ -75,6 +75,8 @@ public class MySubscribes extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                Log.e("Query", "Answer");
+
                 if (dataSnapshot.getValue() != null) {
                     subs.clear();
 
@@ -83,7 +85,7 @@ public class MySubscribes extends AppCompatActivity {
 //                    Log.e("postSnapshot",postSnapshot.getValue().toString());
                         String ID = postSnapshot.getKey().toString();
 
-                        if (ID != IdUser) {
+                        if (ID.trim() != IdUser.trim()) {
                             subs.add(ID);
                         }
                     }
@@ -100,19 +102,24 @@ public class MySubscribes extends AppCompatActivity {
 
                     ShowSubscribes();
                 }
+                else{
+                    HideLoad(false);
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("databaseError", databaseError.getMessage().toString());
-                HideLoad(true);
+                HideLoad(false);
             }
         };
 
+        Log.e("Query", IdUser);
         Query query = myRef.child("Subscribe").orderByValue()
-                .startAt(IdUser.toUpperCase())
+                .startAt(IdUser.toUpperCase()+ "\uf8ff")
                 .endAt(IdUser.toLowerCase() + "\uf8ff");
         query.addValueEventListener(valueEventListener);
+        Log.e("Query", IdUser);
 
         ImageButton IDBack = findViewById(R.id.IDBack);
         IDBack.setOnClickListener(
@@ -238,6 +245,9 @@ public class MySubscribes extends AppCompatActivity {
         LinearLayout IDSubList = findViewById(R.id.IDSubList);
 
         for (String idUser : subs) {
+            if(idUser.contains(IdUser)){continue;}
+
+            Log.e("idUser",idUser);
 
             LayoutInflater inflater = getLayoutInflater();
             View myLayout = inflater.inflate(R.layout.search_users, null, false);

@@ -100,7 +100,8 @@ public class Search extends AppCompatActivity {
                 "Барбер," +
                 "Мастер по перманентному макияжу," +
                 "Мастер по депиляции," +
-                "Броу-мастер";
+                "Броу-мастер,"+
+                "Тату мастер";
 
         ArrayList<String> Categories = new ArrayList<>();
         Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));

@@ -61,7 +61,8 @@ public class Category extends AppCompatActivity {
                 "Барбер," +
                 "Мастер по перманентному макияжу," +
                 "Мастер по депиляции," +
-                "Броу-мастер";
+                "Броу-мастер,"+
+                "Тату мастер";
 
         Categories = new ArrayList<String>(Arrays.asList((Subscribes.split(","))));
 

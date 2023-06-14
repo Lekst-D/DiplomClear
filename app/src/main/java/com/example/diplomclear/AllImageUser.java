@@ -102,9 +102,11 @@ public class AllImageUser extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
 
+                        if (!ShowAdd) {
                         Intent intent = new Intent(AllImageUser.this, User.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        startActivity(intent);}
+                        else{finish();}
 
                     }
                 }
@@ -399,7 +401,10 @@ public class AllImageUser extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putStringArrayList("mArrayUri", ImageList);
                     args.putInt("CurentPosition",position);
+
+                    if (!ShowAdd) {
                     args.putString("Status", "userImage");
+                    }
 
 
                     CustomDialogFragment dialog = new CustomDialogFragment();

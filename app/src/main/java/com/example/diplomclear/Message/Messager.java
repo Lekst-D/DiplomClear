@@ -447,9 +447,6 @@ public class Messager extends AppCompatActivity {
         if (IDU.contains(IdUser)) {
             inflater = getLayoutInflater();
             myLayout = inflater.inflate(R.layout.mess_user, null, false);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                myLayout.setForegroundGravity(View.FOCUS_RIGHT);
-            }
         } else {
             inflater = getLayoutInflater();
             myLayout = inflater.inflate(R.layout.mess, null, false);
@@ -461,6 +458,7 @@ public class Messager extends AppCompatActivity {
         textMess.setText(TextMess);
 
         LinearLayout linearLayout = myLayout.findViewById(R.id.IDLinearLayoutMess);
+
 
         TextView IDMessDataTime = myLayout.findViewById(R.id.IDMessDataTime);
 

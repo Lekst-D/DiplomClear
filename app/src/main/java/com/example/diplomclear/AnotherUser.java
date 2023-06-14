@@ -205,6 +205,9 @@ public class AnotherUser extends AppCompatActivity {
 
                                              if (textSub.contains("Подписаться")) {
                                                  Subscribes = Subscribes + "," + IdUser;
+//                                                 Subscribes=Subscribes.trim();
+//                                                 Subscribes = Subscribes.substring(0, Subscribes.length() - 1);
+
                                                  mDatabase.child("Subscribe").child(IDU).setValue(Subscribes);
                                                  Subscribe.setText("Отписаться");
                                              }
@@ -214,10 +217,14 @@ public class AnotherUser extends AppCompatActivity {
                                                  int i = subs.indexOf(IdUser);
                                                  Log.e("number i", "" + i);
                                                  Log.e("number i", "" + subs.get(i));
+
                                                  subs.remove(subs.get(i));
+                                                 subs.remove("null");
+                                                 subs.remove("");
+
                                                  Log.e("subs", subs.toString());
                                                  Log.e("Subscribes", Subscribes);
-                                                 Subscribes = "";
+                                                 Subscribes = "null,";
 
                                                  for (int j = 0; j < subs.size(); j++) {
 
@@ -228,6 +235,8 @@ public class AnotherUser extends AppCompatActivity {
                                                      }
 
                                                  }
+
+//                                                 if(Subscribes.trim()=="null,"){Subscribes="null";}
 
                                                  Log.e("Subscribes", Subscribes);
                                                  mDatabase.child("Subscribe").child(IDU).setValue(Subscribes);
