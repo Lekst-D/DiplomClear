@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -446,12 +447,15 @@ public class Messager extends AppCompatActivity {
         if (IDU.contains(IdUser)) {
             inflater = getLayoutInflater();
             myLayout = inflater.inflate(R.layout.mess_user, null, false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                myLayout.setForegroundGravity(View.FOCUS_RIGHT);
+            }
         } else {
             inflater = getLayoutInflater();
             myLayout = inflater.inflate(R.layout.mess, null, false);
         }
 
-        myLayout.setPadding(0,3,0,3);
+        myLayout.setPadding(0,10,0,3);
 
         TextView textMess = myLayout.findViewById(R.id.IDMessText);
         textMess.setText(TextMess);

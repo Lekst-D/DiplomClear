@@ -82,6 +82,14 @@ public class SecurityChange extends AppCompatActivity {
             }
         });
 
+        ImageButton IDBack=findViewById(R.id.IDBack);
+        IDBack.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+
         // sample code snippet to set the text content on the ExpandableTextView
 //        ExpandableTextView expTv1 =findViewById(R.id.expand_text_view);
 
@@ -144,13 +152,7 @@ public class SecurityChange extends AppCompatActivity {
                     }
                 });
 
-        ImageButton IDBack=findViewById(R.id.IDBack);
-        IDBack.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+
     }
 
     void newEmail() {

@@ -98,7 +98,14 @@ public class Subscribes extends AppCompatActivity {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                HideLoad(true);
+            }
         });
+
+
 
         ImageButton IDBack=findViewById(R.id.IDBack);
         IDBack.setOnClickListener(

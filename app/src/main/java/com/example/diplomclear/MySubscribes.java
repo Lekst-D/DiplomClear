@@ -105,6 +105,7 @@ public class MySubscribes extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("databaseError", databaseError.getMessage().toString());
+                HideLoad(true);
             }
         };
 
