@@ -434,6 +434,26 @@ public class Pages extends AppCompatActivity {
                     String fio = Surname + " " + Name;
                     String UserPhoto = task.getResult().child("userPhoto").getValue().toString();
 
+                    IDUserPostImage.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Pages.this, AnotherUser.class);
+                            intent.putExtra("UserID", idUserRequest);
+                            intent.putExtra("FIO", Surname + " " + Name);
+                            intent.putExtra("ImageUser", UserPhoto);
+                            startActivity(intent);
+                        }
+                    });
+                    if(idUserRequest.contains(IdUser))
+                    {
+                        IDUserPostImage.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                Intent intent = new Intent(Pages.this, User.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                    }
+
                     if(UserPhoto.trim()!="null")
                     {
                         DownloadImageUser(UserPhoto.trim(),IDUserPostImage);

@@ -93,6 +93,8 @@ public class Subscribes extends AppCompatActivity {
                         Log.e("mass",subs.size() +"");
 
                         ShowSubscribes(); 
+                    }else{
+                        HideLoad(false);
                     }
                 } else {
                     HideLoad(true);
