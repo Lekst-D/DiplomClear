@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.diplomclear.Classes.Post;
 import com.example.diplomclear.EditInfo.ChangeInfoUser;
+import com.example.diplomclear.Message.Messager;
 import com.example.diplomclear.Message.MessegeList;
 import com.example.diplomclear.SliderImage.CustomDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -644,9 +645,11 @@ public class User extends AppCompatActivity {
                         int id = menuItem.getItemId();
 
                         switch (id) {
-//                            case R.id.IDEdit:
-//
-//                                return true;
+                            case R.id.IDEdit:
+                                Intent intent = new Intent(User.this, EditPost.class);
+                                intent.putExtra("IDPost", PostID);
+                                startActivity(intent);
+                                return true;
                             case R.id.IDRemove:
                                 removePost(PostID,myLayout,listView,ImageMess);
                                 return true;

@@ -127,8 +127,6 @@ public class NewPostMulty extends AppCompatActivity {
         ImageButton AddPost = findViewById(R.id.IDCheck);
         ImageButton CloseNewPost = findViewById(R.id.IDClose);
 
-
-
         AddPost.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("LongLogTag")
