@@ -9,9 +9,12 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,6 +89,7 @@ public class EditPost extends AppCompatActivity {
 
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
 
+    String Old_text="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +128,7 @@ public class EditPost extends AppCompatActivity {
                         Log.e("TextPost", TextPost);
 
                         IdTextPost.setText(TextPost);
+                        Old_text=TextPost;
 
                         ShowImageGet();
 
@@ -173,13 +178,21 @@ public class EditPost extends AppCompatActivity {
             @SuppressLint("LongLogTag")
             @Override
             public void onClick(View view) {
+
+                String newText=IdTextPost.getText().toString();
                 if (uris != null) {
                     if (act_i == 0) {
-                        if (newImage == true) {
-                            ImageAddUser(uris);
+
+                        if(newText==Old_text || newImage == true){
+
+                        if ( newImage == true) {
+                            removeImage();
+                        }
+                        else{
+                            SendPost();
                         }
 
-                        act_i += 1;
+                        act_i += 1;}
                     } else {
                         Toast toast = Toast.makeText(EditPost.this, "Ваш пост уже выкладывается", Toast.LENGTH_LONG);
                         toast.show();
@@ -298,6 +311,33 @@ public class EditPost extends AppCompatActivity {
         SendPost();
     }
 
+    void removeImage(){
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        ArrayList<String> imagesString = new ArrayList<>();
+        imagesString = new ArrayList<String>(Arrays.asList((ImagePost.split(","))));
+        imagesString.remove("null");
+        imagesString.remove("");
+
+        for (String UserImage : imagesString) {
+            StorageReference imagesRef = storageRef.child(IdUser + "/" + UserImage);
+            imagesRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                }
+            });
+        }
+        ImageAddUser(uris);
+    }
+
     public void SendPost() {
         if (newImage == true) {
             NameImageAll = NameImageAll.substring(0, NameImageAll.length() - 1);
@@ -319,21 +359,36 @@ public class EditPost extends AppCompatActivity {
         user.put("UserID", IdUser);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("usersPosts")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("usersPosts").document(IDPost).update(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
                         FinishAct();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                        Log.w(TAG, "Error updating document", e);
                     }
                 });
+
+
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                        FinishAct();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error adding document", e);
+//                    }
+//                });
     }
 
     private void FinishAct() {
